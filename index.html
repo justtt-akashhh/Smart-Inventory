@@ -35,12 +35,12 @@
         .action-btn { width:auto; margin:0 4px 0 0; padding:7px 10px; font-size:12px; background:#e0f2fe; color:#0369a1; }
         .action-btn.archive { background:#fee2e2; color:#b91c1c; }
         .secondary-btn { background:#64748b; margin-top:12px; }
-        .danger-btn { background:#dc2626; }
         .history-section { margin-top:32px; border-top:2px dashed var(--border); padding-top:24px; }
         .modal { position:fixed; inset:0; z-index:3000; display:none; align-items:center; justify-content:center; background:rgba(15,23,42,.6); }
         .modal-content { width:90%; max-width:400px; padding:32px; border-radius:20px; background:#fff; text-align:center; }
         .qr-placeholder { min-height:110px; display:flex; align-items:center; justify-content:center; margin:15px auto; border:2px dashed #cbd5e1; border-radius:12px; color:var(--text-muted); font-weight:700; background:#f8fafc; }
         .upi-box { padding:12px; margin:12px 0; border-radius:8px; background:#eef2ff; color:#3730a3; font-size:14px; word-break:break-all; }
+        .payment-help { margin:12px 0 16px; padding:12px; border-radius:8px; background:#f8fafc; color:var(--text-muted); font-size:13px; line-height:1.5; }
     </style>
 </head>
 <body>
@@ -90,6 +90,7 @@
             <p style="color:var(--text-muted);font-size:14px">Free tier limit reached. Pay ₹99/month for unlimited access.</p>
             <div class="qr-placeholder">UPI QR CODE</div>
             <div class="upi-box"><strong>UPI ID:</strong><br><span>akashji124421@ptyes</span></div>
+            <div class="payment-help">After payment, contact us on WhatsApp and send your passkey along with the payment screenshot.</div>
             <div style="background:#f1f5f9;padding:10px;border-radius:8px;font-size:13px;margin-bottom:15px;text-align:left">Request Code: <strong id="requestCodeDisplay" style="color:var(--primary)">----</strong></div>
             <input type="number" id="activationKeyInput" placeholder="Enter Passkey" style="text-align:center;font-weight:bold">
             <button onclick="verifyActivationKey()">Activate App</button><button onclick="closePaywall()" style="background:#e2e8f0;color:var(--text-muted)">Cancel</button>
