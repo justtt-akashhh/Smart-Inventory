@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Retail Ledger Pro</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4f46e5">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
@@ -99,7 +101,6 @@ table { width: 100% !important; display: block; overflow-x: auto; white-space: n
 </head>
 <body>
 
-    <!-- SIGN UP SCREEN -->
     <div id="authScreen">
         <div class="auth-card">
             <div style="font-size: 32px;">🛍️</div>
@@ -121,7 +122,6 @@ table { width: 100% !important; display: block; overflow-x: auto; white-space: n
         </div>
     </div>
 
-    <!-- MAIN APP DASHBOARD -->
     <div class="container">
         <header>
             <div>
@@ -199,7 +199,6 @@ table { width: 100% !important; display: block; overflow-x: auto; white-space: n
         </div>
     </div>
 
-    <!-- PREMIUM PAYWALL MODAL -->
     <div id="premiumModal" class="modal">
         <div class="modal-content">
             <div style="font-size: 40px;">👑</div>
@@ -215,7 +214,6 @@ table { width: 100% !important; display: block; overflow-x: auto; white-space: n
         </div>
     </div>
 
-    <!-- PURE GLOBAL EXECUTING ENGINE -->
     <script>
         let inventory = JSON.parse(localStorage.getItem('virtualLedger')) || [];
         let historyArchive = JSON.parse(localStorage.getItem('historyArchive')) || [];
@@ -223,7 +221,6 @@ table { width: 100% !important; display: block; overflow-x: auto; white-space: n
         let isPremiumUser = JSON.parse(localStorage.getItem('isPremiumUser')) || false;
         let currentRequestCode = null;
 
-        // Clean internal window hooks assignment
         window.handleSignUp = function() {
             const owner = document.getElementById('vendorName').value.trim();
             const shop = document.getElementById('shopName').value.trim();
@@ -366,15 +363,19 @@ table { width: 100% !important; display: block; overflow-x: auto; white-space: n
         window.closePaywall = function() { document.getElementById('premiumModal').style.display = 'none'; };
         window.saveAndRender = function() { localStorage.setItem('virtualLedger', JSON.stringify(inventory)); renderLedger(); };
 
-        // Initial launch routing setup verification
         if (profile) {
             document.getElementById('authScreen').style.display = 'none';
         }
         
-        // Final synchronous trigger execution runtime bootstrapping
         updateDashboardHeaders();
         renderLedger();
         renderHistory();
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js').catch(() => {});
+            });
+        }
     </script>
 </body>
 </html>
