@@ -1,11 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#4f46e5">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Smart Retail Ledger Pro</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#4f46e5">
@@ -14,188 +11,74 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; }
-body { margin: 0; padding: 10px; width: 100%; max-width: 100vw; overflow-x: hidden; }
-input, button, select { width: 100% !important; margin-bottom: 10px; padding: 12px !important; font-size: 16px !important; }
-table { width: 100% !important; display: block; overflow-x: auto; white-space: nowrap; }
-
-        :root {
-            --primary: #4f46e5;
-            --primary-hover: #4338ca;
-            --background: #f8fafc;
-            --surface: #ffffff;
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --border: #e2e8f0;
-            --danger: #ef4444;
-            --success: #10b981;
-        }
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: var(--background);
-            color: var(--text-main);
-            margin: 0;
-            padding: 0;
-        }
-        #authScreen {
-            position: fixed;
-            top:0; left:0; width:100%; height:100%;
-            background: var(--background);
-            z-index: 2000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .auth-card {
-            background: var(--surface);
-            padding: 32px;
-            border-radius: 16px;
-            width: 90%;
-            max-width: 400px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-            border: 1px solid var(--border);
-            text-align: center;
-        }
-        .container { max-width: 1200px; margin: 0 auto; padding: 24px; }
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 32px;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 16px;
-        }
-        h1 { margin: 0; font-size: 24px; font-weight: 700; }
-        .grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
-        @media (min-width: 1024px) { .grid { grid-template-columns: 350px 1fr; } }
-        .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 24px; }
-        .form-group { margin-bottom: 16px; text-align: left; }
-        label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; }
-        input { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; box-sizing: border-box; font-size: 14px; }
-        button { width: 100%; background-color: var(--primary); color: white; border: none; padding: 14px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; }
-        button:hover { background-color: var(--primary-hover); }
-        .table-container { overflow-x: auto; margin-top: 16px; }
-        .product-table { width: 100%; border-collapse: collapse; text-align: left; }
-        .product-table th, .product-table td { padding: 14px; border-bottom: 1px solid var(--border); font-size: 14px; }
-        .product-table th { background-color: #f8fafc; color: var(--text-muted); }
-        .badge { padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; }
-        .badge-success { background: #dcfce7; color: #15803d; }
-        .badge-danger { background: #fee2e2; color: #b91c1c; }
-        .action-btn { background: #f1f5f9; color: var(--text-main); padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; border: none; cursor: pointer; }
-        .action-btn.sell { background: #e0f2fe; color: #0369a1; }
-        .action-btn.archive { background: #fee2e2; color: #b91c1c; margin-left: 4px; }
-        .history-section { margin-top: 32px; border-top: 2px dashed var(--border); padding-top: 24px; }
-        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px); z-index: 3000; display: none; align-items: center; justify-content: center; }
-        .modal-content { background: white; padding: 32px; border-radius: 20px; max-width: 400px; width: 90%; text-align: center; }
-        .qr-placeholder {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 130px;
-            border: 2px dashed #cbd5e1;
-            border-radius: 12px;
-            background: linear-gradient(135deg, #f8fafc, #eef2ff);
-            color: var(--text-muted);
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            margin: 15px auto;
-        }
+        :root { --primary:#4f46e5; --primary-hover:#4338ca; --background:#f8fafc; --surface:#fff; --text-main:#0f172a; --text-muted:#64748b; --border:#e2e8f0; }
+        body { margin:0; padding:0; background:var(--background); color:var(--text-main); font-family:'Plus Jakarta Sans',sans-serif; overflow-x:hidden; }
+        input, button { width:100%; margin-bottom:10px; padding:12px; font-size:16px; }
+        button { background:var(--primary); color:#fff; border:0; border-radius:8px; font-weight:600; cursor:pointer; }
+        button:hover { background:var(--primary-hover); }
+        #authScreen { position:fixed; inset:0; z-index:2000; display:flex; align-items:center; justify-content:center; background:var(--background); }
+        .auth-card, .card { background:var(--surface); border:1px solid var(--border); border-radius:16px; }
+        .auth-card { width:90%; max-width:400px; padding:32px; text-align:center; box-shadow:0 4px 20px rgba(0,0,0,.05); }
+        .container { max-width:1200px; margin:0 auto; padding:24px; }
+        header { display:flex; justify-content:space-between; align-items:center; margin-bottom:32px; padding-bottom:16px; border-bottom:1px solid var(--border); }
+        h1 { margin:0; font-size:24px; } .grid { display:grid; grid-template-columns:1fr; gap:24px; }
+        @media (min-width:1024px) { .grid { grid-template-columns:350px 1fr; } }
+        .card { padding:24px; } .form-group { margin-bottom:16px; text-align:left; }
+        label { display:block; margin-bottom:6px; font-size:14px; font-weight:600; }
+        input { border:1px solid var(--border); border-radius:8px; }
+        .table-container { overflow-x:auto; margin-top:16px; }
+        .product-table { width:100%; border-collapse:collapse; text-align:left; }
+        .product-table th, .product-table td { padding:14px; border-bottom:1px solid var(--border); font-size:14px; white-space:nowrap; }
+        .product-table th { background:#f8fafc; color:var(--text-muted); }
+        .badge { padding:4px 10px; border-radius:6px; font-size:12px; font-weight:600; }
+        .badge-success { background:#dcfce7; color:#15803d; } .badge-danger { background:#fee2e2; color:#b91c1c; }
+        .action-btn { width:auto; margin:0 4px 0 0; padding:7px 10px; font-size:12px; background:#e0f2fe; color:#0369a1; }
+        .action-btn.archive { background:#fee2e2; color:#b91c1c; }
+        .secondary-btn { background:#64748b; margin-top:12px; }
+        .danger-btn { background:#dc2626; }
+        .history-section { margin-top:32px; border-top:2px dashed var(--border); padding-top:24px; }
+        .modal { position:fixed; inset:0; z-index:3000; display:none; align-items:center; justify-content:center; background:rgba(15,23,42,.6); }
+        .modal-content { width:90%; max-width:400px; padding:32px; border-radius:20px; background:#fff; text-align:center; }
+        .qr-placeholder { min-height:110px; display:flex; align-items:center; justify-content:center; margin:15px auto; border:2px dashed #cbd5e1; border-radius:12px; color:var(--text-muted); font-weight:700; background:#f8fafc; }
+        .upi-box { padding:12px; margin:12px 0; border-radius:8px; background:#eef2ff; color:#3730a3; font-size:14px; word-break:break-all; }
     </style>
 </head>
 <body>
-
     <div id="authScreen">
         <div class="auth-card">
-            <div style="font-size: 32px;">🛍️</div>
+            <div style="font-size:32px">🛍️</div>
             <h2>Create Vendor Profile</h2>
-            <p style="color: var(--text-muted); font-size: 14px;">Setup your digital business register in seconds.</p>
-            <div class="form-group">
-                <label>Owner Name</label>
-                <input type="text" id="vendorName" placeholder="Rajesh Kumar">
-            </div>
-            <div class="form-group">
-                <label>Shop / Boutique Name</label>
-                <input type="text" id="shopName" placeholder="Kumar Clothing Hub">
-            </div>
-            <div class="form-group">
-                <label>WhatsApp Number</label>
-                <input type="tel" id="vendorPhone" placeholder="9876543210">
-            </div>
+            <p style="color:var(--text-muted);font-size:14px">Setup your digital business register in seconds.</p>
+            <div class="form-group"><label>Owner Name</label><input type="text" id="vendorName" placeholder="Rajesh Kumar"></div>
+            <div class="form-group"><label>Shop / Boutique Name</label><input type="text" id="shopName" placeholder="Kumar Clothing Hub"></div>
+            <div class="form-group"><label>WhatsApp Number</label><input type="tel" id="vendorPhone" placeholder="9876543210"></div>
             <button onclick="handleSignUp()">Activate Record Book</button>
         </div>
     </div>
 
     <div class="container">
         <header>
-            <div>
-                <h1 id="displayShopName">Smart Retail Ledger</h1>
-                <p style="margin:4px 0 0 0; color:var(--text-muted);" id="displayOwnerName">Welcome Back</p>
-            </div>
+            <div><h1 id="displayShopName">Smart Retail Ledger</h1><p id="displayOwnerName" style="margin:4px 0;color:var(--text-muted)">Welcome Back</p></div>
             <div id="userProfileTag"></div>
         </header>
-
         <div class="grid">
-            <div class="card" style="height: fit-content;">
-                <h3 style="margin-top:0;">Log New Stock</h3>
-                <div class="form-group">
-                    <label>Physical Tag ID</label>
-                    <input type="text" id="productId" placeholder="101">
-                </div>
-                <div class="form-group">
-                    <label>Item Description</label>
-                    <input type="text" id="productName" placeholder="Blue Denim Jacket">
-                </div>
-                <div class="form-group">
-                    <label>Buying Price (₹)</label>
-                    <input type="number" id="buyingPrice" placeholder="0.00">
-                </div>
-                <div class="form-group">
-                    <label>Base Selling Price (₹)</label>
-                    <input type="number" id="initialPrice" placeholder="0.00">
-                </div>
-                <div class="form-group">
-                    <label>Quantity</label>
-                    <input type="number" id="quantity" placeholder="10">
-                </div>
+            <div class="card">
+                <h3 style="margin-top:0">Log New Stock</h3>
+                <div class="form-group"><label>Physical Tag ID</label><input type="text" id="productId" placeholder="101"></div>
+                <div class="form-group"><label>Item Description</label><input type="text" id="productName" placeholder="Blue Denim Jacket"></div>
+                <div class="form-group"><label>Buying Price (₹)</label><input type="number" id="buyingPrice" placeholder="0.00" min="0"></div>
+                <div class="form-group"><label>Base Selling Price (₹)</label><input type="number" id="initialPrice" placeholder="0.00" min="0"></div>
+                <div class="form-group"><label>Quantity</label><input type="number" id="quantity" placeholder="10" min="1"></div>
                 <button onclick="handleAddProduct()">Add to Virtual Ledger</button>
             </div>
-
             <div>
                 <div class="card">
-                    <h3 style="margin-top:0;">Live Inventory Shelf</h3>
-                    <div class="table-container">
-                        <table class="product-table">
-                            <thead>
-                                <tr>
-                                    <th>Tag ID</th>
-                                    <th>Item Name</th>
-                                    <th>Stock</th>
-                                    <th>Cost</th>
-                                    <th>Smart Price</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="ledgerBody"></tbody>
-                        </table>
-                    </div>
+                    <h3 style="margin-top:0">Live Inventory Shelf</h3>
+                    <div class="table-container"><table class="product-table"><thead><tr><th>Tag ID</th><th>Item Name</th><th>Stock</th><th>Cost</th><th>Smart Price</th><th>Status</th><th>Actions</th></tr></thead><tbody id="ledgerBody"></tbody></table></div>
                 </div>
-
                 <div class="card history-section">
-                    <h3 style="margin-top:0; color: var(--text-muted);">📦 Out of Stock Archive / History</h3>
-                    <div class="table-container">
-                        <table class="product-table" style="opacity: 0.8;">
-                            <thead>
-                                <tr>
-                                    <th>Tag ID</th>
-                                    <th>Item Name</th>
-                                    <th>Total Sold</th>
-                                    <th>Investment</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody id="historyBody"></tbody>
-                        </table>
-                    </div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><h3 style="margin:0;color:var(--text-muted)">📦 Inventory History</h3><button class="secondary-btn" style="width:auto;margin:0" onclick="clearHistory()">Clear History</button></div>
+                    <div class="table-container"><table class="product-table" style="opacity:.85"><thead><tr><th>Tag ID</th><th>Item Name</th><th>Total Sold</th><th>Investment</th><th>Status</th></tr></thead><tbody id="historyBody"></tbody></table></div>
                 </div>
             </div>
         </div>
@@ -203,188 +86,42 @@ table { width: 100% !important; display: block; overflow-x: auto; white-space: n
 
     <div id="premiumModal" class="modal">
         <div class="modal-content">
-            <div style="font-size: 40px;">👑</div>
-            <h2>Premium Required</h2>
-            <p style="color: var(--text-muted); font-size: 14px;">Free tier limit reached. Scan to pay ₹99/month for unlimited virtual register access.</p>
-            <div class="qr-placeholder" aria-label="UPI QR placeholder">QR CODE</div>
-            <div style="background:#f1f5f9; padding:10px; border-radius:8px; font-size:13px; margin-bottom:15px; text-align:left;">
-                Request Code: <strong id="requestCodeDisplay" style="color:var(--primary);">----</strong>
-            </div>
-            <input type="number" id="activationKeyInput" placeholder="Enter 4-Digit Passkey" style="text-align:center; margin-bottom:15px; font-weight:bold;">
-            <button onclick="verifyActivationKey()" style="margin-bottom:10px;">Activate App</button>
-            <button onclick="closePaywall()" style="background:#e2e8f0; color:var(--text-muted);">Cancel</button>
+            <div style="font-size:40px">👑</div><h2>Premium Required</h2>
+            <p style="color:var(--text-muted);font-size:14px">Free tier limit reached. Pay ₹99/month for unlimited access.</p>
+            <div class="qr-placeholder">UPI QR CODE</div>
+            <div class="upi-box"><strong>UPI ID:</strong><br><span>akashji124421@ptyes</span></div>
+            <div style="background:#f1f5f9;padding:10px;border-radius:8px;font-size:13px;margin-bottom:15px;text-align:left">Request Code: <strong id="requestCodeDisplay" style="color:var(--primary)">----</strong></div>
+            <input type="number" id="activationKeyInput" placeholder="Enter Passkey" style="text-align:center;font-weight:bold">
+            <button onclick="verifyActivationKey()">Activate App</button><button onclick="closePaywall()" style="background:#e2e8f0;color:var(--text-muted)">Cancel</button>
         </div>
     </div>
 
     <script>
-        let inventory = JSON.parse(localStorage.getItem('virtualLedger')) || [];
-        let historyArchive = JSON.parse(localStorage.getItem('historyArchive')) || [];
-        let profile = JSON.parse(localStorage.getItem('vendorProfile')) || null;
-        let isPremiumUser = JSON.parse(localStorage.getItem('isPremiumUser')) || false;
+        let inventory = readStorage('virtualLedger', []);
+        let historyArchive = readStorage('historyArchive', []);
+        let profile = readStorage('vendorProfile', null);
+        let isPremiumUser = localStorage.getItem('isPremiumUser') === 'true';
         let currentRequestCode = null;
 
-        window.handleSignUp = function() {
-            const owner = document.getElementById('vendorName').value.trim();
-            const shop = document.getElementById('shopName').value.trim();
-            const phone = document.getElementById('vendorPhone').value.trim();
+        function readStorage(key, fallback) { try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; } }
+        function saveAndRender() { localStorage.setItem('virtualLedger', JSON.stringify(inventory)); renderLedger(); }
+        function updateDashboardHeaders() { if (!profile) return; displayShopName.innerText=profile.shop; displayOwnerName.innerText='Merchant Register: '+profile.owner; userProfileTag.innerText='📱 '+profile.phone; }
+        function handleSignUp() { const owner=vendorName.value.trim(), shop=shopName.value.trim(), phone=vendorPhone.value.trim(); if(!owner||!shop||!phone){alert('Please fill all details!');return;} profile={owner,shop,phone}; localStorage.setItem('vendorProfile',JSON.stringify(profile)); authScreen.style.display='none'; updateDashboardHeaders(); renderLedger(); renderHistory(); }
+        function handleAddProduct() { if(!isPremiumUser&&inventory.length>=3){showPaywall();return;} const id=productId.value.trim(), name=productName.value.trim(), buyingPrice=parseFloat(buyingPriceInput.value), baseSellingPrice=parseFloat(initialPrice.value), quantity=parseInt(quantityInput.value); if(!id||!name||isNaN(buyingPrice)||isNaN(baseSellingPrice)||isNaN(quantity)||quantity<1){alert('Please fill all product fields correctly!');return;} if(inventory.some(item=>item.id.toLowerCase()===id.toLowerCase())){alert('This Physical Tag ID already exists!');return;} inventory.push({id,name,buyingPrice,baseSellingPrice,initialQuantity:quantity,currentQuantity:quantity,unitsSold:0}); saveAndRender(); ['productId','productName','buyingPrice','initialPrice','quantity'].forEach(id=>document.getElementById(id).value=''); }
+        function calculateSmartPrice(item) { let modifier=1; if(item.initialQuantity>0){const velocity=item.unitsSold/item.initialQuantity;if(velocity>.6)modifier+=.15;else if(velocity<.1&&item.currentQuantity>5)modifier-=.1;} return Math.max(item.baseSellingPrice*modifier,item.buyingPrice*1.1).toFixed(2); }
+        function recordSale(id) { const item=inventory.find(p=>p.id===id); if(item&&item.currentQuantity>0){item.currentQuantity--;item.unitsSold++;saveAndRender();}else alert('Out of stock!'); }
+        function archiveItem(id) { const index=inventory.findIndex(p=>p.id===id); if(index>-1){historyArchive.push(inventory[index]);inventory.splice(index,1);localStorage.setItem('historyArchive',JSON.stringify(historyArchive));saveAndRender();renderHistory();} }
+        function clearHistory() { if(!historyArchive.length){alert('History is already empty.');return;} if(confirm('Clear all inventory history permanently?')){historyArchive=[];localStorage.removeItem('historyArchive');renderHistory();} }
+        function renderLedger() { ledgerBody.innerHTML=''; if(!inventory.length){ledgerBody.innerHTML='<tr><td colspan="7" style="text-align:center;color:var(--text-muted)">No products logged.</td></tr>';return;} inventory.forEach(item=>{const row=document.createElement('tr');const badge=item.currentQuantity===0?'<span class="badge badge-danger">Out of Stock</span>':'<span class="badge badge-success">In Stock</span>';row.innerHTML='<td><strong>#'+item.id+'</strong></td><td>'+item.name+'</td><td>'+item.currentQuantity+'/'+item.initialQuantity+'</td><td>₹'+item.buyingPrice+'</td><td>₹'+calculateSmartPrice(item)+'</td><td>'+badge+'</td><td><button class="action-btn" onclick="recordSale(\''+item.id+'\')">Sell</button><button class="action-btn archive" onclick="archiveItem(\''+item.id+'\')">Archive</button></td>';ledgerBody.appendChild(row);}); }
+        function renderHistory() { historyBody.innerHTML=''; if(!historyArchive.length){historyBody.innerHTML='<tr><td colspan="5" style="text-align:center;color:var(--text-muted)">History is empty.</td></tr>';return;} historyArchive.forEach(item=>{const row=document.createElement('tr');row.innerHTML='<td>#'+item.id+'</td><td>'+item.name+'</td><td>'+item.unitsSold+' units</td><td>₹'+(item.initialQuantity*item.buyingPrice).toFixed(2)+'</td><td><span class="badge" style="background:#e2e8f0;color:#334155">Archived</span></td>';historyBody.appendChild(row);}); }
+        function showPaywall() { if(!currentRequestCode)currentRequestCode=Math.floor(1000+Math.random()*9000); requestCodeDisplay.innerText=currentRequestCode; premiumModal.style.display='flex'; }
+        function verifyActivationKey() { const key=parseInt(activationKeyInput.value); if(key===currentRequestCode+1234){isPremiumUser=true;localStorage.setItem('isPremiumUser','true');alert('🎉 Premium Activated Successfully!');closePaywall();}else alert('❌ Invalid Key!'); }
+        function closePaywall() { premiumModal.style.display='none'; }
+        if(profile){authScreen.style.display='none';} updateDashboardHeaders(); renderLedger(); renderHistory();
+        if('serviceWorker' in navigator) window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 
-            if(!owner || !shop || !phone) {
-                alert("Please fill all details!");
-                return;
-            }
-
-            profile = { owner, shop, phone };
-            localStorage.setItem('vendorProfile', JSON.stringify(profile));
-            
-            document.getElementById('authScreen').style.display = 'none';
-            updateDashboardHeaders();
-            renderLedger();
-            renderHistory();
-        };
-
-        window.updateDashboardHeaders = function() {
-            if (!profile) return;
-            document.getElementById('displayShopName').innerText = profile.shop;
-            document.getElementById('displayOwnerName').innerText = "Merchant Register: " + profile.owner;
-            document.getElementById('userProfileTag').innerText = "📱 " + profile.phone;
-        };
-
-        window.handleAddProduct = function() {
-            if (!isPremiumUser && inventory.length >= 3) {
-                showPaywall();
-                return;
-            }
-
-            const id = document.getElementById('productId').value.trim();
-            const name = document.getElementById('productName').value.trim();
-            const buyingPrice = parseFloat(document.getElementById('buyingPrice').value);
-            const baseSellingPrice = parseFloat(document.getElementById('initialPrice').value);
-            const quantity = parseInt(document.getElementById('quantity').value);
-
-            if(!id || !name || isNaN(buyingPrice) || isNaN(baseSellingPrice) || isNaN(quantity)) {
-                alert("Please fill all product fields correctly!");
-                return;
-            }
-
-            if(inventory.some(item => item.id.toLowerCase() === id.toLowerCase())) {
-                alert("This Physical Tag ID already exists!");
-                return;
-            }
-
-            inventory.push({ id, name, buyingPrice, baseSellingPrice, initialQuantity: quantity, currentQuantity: quantity, unitsSold: 0 });
-            saveAndRender();
-            
-            document.getElementById('productId').value = '';
-            document.getElementById('productName').value = '';
-            document.getElementById('buyingPrice').value = '';
-            document.getElementById('initialPrice').value = '';
-            document.getElementById('quantity').value = '';
-        };
-
-        window.calculateSmartPrice = function(item) {
-            let priceModifier = 1.0;
-            if (item.initialQuantity > 0) {
-                const salesVelocity = item.unitsSold / item.initialQuantity;
-                if (salesVelocity > 0.6) priceModifier += 0.15;
-                else if (salesVelocity < 0.1 && item.currentQuantity > 5) priceModifier -= 0.10;
-            }
-            return Math.max(item.baseSellingPrice * priceModifier, item.buyingPrice * 1.1).toFixed(2);
-        };
-
-        window.recordSale = function(id) {
-            const item = inventory.find(p => p.id === id);
-            if(item && item.currentQuantity > 0) {
-                item.currentQuantity--;
-                item.unitsSold++;
-                saveAndRender();
-            } else {
-                alert("Out of stock! Use ❌ to move it to History Archive.");
-            }
-        };
-
-        window.archiveItem = function(id) {
-            const index = inventory.findIndex(p => p.id === id);
-            if (index > -1) {
-                historyArchive.push(inventory[index]);
-                inventory.splice(index, 1);
-                localStorage.setItem('historyArchive', JSON.stringify(historyArchive));
-                saveAndRender();
-                renderHistory();
-            }
-        };
-
-        window.renderLedger = function() {
-            const tbody = document.getElementById('ledgerBody');
-            if(!tbody) return;
-            tbody.innerHTML = "";
-            if(inventory.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: var(--text-muted);">No products logged.</td></tr>';
-                return;
-            }
-            inventory.forEach(item => {
-                const smartPrice = calculateSmartPrice(item);
-                const badge = item.currentQuantity === 0 ? '<span class="badge badge-danger">Out of Stock</span>' : '<span class="badge badge-success">In Stock</span>';
-                const row = document.createElement('tr');
-                row.innerHTML = '<td><strong>#' + item.id + '</strong></td><td>' + item.name + '</td><td>' + item.currentQuantity + '/' + item.initialQuantity + '</td><td>₹' + item.buyingPrice + '</td><td>₹' + smartPrice + '</td><td>' + badge + '</td><td><button class="action-btn sell" onclick="recordSale(\'' + item.id + '\')">Sell</button><button class="action-btn archive" onclick="archiveItem(\'' + item.id + '\')">Archive</button></td>';
-                tbody.appendChild(row);
-            });
-        };
-
-        window.renderHistory = function() {
-            const tbody = document.getElementById('historyBody');
-            if(!tbody) return;
-            tbody.innerHTML = "";
-            if (historyArchive.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-muted);">Archive is empty.</td></tr>';
-                return;
-            }
-            historyArchive.forEach(item => {
-                const investment = (item.initialQuantity * item.buyingPrice).toFixed(2);
-                const row = document.createElement('tr');
-                row.innerHTML = '<td>#' + item.id + '</td><td>' + item.name + '</td><td>' + item.unitsSold + ' units</td><td>₹' + investment + '</td><td><span class="badge" style="background:#e2e8f0; color:#334155;">Archived</span></td>';
-                tbody.appendChild(row);
-            });
-        };
-
-        window.showPaywall = function() {
-            if (!currentRequestCode) currentRequestCode = Math.floor(1000 + Math.random() * 9000);
-            document.getElementById('requestCodeDisplay').innerText = currentRequestCode;
-            document.getElementById('premiumModal').style.display = 'flex';
-        };
-
-        window.verifyActivationKey = function() {
-            const inputKey = parseInt(document.getElementById('activationKeyInput').value);
-            if (inputKey === (currentRequestCode + 1234)) {
-                isPremiumUser = true;
-                localStorage.setItem('isPremiumUser', true);
-                alert("🎉 Premium Activated Successfully!");
-                closePaywall();
-            } else { alert("❌ Invalid Key!"); }
-        };
-
-        window.closePaywall = function() { document.getElementById('premiumModal').style.display = 'none'; };
-        window.saveAndRender = function() { localStorage.setItem('virtualLedger', JSON.stringify(inventory)); renderLedger(); };
-
-        if (profile) {
-            document.getElementById('authScreen').style.display = 'none';
-        }
-        
-        updateDashboardHeaders();
-        renderLedger();
-        renderHistory();
-
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js').catch(() => {});
-            });
-        }
-        <script>
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("sw.js").catch(() => {});
-  });
-}
-</script>
+        const buyingPriceInput=document.getElementById('buyingPrice');
+        const quantityInput=document.getElementById('quantity');
     </script>
 </body>
 </html>
