@@ -1,0 +1,12 @@
+{
+  "name": "Smart Inventory",
+  "short_name": "Inventory",
+  "start_url": "/Smart-Inventory/",
+  "scope": "/Smart-Inventory/",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#4f46e5",
+  "description": "Smart Retail Ledger",
+  "orientation": "portrait",
+  "icons": []
+}
