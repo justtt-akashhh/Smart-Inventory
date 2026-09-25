@@ -110,7 +110,11 @@
       getDoc,
       collection,
       addDoc,
-      getDocs
+      getDocs,
+      query,
+      where,
+      updateDoc,
+      deleteDoc
     } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -141,7 +145,11 @@
         getDoc,
         collection,
         addDoc,
-        getDocs
+        getDocs,
+        query,
+        where,
+        updateDoc,
+        deleteDoc
       };
       window.firebaseReady = true;
       console.log("Firebase connected successfully");
@@ -169,6 +177,62 @@
 
       function write(key, val) {
         localStorage.setItem(key, JSON.stringify(val));
+      }
+
+      async function saveInventoryToFirebase() {
+        if (!window.firebaseReady || !window.firebaseAuth || !window.firebaseDb) return;
+        const user = window.firebaseAuth.currentUser;
+        if (!user) return;
+
+        const inventoryPath = window.firebaseHelpers.collection(window.firebaseDb, 'users', user.uid, 'inventory');
+        const historyPath = window.firebaseHelpers.collection(window.firebaseDb, 'users', user.uid, 'history');
+
+        try {
+          const existing = await window.firebaseHelpers.getDocs(inventoryPath);
+          for (const item of existing.docs) {
+            await window.firebaseHelpers.deleteDoc(item.ref);
+          }
+
+          for (const item of inv) {
+            await window.firebaseHelpers.addDoc(inventoryPath, {
+              ...item,
+              createdAt: new Date().toISOString()
+            });
+          }
+
+          for (const entry of hist) {
+            await window.firebaseHelpers.addDoc(historyPath, {
+              ...entry,
+              createdAt: new Date().toISOString()
+            });
+          }
+        } catch (error) {
+          console.error('Firebase save error:', error);
+        }
+      }
+
+      async function loadInventoryFromFirebase() {
+        if (!window.firebaseReady || !window.firebaseAuth || !window.firebaseDb) return;
+        const user = window.firebaseAuth.currentUser;
+        if (!user) return;
+
+        try {
+          const inventoryPath = window.firebaseHelpers.collection(window.firebaseDb, 'users', user.uid, 'inventory');
+          const historyPath = window.firebaseHelpers.collection(window.firebaseDb, 'users', user.uid, 'history');
+
+          const inventorySnap = await window.firebaseHelpers.getDocs(inventoryPath);
+          const historySnap = await window.firebaseHelpers.getDocs(historyPath);
+
+          inv = inventorySnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+          hist = historySnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+          write(K.i, inv);
+          write(K.h, hist);
+          renderInventory();
+          renderHistory();
+          renderSummary();
+        } catch (error) {
+          console.error('Firebase load error:', error);
+        }
       }
 
       function renderSummary() {
@@ -210,6 +274,7 @@
             write(K.i, inv);
             renderInventory();
             renderSummary();
+            saveInventoryToFirebase();
           };
         });
       }
@@ -273,16 +338,14 @@
             profile = { ownerName: owner, shopName: shop, businessType, phone, email, uid: user.uid };
             write(K.p, profile);
 
-            if (window.firebaseDb) {
-              await window.firebaseHelpers.setDoc(window.firebaseHelpers.doc(window.firebaseDb, 'users', user.uid), {
-                ownerName: owner,
-                shopName: shop,
-                businessType,
-                phone,
-                email,
-                createdAt: new Date().toISOString()
-              });
-            }
+            await window.firebaseHelpers.setDoc(window.firebaseHelpers.doc(window.firebaseDb, 'users', user.uid), {
+              ownerName: owner,
+              shopName: shop,
+              businessType,
+              phone,
+              email,
+              createdAt: new Date().toISOString()
+            });
           } else {
             profile = { ownerName: owner, shopName: shop, businessType, phone, email };
             write(K.p, profile);
@@ -290,6 +353,7 @@
 
           addHistory('Profile', 'Vendor profile created successfully.');
           updateProfileUI();
+          await saveInventoryToFirebase();
         } catch (error) {
           console.error(error);
           alert('Unable to create profile. Error: ' + (error.message || 'Unknown error'));
@@ -309,7 +373,7 @@
         }
       };
 
-      $('addStockButton').onclick = () => {
+      $('addStockButton').onclick = async () => {
         const productId = $('productId').value.trim();
         const name = $('productName').value.trim();
         const purchasePrice = Number($('purchasePrice').value);
@@ -328,11 +392,27 @@
         renderInventory();
         renderSummary();
         ['productId', 'productName', 'purchasePrice', 'sellingPrice', 'quantity'].forEach(id => $(id).value = '');
+        await saveInventoryToFirebase();
       };
 
       $('premiumCloseButton').onclick = () => {
         $('premiumModal').style.display = 'none';
       };
+
+      if (window.firebaseReady && window.firebaseAuth) {
+        window.firebaseHelpers.onAuthStateChanged(window.firebaseAuth, async (user) => {
+          if (user) {
+            profile = { uid: user.uid, email: user.email };
+            write(K.p, profile);
+            await loadInventoryFromFirebase();
+            updateProfileUI();
+          } else {
+            profile = null;
+            write(K.p, null);
+            updateProfileUI();
+          }
+        });
+      }
 
       renderInventory();
       renderHistory();
