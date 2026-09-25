@@ -6,24 +6,60 @@
     <title>Smart Retail Ledger Pro</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#4f46e5">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; }
-        :root { --primary:#4f46e5; --primary-hover:#4338ca; --background:#f8fafc; --surface:#fff; --text-main:#0f172a; --text-muted:#64748b; --border:#e2e8f0; }
-        body { margin:0; padding:0; background:var(--background); color:var(--text-main); font-family:'Plus Jakarta Sans',sans-serif; overflow-x:hidden; }
+        :root {
+            --primary:#4f46e5;
+            --primary-hover:#4338ca;
+            --background:#f8fafc;
+            --surface:#fff;
+            --text-main:#0f172a;
+            --text-muted:#64748b;
+            --border:#e2e8f0;
+            --success:#dcfce7;
+            --success-text:#15803d;
+            --danger:#fee2e2;
+            --danger-text:#b91c1c;
+            --warning:#fef3c7;
+            --warning-text:#b45309;
+            --shadow:0 4px 20px rgba(15,23,42,.05);
+        }
+
+        body {
+            margin:0; padding:0; background:var(--background); color:var(--text-main);
+            font-family: Arial, sans-serif; overflow-x:hidden;
+        }
+
         input, button { width:100%; margin-bottom:10px; padding:12px; font-size:16px; }
-        button { background:var(--primary); color:#fff; border:0; border-radius:8px; font-weight:600; cursor:pointer; }
+        button {
+            background:var(--primary); color:#fff; border:0; border-radius:8px; font-weight:600; cursor:pointer;
+        }
         button:hover { background:var(--primary-hover); }
-        #authScreen { position:fixed; inset:0; z-index:2000; display:flex; align-items:center; justify-content:center; background:var(--background); }
-        .auth-card, .card { background:var(--surface); border:1px solid var(--border); border-radius:16px; }
-        .auth-card { width:90%; max-width:400px; padding:32px; text-align:center; box-shadow:0 4px 20px rgba(0,0,0,.05); }
-        .container { max-width:1200px; margin:0 auto; padding:24px; }
-        header { display:flex; justify-content:space-between; align-items:center; margin-bottom:32px; padding-bottom:16px; border-bottom:1px solid var(--border); }
-        h1 { margin:0; font-size:24px; } .grid { display:grid; grid-template-columns:1fr; gap:24px; }
+        .secondary-btn { background:#64748b; }
+        .secondary-btn:hover { background:#475569; }
+        .warning-btn { background:#f59e0b; }
+        .warning-btn:hover { background:#d97706; }
+
+        .auth-screen {
+            position:fixed; inset:0; z-index:2000; display:flex; align-items:center; justify-content:center;
+            background:var(--background);
+        }
+        .auth-card,.card {
+            background:var(--surface); border:1px solid var(--border); border-radius:16px; box-shadow:var(--shadow);
+        }
+        .auth-card {
+            width:90%; max-width:420px; padding:32px; text-align:center;
+        }
+        .container { max-width:1250px; margin:0 auto; padding:24px; }
+        header {
+            display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap;
+            margin-bottom:30px; padding-bottom:16px; border-bottom:1px solid var(--border);
+        }
+        h1 { margin:0; font-size:28px; }
+        .grid { display:grid; grid-template-columns:1fr; gap:24px; }
         @media (min-width:1024px) { .grid { grid-template-columns:350px 1fr; } }
-        .card { padding:24px; } .form-group { margin-bottom:16px; text-align:left; }
+        .card { padding:24px; }
+        .form-group { margin-bottom:16px; text-align:left; }
         label { display:block; margin-bottom:6px; font-size:14px; font-weight:600; }
         input { border:1px solid var(--border); border-radius:8px; }
         .table-container { overflow-x:auto; margin-top:16px; }
@@ -31,65 +67,593 @@
         .product-table th, .product-table td { padding:14px; border-bottom:1px solid var(--border); font-size:14px; white-space:nowrap; }
         .product-table th { background:#f8fafc; color:var(--text-muted); }
         .badge { padding:4px 10px; border-radius:6px; font-size:12px; font-weight:600; }
-        .badge-success { background:#dcfce7; color:#15803d; } .badge-danger { background:#fee2e2; color:#b91c1c; }
+        .badge-success { background:var(--success); color:var(--success-text); }
+        .badge-danger { background:var(--danger); color:var(--danger-text); }
+        .badge-warning { background:var(--warning); color:var(--warning-text); }
         .action-btn { width:auto; margin:0 4px 0 0; padding:7px 10px; font-size:12px; background:#e0f2fe; color:#0369a1; }
         .action-btn.archive { background:#fee2e2; color:#b91c1c; }
-        .secondary-btn { background:#64748b; margin-top:12px; }
-        .history-section { margin-top:32px; border-top:2px dashed var(--border); padding-top:24px; }
+        .secondary-btn { width:auto; margin-top:12px; }
+        .history-section { margin-top:30px; border-top:2px dashed var(--border); padding-top:24px; }
         .modal { position:fixed; inset:0; z-index:3000; display:none; align-items:center; justify-content:center; background:rgba(15,23,42,.6); }
-        .modal-content { width:90%; max-width:400px; padding:32px; border-radius:20px; background:#fff; text-align:center; }
-        .qr-placeholder { min-height:110px; display:flex; align-items:center; justify-content:center; margin:15px auto; border:2px dashed #cbd5e1; border-radius:12px; color:var(--text-muted); font-weight:700; background:#f8fafc; }
+        .modal-content { width:90%; max-width:430px; padding:32px; border-radius:20px; background:#fff; text-align:center; }
+        .qr-placeholder { min-height:110px; display:flex; align-items:center; justify-content:center; margin:15px auto; border:2px dashed #cbd5e1; border-radius:12px; color:var(--text-muted); background:#f8fafc; font-weight:700; }
         .upi-box { padding:12px; margin:12px 0; border-radius:8px; background:#eef2ff; color:#3730a3; font-size:14px; word-break:break-all; }
         .payment-help { margin:12px 0 16px; padding:12px; border-radius:8px; background:#f8fafc; color:var(--text-muted); font-size:13px; line-height:1.5; }
-        #premiumStatus { font-size:12px; color:var(--text-muted); margin-top:6px; }
+        .status-strip {
+            display:flex; gap:12px; flex-wrap:wrap; align-items:center;
+            padding:10px 12px; border:1px solid var(--border); background:#fff; border-radius:10px;
+            margin-top:10px; min-height:42px;
+        }
+        .status-pill {
+            display:inline-flex; align-items:center; gap:8px; padding:7px 10px; border-radius:999px;
+            background:#f0fdf4; color:#166534; font-size:12px; font-weight:600;
+        }
+        .status-pill.warning { background:#fff7ed; color:#9a5b00; }
+        .status-pill.danger { background:#fef2f2; color:#991b1b; }
+        .toolbar { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+        .toolbar button { width:auto; }
+        input[type="file"] { display:none; }
+        .summary-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:12px; margin-top:16px; }
+        .mini-card { background:#f8fafc; border:1px solid var(--border); border-radius:12px; padding:14px; }
+        .mini-card strong { display:block; font-size:20px; }
+        .mini-card span { color:var(--text-muted); font-size:12px; }
     </style>
 </head>
 <body>
-    <div id="authScreen"><div class="auth-card">
-        <div style="font-size:32px">🛍️</div><h2>Create Vendor Profile</h2>
-        <p style="color:var(--text-muted);font-size:14px">Setup your digital business register in seconds.</p>
-        <div class="form-group"><label>Owner Name</label><input type="text" id="vendorName" placeholder="Rajesh Kumar"></div>
-        <div class="form-group"><label>Shop / Boutique Name</label><input type="text" id="shopName" placeholder="Kumar Clothing Hub"></div>
-        <div class="form-group"><label>WhatsApp Number</label><input type="tel" id="vendorPhone" placeholder="9876543210"></div>
-        <button onclick="handleSignUp()">Activate Record Book</button>
-    </div></div>
-    <div class="container">
-        <header><div><h1 id="displayShopName">Smart Retail Ledger</h1><p id="displayOwnerName" style="margin:4px 0;color:var(--text-muted)">Welcome Back</p><div id="premiumStatus"></div></div><div id="userProfileTag"></div></header>
-        <div class="grid"><div class="card">
-            <h3 style="margin-top:0">Log New Stock</h3>
-            <div class="form-group"><label>Physical Tag ID</label><input type="text" id="productId" placeholder="101"></div>
-            <div class="form-group"><label>Item Description</label><input type="text" id="productName" placeholder="Blue Denim Jacket"></div>
-            <div class="form-group"><label>Buying Price (₹)</label><input type="number" id="buyingPrice" placeholder="0.00" min="0"></div>
-            <div class="form-group"><label>Base Selling Price (₹)</label><input type="number" id="initialPrice" placeholder="0.00" min="0"></div>
-            <div class="form-group"><label>Quantity</label><input type="number" id="quantity" placeholder="10" min="1"></div>
-            <button onclick="handleAddProduct()">Add to Virtual Ledger</button>
-        </div><div>
-            <div class="card"><h3 style="margin-top:0">Live Inventory Shelf</h3><div class="table-container"><table class="product-table"><thead><tr><th>Tag ID</th><th>Item Name</th><th>Stock</th><th>Cost</th><th>Smart Price</th><th>Status</th><th>Actions</th></tr></thead><tbody id="ledgerBody"></tbody></table></div></div>
-            <div class="card history-section"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><h3 style="margin:0;color:var(--text-muted)">📦 Inventory History</h3><button class="secondary-btn" style="width:auto;margin:0" onclick="clearHistory()">Clear History</button></div><div class="table-container"><table class="product-table" style="opacity:.85"><thead><tr><th>Tag ID</th><th>Item Name</th><th>Total Sold</th><th>Investment</th><th>Status</th></tr></thead><tbody id="historyBody"></tbody></table></div></div>
-        </div></div>
+    <div id="authScreen" class="auth-screen">
+        <div class="auth-card">
+            <div style="font-size:32px">🛍️</div>
+            <h2>Create Vendor Profile</h2>
+            <p style="color:var(--text-muted);font-size:14px">Setup your digital business register in seconds.</p>
+
+            <div class="form-group"><label>Owner Name</label><input type="text" id="vendorName" placeholder="Rajesh Kumar"></div>
+            <div class="form-group"><label>Shop / Boutique Name</label><input type="text" id="shopName" placeholder="Kumar Clothing Hub"></div>
+            <div class="form-group"><label>Business Type</label><input type="text" id="businessType" placeholder="Clothing Store / Grocery / Boutique"></div>
+            <div class="form-group"><label>WhatsApp Number</label><input type="tel" id="vendorPhone" placeholder="9876543210"></div>
+
+            <button onclick="handleSignUp()">Activate Record Book</button>
+        </div>
     </div>
-    <div id="premiumModal" class="modal"><div class="modal-content"><div style="font-size:40px">👑</div><h2>Premium Required</h2><p style="color:var(--text-muted);font-size:14px">Free tier limit reached. Pay ₹99/month for unlimited access.</p><div class="qr-placeholder">UPI QR CODE</div><div class="upi-box"><strong>UPI ID:</strong><br><span>akashji124421@ptyes</span></div><div class="payment-help">After payment, contact us on WhatsApp and send your passkey along with the payment screenshot.</div><div style="background:#f1f5f9;padding:10px;border-radius:8px;font-size:13px;margin-bottom:15px;text-align:left">Request Code: <strong id="requestCodeDisplay" style="color:var(--primary)">----</strong></div><input type="number" id="activationKeyInput" placeholder="Enter Passkey" style="text-align:center;font-weight:bold"><button onclick="verifyActivationKey()">Activate App</button><button onclick="closePaywall()" style="background:#e2e8f0;color:var(--text-muted)">Cancel</button></div></div>
+
+    <div class="container">
+        <header>
+            <div>
+                <h1 id="displayShopName">Smart Retail Ledger</h1>
+                <p id="displayOwnerName" style="margin:4px 0;color:var(--text-muted)">Welcome Back</p>
+                <div id="premiumStatus" class="status-strip"></div>
+            </div>
+
+            <div>
+                <div id="userProfileTag" style="font-weight:600; font-size:14px; color:var(--text-muted);"></div>
+                <div class="toolbar">
+                    <button class="secondary-btn" onclick="exportData()">Export Backup</button>
+                    <button class="secondary-btn" onclick="triggerImport()">Import Backup</button>
+                    <input id="importFileInput" type="file" accept=".json" onchange="importData(event)">
+                    <button class="warning-btn" onclick="resetAppData()">Reset Data</button>
+                </div>
+            </div>
+        </header>
+
+        <div class="summary-grid">
+            <div class="mini-card">
+                <span>Total Items</span>
+                <strong id="totalItems">0</strong>
+            </div>
+            <div class="mini-card">
+                <span>Available Stock</span>
+                <strong id="availableStock">0</strong>
+            </div>
+            <div class="mini-card">
+                <span>Sold Units</span>
+                <strong id="soldUnits">0</strong>
+            </div>
+            <div class="mini-card">
+                <span>Low Stock</span>
+                <strong id="lowStockCount">0</strong>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <h3 style="margin-top:0">Log New Stock</h3>
+
+                <div class="form-group"><label>Physical Tag ID</label><input type="text" id="productId" placeholder="101"></div>
+                <div class="form-group"><label>Item Description</label><input type="text" id="productName" placeholder="Blue Denim Jacket"></div>
+                <div class="form-group"><label>Buying Price (₹)</label><input type="number" id="buyingPrice" placeholder="0.00" min="0"></div>
+                <div class="form-group"><label>Base Selling Price (₹)</label><input type="number" id="initialPrice" placeholder="0.00" min="0"></div>
+                <div class="form-group"><label>Quantity</label><input type="number" id="quantity" placeholder="10" min="1"></div>
+
+                <button onclick="handleAddProduct()">Add to Virtual Ledger</button>
+            </div>
+
+            <div>
+                <div class="card">
+                    <h3 style="margin-top:0">Live Inventory Shelf</h3>
+                    <div class="table-container">
+                        <table class="product-table">
+                            <thead>
+                                <tr>
+                                    <th>Tag ID</th>
+                                    <th>Item Name</th>
+                                    <th>Stock</th>
+                                    <th>Cost</th>
+                                    <th>Smart Price</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ledgerBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card history-section">
+                    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+                        <h3 style="margin:0;color:var(--text-muted)">📦 Inventory History</h3>
+                        <button class="secondary-btn" style="width:auto;margin:0" onclick="clearHistory()">Clear History</button>
+                    </div>
+                    <div class="table-container">
+                        <table class="product-table" style="opacity:.85">
+                            <thead>
+                                <tr>
+                                    <th>Tag ID</th>
+                                    <th>Item Name</th>
+                                    <th>Total Sold</th>
+                                    <th>Investment</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="historyBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="premiumModal" class="modal">
+        <div class="modal-content">
+            <div style="font-size:40px">👑</div>
+            <h2>Premium Required</h2>
+            <p style="color:var(--text-muted);font-size:14px">Free tier limit reached. Pay ₹99/month for unlimited access.</p>
+            <div class="qr-placeholder">UPI QR CODE</div>
+            <div class="upi-box"><strong>UPI ID:</strong><br><span>akashji124421@ptyes</span></div>
+            <div class="payment-help">After payment, contact us on WhatsApp and send your passkey along with the payment screenshot.</div>
+            <div style="background:#f1f5f9;padding:10px;border-radius:8px;font-size:13px;margin-bottom:15px;text-align:left">Request Code: <strong id="requestCodeDisplay" style="color:var(--primary)">----</strong></div>
+            <input type="number" id="activationKeyInput" placeholder="Enter Passkey" style="text-align:center;font-weight:bold">
+            <button onclick="verifyActivationKey()">Activate App</button>
+            <button onclick="closePaywall()" style="background:#e2e8f0;color:var(--text-muted)">Cancel</button>
+        </div>
+    </div>
+
 <script>
-let inventory=readStorage('virtualLedger',[]), historyArchive=readStorage('historyArchive',[]), profile=readStorage('vendorProfile',null);
-let isPremiumUser=localStorage.getItem('isPremiumUser')==='true', premiumActivatedAt=Number(localStorage.getItem('premiumActivatedAt'))||0, currentRequestCode=null;
-const PREMIUM_DAYS=28, GRACE_DAYS=7, DAY=24*60*60*1000;
-function readStorage(key,fallback){try{return JSON.parse(localStorage.getItem(key))??fallback}catch{return fallback}}
-function saveAndRender(){localStorage.setItem('virtualLedger',JSON.stringify(inventory));renderLedger()}
-function updateDashboardHeaders(){if(!profile)return;displayShopName.innerText=profile.shop;displayOwnerName.innerText='Merchant Register: '+profile.owner;userProfileTag.innerText='📱 '+profile.phone;updatePremiumStatus()}
-function handleSignUp(){const owner=vendorName.value.trim(),shop=shopName.value.trim(),phone=vendorPhone.value.trim();if(!owner||!shop||!phone){alert('Please fill all details!');return}profile={owner,shop,phone};localStorage.setItem('vendorProfile',JSON.stringify(profile));authScreen.style.display='none';updateDashboardHeaders();renderLedger();renderHistory()}
-function handleAddProduct(){if(!checkPremiumStatus()&&inventory.length>=3){showPaywall();return}const id=productId.value.trim(),name=productName.value.trim(),buyingPrice=parseFloat(buyingPriceInput.value),baseSellingPrice=parseFloat(initialPrice.value),quantity=parseInt(quantityInput.value);if(!id||!name||isNaN(buyingPrice)||isNaN(baseSellingPrice)||isNaN(quantity)||quantity<1){alert('Please fill all product fields correctly!');return}if(inventory.some(item=>item.id.toLowerCase()===id.toLowerCase())){alert('This Physical Tag ID already exists!');return}inventory.push({id,name,buyingPrice,baseSellingPrice,initialQuantity:quantity,currentQuantity:quantity,unitsSold:0});saveAndRender();['productId','productName','buyingPrice','initialPrice','quantity'].forEach(id=>document.getElementById(id).value='')}
-function calculateSmartPrice(item){let modifier=1;if(item.initialQuantity>0){const velocity=item.unitsSold/item.initialQuantity;if(velocity>.6)modifier+=.15;else if(velocity<.1&&item.currentQuantity>5)modifier-=.1}return Math.max(item.baseSellingPrice*modifier,item.buyingPrice*1.1).toFixed(2)}
-function recordSale(id){const item=inventory.find(p=>p.id===id);if(item&&item.currentQuantity>0){item.currentQuantity--;item.unitsSold++;saveAndRender()}else alert('Out of stock!')}
-function archiveItem(id){const index=inventory.findIndex(p=>p.id===id);if(index>-1){historyArchive.push(inventory[index]);inventory.splice(index,1);localStorage.setItem('historyArchive',JSON.stringify(historyArchive));saveAndRender();renderHistory()}}
-function clearHistory(){if(!historyArchive.length){alert('History is already empty.');return}if(confirm('Clear all inventory history permanently?')){historyArchive=[];localStorage.removeItem('historyArchive');renderHistory()}}
-function renderLedger(){ledgerBody.innerHTML='';if(!inventory.length){ledgerBody.innerHTML='<tr><td colspan="7" style="text-align:center;color:var(--text-muted)">No products logged.</td></tr>';return}inventory.forEach(item=>{const row=document.createElement('tr'),badge=item.currentQuantity===0?'<span class="badge badge-danger">Out of Stock</span>':'<span class="badge badge-success">In Stock</span>';row.innerHTML='<td><strong>#'+item.id+'</strong></td><td>'+item.name+'</td><td>'+item.currentQuantity+'/'+item.initialQuantity+'</td><td>₹'+item.buyingPrice+'</td><td>₹'+calculateSmartPrice(item)+'</td><td>'+badge+'</td><td><button class="action-btn" onclick="recordSale(\''+item.id+'\')">Sell</button><button class="action-btn archive" onclick="archiveItem(\''+item.id+'\')">Archive</button></td>';ledgerBody.appendChild(row)})}
-function renderHistory(){historyBody.innerHTML='';if(!historyArchive.length){historyBody.innerHTML='<tr><td colspan="5" style="text-align:center;color:var(--text-muted)">History is empty.</td></tr>';return}historyArchive.forEach(item=>{const row=document.createElement('tr');row.innerHTML='<td>#'+item.id+'</td><td>'+item.name+'</td><td>'+item.unitsSold+' units</td><td>₹'+(item.initialQuantity*item.buyingPrice).toFixed(2)+'</td><td><span class="badge" style="background:#e2e8f0;color:#334155">Archived</span></td>';historyBody.appendChild(row)})}
-function showPaywall(){if(!currentRequestCode)currentRequestCode=Math.floor(1000+Math.random()*9000);requestCodeDisplay.innerText=currentRequestCode;premiumModal.style.display='flex'}
-function verifyActivationKey(){const key=parseInt(activationKeyInput.value);if(key===currentRequestCode+1234){isPremiumUser=true;premiumActivatedAt=Date.now();localStorage.setItem('isPremiumUser','true');localStorage.setItem('premiumActivatedAt',String(premiumActivatedAt));alert('👑 Premium Activated Successfully! Valid for 28 days, followed by a 7-day renewal grace period.');closePaywall();updatePremiumStatus()}else alert('❌ Invalid Key!')}
-function checkPremiumStatus(){if(!isPremiumUser)return false;if(!premiumActivatedAt){premiumActivatedAt=Date.now();localStorage.setItem('premiumActivatedAt',String(premiumActivatedAt))}const age=Date.now()-premiumActivatedAt;if(age>=35*DAY){isPremiumUser=false;localStorage.removeItem('isPremiumUser');localStorage.removeItem('premiumActivatedAt');alert('Your premium plan has been cancelled because it was not recharged within the 7-day grace period.');updatePremiumStatus();return false}if(age>=28*DAY){const remaining=Math.ceil((35*DAY-age)/DAY);if(!sessionStorage.getItem('premiumExpiryReminder')){sessionStorage.setItem('premiumExpiryReminder','shown');alert('⏰ Premium reminder: Your 28-day plan has ended. Please recharge within '+remaining+' days, otherwise your premium will be cancelled.')}return true}return true}
-function updatePremiumStatus(){if(!premiumStatus)return;if(!isPremiumUser){premiumStatus.innerText='Free plan';return}const age=Date.now()-premiumActivatedAt;if(age>=35*DAY){checkPremiumStatus();return}if(age>=28*DAY)premiumStatus.innerText='👑 Premium: renewal required within '+Math.ceil((35*DAY-age)/DAY)+' day(s)';else premiumStatus.innerText='👑 Premium active: '+Math.ceil((28*DAY-age)/DAY)+' day(s) remaining'}
-function closePaywall(){premiumModal.style.display='none'}
-if(profile)authScreen.style.display='none';checkPremiumStatus();updateDashboardHeaders();renderLedger();renderHistory();
-if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
-const buyingPriceInput=document.getElementById('buyingPrice'),quantityInput=document.getElementById('quantity');
-</script></body></html>
+    const STORAGE_KEYS = {
+        inventory: 'virtualLedger',
+        history: 'historyArchive',
+        profile: 'vendorProfile',
+        premium: 'isPremiumUser',
+        premiumActivatedAt: 'premiumActivatedAt',
+        reminder: 'premiumExpiryReminder'
+    };
+
+    const DAY = 24 * 60 * 60 * 1000;
+    const GRACE_DAYS = 7;
+    const PREMIUM_DAYS = 28;
+
+    let inventory = readStorage(STORAGE_KEYS.inventory, []);
+    let historyArchive = readStorage(STORAGE_KEYS.history, []);
+    let profile = readStorage(STORAGE_KEYS.profile, null);
+    let isPremiumUser = localStorage.getItem(STORAGE_KEYS.premium) === 'true';
+    let premiumActivatedAt = Number(localStorage.getItem(STORAGE_KEYS.premiumActivatedAt)) || 0;
+    let currentRequestCode = null;
+
+    function readStorage(key, fallback) {
+        try {
+            const raw = localStorage.getItem(key);
+            return raw ? JSON.parse(raw) : fallback;
+        } catch {
+            return fallback;
+        }
+    }
+
+    function saveInventory() {
+        localStorage.setItem(STORAGE_KEYS.inventory, JSON.stringify(inventory));
+        renderLedger();
+        renderStats();
+    }
+
+    function saveProfile() {
+        localStorage.setItem(STORAGE_KEYS.profile, JSON.stringify(profile));
+    }
+
+    function updateDashboardHeaders() {
+        if (!profile) return;
+        displayShopName.innerText = profile.shop;
+        displayOwnerName.innerText = 'Merchant Register: ' + profile.owner;
+        userProfileTag.innerText = '📱 ' + profile.phone + ' • ' + (profile.businessType || 'Business');
+        updatePremiumStatus();
+    }
+
+    function handleSignUp() {
+        const owner = vendorName.value.trim();
+        const shop = shopName.value.trim();
+        const businessType = businessType.value.trim();
+        const phone = vendorPhone.value.trim();
+
+        if (!owner || !shop || !phone) {
+            alert('Please fill all details!');
+            return;
+        }
+
+        profile = { owner, shop, businessType, phone };
+        saveProfile();
+        authScreen.style.display = 'none';
+        updateDashboardHeaders();
+        renderLedger();
+        renderHistory();
+        renderStats();
+    }
+
+    function handleAddProduct() {
+        if (!isPremiumUser && inventory.length >= 3) {
+            showPaywall();
+            return;
+        }
+
+        const id = productId.value.trim();
+        const name = productName.value.trim();
+        const buyingPrice = parseFloat(buyingPrice.value);
+        const baseSellingPrice = parseFloat(initialPrice.value);
+        const quantity = parseInt(quantity.value);
+
+        if (!id || !name || isNaN(buyingPrice) || isNaN(baseSellingPrice) || isNaN(quantity) || quantity < 1) {
+            alert('Please fill all product fields correctly!');
+            return;
+        }
+
+        if (inventory.some(item => item.id.toLowerCase() === id.toLowerCase())) {
+            alert('This Physical Tag ID already exists!');
+            return;
+        }
+
+        inventory.push({
+            id,
+            name,
+            buyingPrice,
+            baseSellingPrice,
+            initialQuantity: quantity,
+            currentQuantity: quantity,
+            unitsSold: 0
+        });
+
+        saveInventory();
+        ['productId','productName','buyingPrice','initialPrice','quantity'].forEach(id => document.getElementById(id).value = '');
+    }
+
+    function calculateSmartPrice(item) {
+        let modifier = 1;
+        if (item.initialQuantity > 0) {
+            const velocity = item.unitsSold / item.initialQuantity;
+            if (velocity > 0.6) modifier += 0.15;
+            else if (velocity < 0.1 && item.currentQuantity > 5) modifier -= 0.1;
+        }
+        return Math.max(item.baseSellingPrice * modifier, item.buyingPrice * 1.1).toFixed(2);
+    }
+
+    function renderStats() {
+        const totalItems = inventory.length;
+        const totalStock = inventory.reduce((sum, item) => sum + (item.currentQuantity || 0), 0);
+        const soldUnits = inventory.reduce((sum, item) => sum + (item.unitsSold || 0), 0);
+        const lowStockCount = inventory.filter(item => item.currentQuantity <= 3).length;
+
+        totalItemsEl.innerText = totalItems;
+        availableStock.innerText = totalStock;
+        soldUnitsEl.innerText = soldUnits;
+        lowStockCountEl.innerText = lowStockCount;
+    }
+
+    function recordSale(id) {
+        const item = inventory.find(p => p.id === id);
+        if (item && item.currentQuantity > 0) {
+            item.currentQuantity--;
+            item.unitsSold++;
+            saveInventory();
+            renderHistory();
+        } else {
+            alert('Out of stock!');
+        }
+    }
+
+    function archiveItem(id) {
+        const index = inventory.findIndex(p => p.id === id);
+        if (index > -1) {
+            historyArchive.push(inventory[index]);
+            inventory.splice(index, 1);
+            localStorage.setItem(STORAGE_KEYS.history, JSON.stringify(historyArchive));
+            saveInventory();
+            renderHistory();
+        }
+    }
+
+    function clearHistory() {
+        if (!historyArchive.length) {
+            alert('History is already empty.');
+            return;
+        }
+
+        if (confirm('Clear all inventory history permanently?')) {
+            historyArchive = [];
+            localStorage.removeItem(STORAGE_KEYS.history);
+            renderHistory();
+        }
+    }
+
+    function renderLedger() {
+        ledgerBody.innerHTML = '';
+
+        if (!inventory.length) {
+            ledgerBody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text-muted)">No products logged.</td></tr>';
+            return;
+        }
+
+        inventory.forEach(item => {
+            const row = document.createElement('tr');
+            const badge = item.currentQuantity === 0
+                ? '<span class="badge badge-danger">Out of Stock</span>'
+                : item.currentQuantity <= 3
+                    ? '<span class="badge badge-warning">Low Stock</span>'
+                    : '<span class="badge badge-success">In Stock</span>';
+
+            row.innerHTML = `
+                <td><strong>#${item.id}</strong></td>
+                <td>${item.name}</td>
+                <td>${item.currentQuantity}/${item.initialQuantity}</td>
+                <td>₹${item.buyingPrice}</td>
+                <td>₹${calculateSmartPrice(item)}</td>
+                <td>${badge}</td>
+                <td>
+                    <button class="action-btn" onclick="recordSale('${item.id}')">Sell</button>
+                    <button class="action-btn archive" onclick="archiveItem('${item.id}')">Archive</button>
+                </td>
+            `;
+            ledgerBody.appendChild(row);
+        });
+    }
+
+    function renderHistory() {
+        historyBody.innerHTML = '';
+
+        if (!historyArchive.length) {
+            historyBody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:var(--text-muted)">History is empty.</td></tr>';
+            return;
+        }
+
+        historyArchive.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>#${item.id}</td>
+                <td>${item.name}</td>
+                <td>${item.unitsSold} units</td>
+                <td>₹${(item.initialQuantity * item.buyingPrice).toFixed(2)}</td>
+                <td><span class="badge" style="background:#e2e8f0;color:#334155">Archived</span></td>
+            `;
+            historyBody.appendChild(row);
+        });
+    }
+
+    function showPaywall() {
+        if (!currentRequestCode) currentRequestCode = Math.floor(1000 + Math.random() * 9000);
+        requestCodeDisplay.innerText = currentRequestCode;
+        premiumModal.style.display = 'flex';
+    }
+
+    function verifyActivationKey() {
+        const key = parseInt(activationKeyInput.value);
+        if (key === currentRequestCode + 1234) {
+            isPremiumUser = true;
+            premiumActivatedAt = Date.now();
+            localStorage.setItem(STORAGE_KEYS.premium, 'true');
+            localStorage.setItem(STORAGE_KEYS.premiumActivatedAt, String(premiumActivatedAt));
+            alert('👑 Premium Activated Successfully! Valid for 28 days, followed by a 7-day renewal grace period.');
+            closePaywall();
+            updatePremiumStatus();
+        } else {
+            alert('❌ Invalid Key!');
+        }
+    }
+
+    function closePaywall() {
+        premiumModal.style.display = 'none';
+    }
+
+    function checkPremiumStatus() {
+        if (!isPremiumUser) return false;
+
+        if (!premiumActivatedAt) {
+            premiumActivatedAt = Date.now();
+            localStorage.setItem(STORAGE_KEYS.premiumActivatedAt, String(premiumActivatedAt));
+        }
+
+        const age = Date.now() - premiumActivatedAt;
+        const totalPlanMs = (PREMIUM_DAYS + GRACE_DAYS) * DAY;
+
+        if (age >= totalPlanMs) {
+            isPremiumUser = false;
+            premiumActivatedAt = 0;
+            localStorage.removeItem(STORAGE_KEYS.premium);
+            localStorage.removeItem(STORAGE_KEYS.premiumActivatedAt);
+            localStorage.removeItem(STORAGE_KEYS.reminder);
+            alert('Your premium plan has been cancelled because it was not recharged within the 7-day grace period.');
+            updatePremiumStatus();
+            return false;
+        }
+
+        if (age >= PREMIUM_DAYS * DAY) {
+            const remainingDays = Math.ceil((totalPlanMs - age) / DAY);
+            if (!localStorage.getItem(STORAGE_KEYS.reminder)) {
+                localStorage.setItem(STORAGE_KEYS.reminder, 'shown');
+                alert(`⏰ Premium reminder: Your 28-day plan has ended. Please recharge within ${remainingDays} day(s), otherwise your premium will be cancelled.`);
+            }
+            updatePremiumStatus();
+            return true;
+        }
+
+        return true;
+    }
+
+    function updatePremiumStatus() {
+        const statusEl = premiumStatus;
+        if (!statusEl) return;
+
+        if (!isPremiumUser) {
+            statusEl.innerHTML = '<span class="status-pill warning">Free plan • limited access</span>';
+            return;
+        }
+
+        if (!premiumActivatedAt) {
+            statusEl.innerHTML = '<span class="status-pill danger">Premium inactive</span>';
+            return;
+        }
+
+        const age = Date.now() - premiumActivatedAt;
+        const totalPlanMs = (PREMIUM_DAYS + GRACE_DAYS) * DAY;
+
+        if (age >= totalPlanMs) {
+            statusEl.innerHTML = '<span class="status-pill danger">Premium cancelled</span>';
+            return;
+        }
+
+        if (age >= PREMIUM_DAYS * DAY) {
+            const remainingDays = Math.max(0, Math.ceil((totalPlanMs - age) / DAY));
+            statusEl.innerHTML = `<span class="status-pill warning">Premium renewal required • ${remainingDays} day(s) left</span>`;
+            return;
+        }
+
+        const remainingDays = Math.max(1, Math.ceil((PREMIUM_DAYS * DAY - age) / DAY));
+        statusEl.innerHTML = `<span class="status-pill">Premium active • ${remainingDays} day(s) remaining</span>`;
+    }
+
+    function exportData() {
+        const payload = {
+            vendorProfile: profile,
+            inventory,
+            historyArchive,
+            premiumActivatedAt,
+            isPremiumUser,
+            exportedAt: new Date().toISOString()
+        };
+
+        const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'smart-inventory-backup.json';
+        a.click();
+        URL.revokeObjectURL(url);
+        alert('Backup exported successfully.');
+    }
+
+    function triggerImport() {
+        document.getElementById('importFileInput').click();
+    }
+
+    async function importData(event) {
+        const file = event.target.files && event.target.files[0];
+        if (!file) return;
+
+        try {
+            const rawText = await file.text();
+            const data = JSON.parse(rawText);
+
+            if (data.vendorProfile) profile = data.vendorProfile;
+            if (Array.isArray(data.inventory)) inventory = data.inventory;
+            if (Array.isArray(data.historyArchive)) historyArchive = data.historyArchive;
+
+            if (data.isPremiumUser === true) {
+                isPremiumUser = true;
+                premiumActivatedAt = data.premiumActivatedAt || Date.now();
+                localStorage.setItem(STORAGE_KEYS.premium, 'true');
+                localStorage.setItem(STORAGE_KEYS.premiumActivatedAt, String(premiumActivatedAt));
+            } else {
+                isPremiumUser = false;
+                premiumActivatedAt = 0;
+                localStorage.removeItem(STORAGE_KEYS.premium);
+                localStorage.removeItem(STORAGE_KEYS.premiumActivatedAt);
+            }
+
+            localStorage.setItem(STORAGE_KEYS.profile, JSON.stringify(profile));
+            localStorage.setItem(STORAGE_KEYS.inventory, JSON.stringify(inventory));
+            localStorage.setItem(STORAGE_KEYS.history, JSON.stringify(historyArchive));
+
+            authScreen.style.display = profile ? 'none' : 'flex';
+            updateDashboardHeaders();
+            renderLedger();
+            renderHistory();
+            renderStats();
+            alert('Backup imported successfully.');
+        } catch (error) {
+            alert('Invalid backup file. Please upload a valid Smart Inventory JSON backup.');
+        } finally {
+            event.target.value = '';
+        }
+    }
+
+    function resetAppData() {
+        if (!confirm('This will clear your vendor profile, inventory and history from this device. Continue?')) return;
+
+        ['virtualLedger','historyArchive','vendorProfile','isPremiumUser','premiumActivatedAt','premiumExpiryReminder'].forEach(key => localStorage.removeItem(key));
+
+        inventory = [];
+        historyArchive = [];
+        profile = null;
+        isPremiumUser = false;
+        premiumActivatedAt = 0;
+        currentRequestCode = null;
+
+        authScreen.style.display = 'flex';
+        updateDashboardHeaders();
+        renderLedger();
+        renderHistory();
+        renderStats();
+    }
+
+    if (profile) {
+        authScreen.style.display = 'none';
+    }
+
+    checkPremiumStatus();
+    updateDashboardHeaders();
+    renderLedger();
+    renderHistory();
+    renderStats();
+
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+    }
+
+    const buyingPrice = document.getElementById('buyingPrice');
+    const quantity = document.getElementById('quantity');
+    const initialPrice = document.getElementById('initialPrice');
+    const productId = document.getElementById('productId');
+    const productName = document.getElementById('productName');
+    const displayShopName = document.getElementById('displayShopName');
+    const displayOwnerName = document.getElementById('displayOwnerName');
+    const userProfileTag = document.getElementById('userProfileTag');
+    const authScreen = document.getElementById('authScreen');
+    const premiumStatus = document.getElementById('premiumStatus');
+    const premiumModal = document.getElementById('premiumModal');
+    const requestCodeDisplay = document.getElementById('requestCodeDisplay');
+    const activationKeyInput = document.getElementById('activationKeyInput');
+    const ledgerBody = document.getElementById('ledgerBody');
+    const historyBody = document.getElementById('historyBody');
+    const totalItemsEl = document.getElementById('totalItems');
+    const availableStock = document.getElementById('availableStock');
+    const soldUnitsEl = document.getElementById('soldUnits');
+    const lowStockCountEl = document.getElementById('lowStockCount');
+    const vendorName = document.getElementById('vendorName');
+    const shopName = document.getElementById('shopName');
+    const vendorPhone = document.getElementById('vendorPhone');
+    const businessType = document.getElementById('businessType');
+</script>
+</body>
+</html>
