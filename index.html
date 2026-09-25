@@ -7,143 +7,31 @@
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#4f46e5">
   <style>
-    *{box-sizing:border-box}body{margin:0;background:#f8fafc;color:#0f172a;font-family:Arial,sans-serif}.container{max-width:1180px;margin:auto;padding:24px}.hide{display:none!important}.auth-screen{min-height:100vh;display:grid;place-items:center;background:#f1f5f9}.auth-card{width:min(90vw,440px);background:#fff;border-radius:20px;padding:30px 28px;box-shadow:0 12px 28px rgba(15,23,42,.08);text-align:center}.notice{color:#475569;font-size:14px;margin-top:8px}.auth-box{display:grid;gap:12px;margin-top:18px}.auth-box input{width:100%;padding:12px 14px;border:1px solid #cbd5e1;border-radius:10px;font-size:15px}.auth-box button,.form-button,button{padding:12px 16px;border:none;border-radius:12px;background:#4f46e5;color:#fff;font-weight:700;cursor:pointer}.button-secondary{background:#64748b}.header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}.status-badge{display:inline-flex;align-items:center;padding:6px 10px;border-radius:999px;background:#ecfeff;color:#0f766e;font-weight:700;font-size:12px}.summary-grid{display:grid;grid-template-columns:repeat(4,minmax(160px,1fr));gap:16px;margin:20px 0}.mini-card,.card{background:#fff;border-radius:16px;padding:18px;box-shadow:0 8px 18px rgba(15,23,42,.06)}.mini-card span{display:block;color:#64748b;font-size:13px}.mini-card strong{display:block;font-size:28px;margin-top:8px}.grid{display:grid;grid-template-columns:1.2fr 1.6fr 1.3fr;gap:16px}.card h3{margin:0 0 12px}.form-group{margin-bottom:12px}.form-group label{display:block;font-size:13px;color:#475569;margin-bottom:6px}.form-group input{width:100%;padding:10px 12px;border:1px solid #cbd5e1;border-radius:10px}.inventory-item,.history-item{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #e2e8f0}.inventory-meta strong{display:block}.inventory-actions{display:flex;gap:8px}.small-btn{padding:8px 10px;font-size:12px}.modal{position:fixed;inset:0;background:rgba(15,23,42,.45);display:grid;place-items:center;padding:20px}.modal-content{background:#fff;border-radius:18px;padding:22px;max-width:520px;width:100%;box-shadow:0 25px 60px rgba(15,23,42,.2);text-align:center}.payment-box{margin:16px 0;padding:16px;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc;text-align:left}.request-code{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;margin-top:10px;border:1px dashed #94a3b8;border-radius:10px;background:#fff}.request-code strong{font-size:1.8rem;letter-spacing:2px}.pass-input{width:100%;padding:12px 14px;margin:12px 0 10px;border:1px solid #cbd5e1;border-radius:10px;font-size:15px}.modal-actions{display:flex;gap:10px;justify-content:center}.modal-actions button{flex:1;max-width:220px}.error{color:#dc2626;font-size:13px;min-height:18px}.note{font-size:14px;color:#475569;line-height:1.6;margin:10px 0 0}.@media (max-width:980px){.grid{grid-template-columns:1fr}.summary-grid{grid-template-columns:repeat(2,minmax(150px,1fr))}}@media (max-width:560px){.summary-grid{grid-template-columns:1fr}.header{flex-direction:column;align-items:flex-start}.modal-actions{flex-direction:column}.modal-actions button{max-width:none}}
+    *{box-sizing:border-box}body{margin:0;background:#f8fafc;color:#0f172a;font-family:Arial,sans-serif}.container{max-width:1180px;margin:auto;padding:24px}.hide{display:none!important}.auth-screen{min-height:100vh;display:grid;place-items:center;background:#f1f5f9}.auth-card{width:min(90vw,440px);background:#fff;border-radius:20px;padding:30px 28px;box-shadow:0 12px 28px #0f172a14;text-align:center}.notice{color:#475569;font-size:14px}.auth-box{display:grid;gap:12px;margin-top:18px}.auth-box input,.form-group input{width:100%;padding:12px 14px;border:1px solid #cbd5e1;border-radius:10px;font-size:15px}.auth-box button,.form-button,button{padding:12px 16px;border:0;border-radius:12px;background:#4f46e5;color:#fff;font-weight:700;cursor:pointer}.button-secondary{background:#64748b}.header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}.status-badge{display:inline-flex;padding:6px 10px;border-radius:999px;background:#ecfeff;color:#0f766e;font-weight:700;font-size:12px}.summary-grid{display:grid;grid-template-columns:repeat(4,minmax(160px,1fr));gap:16px;margin:20px 0}.mini-card,.card{background:#fff;border-radius:16px;padding:18px;box-shadow:0 8px 18px #0f172a0f}.mini-card span{display:block;color:#64748b;font-size:13px}.mini-card strong{display:block;font-size:28px;margin-top:8px}.grid{display:grid;grid-template-columns:1.2fr 1.6fr 1.3fr;gap:16px}.form-group{margin-bottom:12px}.form-group label{display:block;font-size:13px;color:#475569;margin-bottom:6px}.inventory-item,.history-item{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #e2e8f0}.inventory-meta strong{display:block}.inventory-actions{display:flex;gap:8px}.small-btn{padding:8px 10px;font-size:12px}.error{color:#dc2626;font-size:13px;min-height:18px}@media(max-width:980px){.grid{grid-template-columns:1fr}.summary-grid{grid-template-columns:repeat(2,minmax(150px,1fr))}}@media(max-width:560px){.summary-grid{grid-template-columns:1fr}.header{flex-direction:column;align-items:flex-start}}
   </style>
 </head>
 <body>
-  <section id="authScreen" class="auth-screen">
-    <div class="auth-card">
-      <div style="font-size:32px">🛍️</div>
-      <h2>Create / Login</h2>
-      <p class="notice">Your first 5 stock entries are free. After that, premium unlock is available.</p>
-      <div class="auth-box">
-        <input id="vendorName" placeholder="Owner Name">
-        <input id="shopName" placeholder="Shop Name">
-        <input id="vendorEmail" type="email" placeholder="Email Address">
-        <input id="vendorPassword" type="password" placeholder="Password (6+ chars)">
-        <div id="authMessage" class="error"></div>
-        <button id="signUpButton">Create / Login</button>
-      </div>
-    </div>
-  </section>
-
-  <main class="container hide" id="appMain">
-    <header class="header">
-      <div>
-        <h1 id="displayShopName">Smart Retail Ledger</h1>
-        <p id="displayOwnerName" style="margin:4px 0;color:#64748b">Welcome Back</p>
-        <div id="premiumStatus" class="status-badge">Free trial</div>
-      </div>
-      <button id="logoutButton" class="button-secondary">Logout</button>
-    </header>
-
-    <div class="summary-grid">
-      <div class="mini-card"><span>Total Items</span><strong id="totalItems">0</strong></div>
-      <div class="mini-card"><span>Available Stock</span><strong id="availableStock">0</strong></div>
-      <div class="mini-card"><span>Low Stock</span><strong id="lowStockCount">0</strong></div>
-      <div class="mini-card"><span>Revenue</span><strong id="totalRevenue">₹0</strong></div>
-    </div>
-
-    <div class="grid">
-      <section class="card">
-        <h3>Log New Stock</h3>
-        <div class="form-group"><label for="productId">Physical Tag ID</label><input id="productId" placeholder="101"></div>
-        <div class="form-group"><label for="productName">Product Name</label><input id="productName" placeholder="Rice 5kg"></div>
-        <div class="form-group"><label for="purchasePrice">Purchase Price</label><input id="purchasePrice" type="number" min="0" placeholder="40"></div>
-        <div class="form-group"><label for="sellingPrice">Selling Price</label><input id="sellingPrice" type="number" min="0" placeholder="50"></div>
-        <div class="form-group"><label for="quantity">Quantity</label><input id="quantity" type="number" min="1" placeholder="20"></div>
-        <button id="addStockButton" class="form-button">Add Stock</button>
-      </section>
-
-      <section class="card">
-        <h3>Inventory List</h3>
-        <div id="inventoryList"></div>
-      </section>
-
-      <section class="card">
-        <div class="header" style="margin-bottom:0;align-items:center">
-          <h3 style="margin:0">History</h3>
-          <button id="clearHistoryButton" class="button-secondary">Clear History</button>
-        </div>
-        <div id="historyList"></div>
-      </section>
-    </div>
-
-    <div id="premiumModal" class="modal" style="display:none">
-      <div class="modal-content">
-        <h2>Premium Required</h2>
-        <p class="note">Pay ₹99 to UPI ID <strong>akashji124421@ptyes</strong>. Then send your request code and payment screenshot to WhatsApp <strong>9628655528</strong>.</p>
-
-        <div class="payment-box">
-          <div><strong>UPI ID:</strong> akashji124421@ptyes</div>
-          <div class="request-code">
-            <span>Request code</span>
-            <strong id="requestCodeLabel">----</strong>
-          </div>
-        </div>
-
-        <div class="note" style="text-align:left">Note: Send the request code and screenshot of payment to this WhatsApp number: 9628655528</div>
-        <input id="premiumPassKey" class="pass-input" type="text" placeholder="Enter pass key">
-
-        <div class="modal-actions">
-          <button id="premiumActivateButton">Verify & Activate</button>
-          <button id="premiumCloseButton" class="button-secondary">Close</button>
-        </div>
-        <div class="note">Pass key = request code + 1234</div>
-      </div>
-    </div>
-  </main>
-
+  <section id="authScreen" class="auth-screen"><div class="auth-card"><div style="font-size:32px">🛍️</div><h2>Login</h2><p class="notice">Smart Retail Ledger</p><div class="auth-box"><input id="vendorName" placeholder="Owner Name"><input id="shopName" placeholder="Shop Name"><input id="vendorEmail" type="email" placeholder="Email Address"><input id="vendorPassword" type="password" placeholder="Password (6+ chars)"><div id="authMessage" class="error"></div><button id="signUpButton">Login</button></div></div></section>
+  <main class="container hide" id="appMain"><header class="header"><div><h1 id="displayShopName">Smart Retail Ledger</h1><p id="displayOwnerName" style="margin:4px 0;color:#64748b">Welcome Back</p><div id="premiumStatus" class="status-badge">Free trial</div></div><button id="logoutButton" class="button-secondary">Logout</button></header><div class="summary-grid"><div class="mini-card"><span>Total Items</span><strong id="totalItems">0</strong></div><div class="mini-card"><span>Available Stock</span><strong id="availableStock">0</strong></div><div class="mini-card"><span>Low Stock</span><strong id="lowStockCount">0</strong></div><div class="mini-card"><span>Revenue</span><strong id="totalRevenue">₹0</strong></div></div><div class="grid"><section class="card"><h3>Log New Stock</h3><div class="form-group"><label for="productId">Physical Tag ID</label><input id="productId" placeholder="101"></div><div class="form-group"><label for="productName">Product Name</label><input id="productName" placeholder="Rice 5kg"></div><div class="form-group"><label for="purchasePrice">Purchase Price</label><input id="purchasePrice" type="number" min="0" placeholder="40"></div><div class="form-group"><label for="sellingPrice">Selling Price</label><input id="sellingPrice" type="number" min="0" placeholder="50"></div><div class="form-group"><label for="quantity">Quantity</label><input id="quantity" type="number" min="1" placeholder="20"></div><button id="addStockButton" class="form-button">Add Stock</button></section><section class="card"><h3>Inventory List</h3><div id="inventoryList"></div></section><section class="card"><div class="header" style="margin-bottom:0"><h3 style="margin:0">History</h3><button id="clearHistoryButton" class="button-secondary">Clear History</button></div><div id="historyList"></div></section></div></main>
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
-    import { getFirestore, doc, setDoc, collection, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
-    const firebaseConfig = {
-  apiKey: "AIzaSyA8Aw8yDNVhH_Ogjf1b4kS0CWcJm8l_J0",
-  authDomain: "smart-inventory-4afbb.firebaseapp.com",
-  projectId: "smart-inventory-4afbb",
-  storageBucket: "smart-inventory-4afbb.firebasestorage.app",
-  messagingSenderId: "835911902484",
-  appId: "1:835911902484:web:9d72422655c2223a070e01",
-  measurementId: "G-39V1BVQ7XN"
-};
-    try{const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);window.firebaseAuth=auth;window.firebaseDb=db;window.firebaseHelpers={createUserWithEmailAndPassword,signInWithEmailAndPassword,onAuthStateChanged,signOut,doc,setDoc,collection,getDocs,deleteDoc};window.firebaseReady=true}catch(e){console.error(e);window.firebaseReady=false}
+    import {initializeApp} from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js';
+    import {getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword,onAuthStateChanged,signOut} from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js';
+    import {getFirestore,doc,setDoc,collection,getDocs,deleteDoc} from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js';
+    const firebaseConfig={apiKey:'AIzaSyA8Aw8yDNVhH_Ogjf1b4kS0CWcJm8l_J0',authDomain:'smart-inventory-4afbb.firebaseapp.com',projectId:'smart-inventory-4afbb',storageBucket:'smart-inventory-4afbb.firebasestorage.app',messagingSenderId:'835911902484',appId:'1:835911902484:web:9d72422655c2223a070e01',measurementId:'G-39V1BVQ7XN'};
+    try{const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);window.firebaseAuth=auth;window.firebaseDb=db;window.firebaseHelpers={createUserWithEmailAndPassword,signInWithEmailAndPassword,onAuthStateChanged,signOut,doc,setDoc,collection,getDocs,deleteDoc};window.firebaseReady=true}catch(e){console.error('Firebase initialization error:',e);window.firebaseReady=false}
   </script>
-
   <script>
-    (()=>{
-      const $=id=>document.getElementById(id),
-      K={i:'virtualLedger',h:'historyArchive',p:'vendorProfile',pr:'isPremiumUser',a:'premiumActivatedAt',r:'premiumRequestCode'},
-      FREE_LIMIT=5,PREMIUM_DAYS=28,PREMIUM_PRICE=99,APPEND_KEY='1234';
-      let inv=read(K.i,[]),hist=read(K.h,[]),profile=read(K.p,null),premium=read(K.pr,false),premiumAt=read(K.a,null);
-
-      function read(k,f){try{const v=localStorage.getItem(k);return v===null?f:JSON.parse(v)}catch{return f}}
-      function write(k,v){localStorage.setItem(k,JSON.stringify(v))}
-      function escapeHtml(v){return String(v??'').replace(/[&<>\"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#039;'}[c]))}
-      function premiumActive(){if(!premium||!premiumAt)return false;return Date.now()-Number(premiumAt)<PREMIUM_DAYS*24*60*60*1000}
-      function canAdd(){if(premiumActive())return true;if(premium){premium=false;write(K.pr,false)}return inv.length<FREE_LIMIT}
-      function updateStatus(){const active=premiumActive();$('premiumStatus').textContent=active?`Premium · ${Math.ceil((PREMIUM_DAYS*86400000-(Date.now()-Number(premiumAt)))/86400000)} days left`:`Free trial · ${Math.min(inv.length,FREE_LIMIT)}/${FREE_LIMIT} entries`}
-      function generateRequestCode(){return String(Math.floor(1000 + Math.random()*9000))}
-      function ensureRequestCode(){let code=read(K.r,null); if(!code){code=generateRequestCode(); write(K.r,code);} $('requestCodeLabel').textContent=code; return code}
-      function openPremiumModal(){ensureRequestCode();$('premiumPassKey').value='';$('premiumModal').style.display='grid'}
-      function buildExpectedPassKey(){return `${ensureRequestCode()}${APPEND_KEY}`}
-
-      async function save(){if(!window.firebaseReady||!window.firebaseAuth.currentUser)return;const u=window.firebaseAuth.currentUser;try{const ref=window.firebaseHelpers.collection(window.firebaseDb,'users',u.uid,'inventory'),old=await window.firebaseHelpers.getDocs(ref);await Promise.all(old.docs.map(d=>window.firebaseHelpers.deleteDoc(d.ref)));await Promise.all(inv.map(item=>window.firebaseHelpers.setDoc(window.firebaseHelpers.doc(ref,item.id),item)));}catch(e){console.error('Save error',e)}}
-      async function load(){if(!window.firebaseReady||!window.firebaseAuth.currentUser)return;try{const u=window.firebaseAuth.currentUser,ref=window.firebaseHelpers.collection(window.firebaseDb,'users',u.uid,'inventory'),snap=await window.firebaseHelpers.getDocs(ref);inv=snap.docs.map(d=>d.data());write(K.i,inv);renderAll()}catch(e){console.error('Load error',e)}}
-      function renderSummary(){const available=inv.reduce((s,i)=>s+(Number(i.quantity)||0),0),low=inv.filter(i=>(Number(i.quantity)||0)<=5).length,revenue=inv.reduce((s,i)=>s+(Number(i.sellingPrice)||0)*(Number(i.quantity)||0),0);$('totalItems').textContent=inv.length;$('availableStock').textContent=available;$('lowStockCount').textContent=low;$('totalRevenue').textContent=`₹${revenue.toLocaleString('en-IN')}`;updateStatus()}
-      function renderInventory(){const list=$('inventoryList');if(!inv.length){list.innerHTML='<p style="color:#64748b">No inventory items yet.</p>';return}list.innerHTML=inv.map((item,index)=>`<div class="inventory-item"><div class="inventory-meta"><strong>${escapeHtml(item.name||'Item')}</strong><small>${escapeHtml(item.id||'No ID')} • Qty: ${Number(item.quantity)||0}</small></div><div class="inventory-actions"><button class="small-btn" data-action="sell" data-index="${index}">Sell</button><button class="small-btn" style="background:#ef4444" data-action="delete" data-index="${index}">Delete</button></div></div>`).join('');list.querySelectorAll('button[data-action]').forEach(btn=>{btn.onclick=async()=>{const idx=Number(btn.dataset.index),action=btn.dataset.action;if(action==='sell')await sellStock(idx);if(action==='delete')await deleteStock(idx)}})}
-      function renderHistory(){const list=$('historyList');list.innerHTML=hist.length?hist.slice().reverse().map(e=>`<div class="history-item"><div><strong>${escapeHtml(e.type||'Update')}</strong><small>${escapeHtml(new Date(e.time||Date.now()).toLocaleString())}</small></div><span>${escapeHtml(e.message||'')}</span></div>`).join(''):'<p style="color:#64748b">No history yet.</p>'}
-      function addHistory(type,message){hist.push({type,message,time:new Date().toISOString()});hist=hist.slice(-50);write(K.h,hist);renderHistory()}
-      async function sellStock(i){const item=inv[i];if(!item||Number(item.quantity)<=0)return alert('This item is out of stock.');item.quantity--;if(!item.quantity)addHistory('Sold Out',`${item.name||'Item'} completely sold out.`);write(K.i,inv);renderAll();await save()}
-      async function deleteStock(i){const item=inv[i];if(!item||!confirm(`Delete ${item.name||'this item'}?`))return;inv.splice(i,1);write(K.i,inv);addHistory('Stock Removed',`${item.name||'Item'} removed.`);renderAll();await save()}
-      function updateProfile(){if(profile){$('displayShopName').textContent=profile.shopName||'Smart Retail Ledger';$('displayOwnerName').textContent=profile.ownerName||'Welcome Back';$('authScreen').classList.add('hide');$('appMain').classList.remove('hide')}else{$('authScreen').classList.remove('hide');$('appMain').classList.add('hide')}} 
-      function renderAll(){renderSummary();renderInventory();renderHistory();updateStatus()}
-
-      $('addStockButton').onclick=async()=>{const id=$('productId').value.trim(),item={id,name:$('productName').value.trim(),purchasePrice:Number($('purchasePrice').value),sellingPrice:Number($('sellingPrice').value),quantity:Number($('quantity').value)};if(!id||!item.name||item.quantity<1||item.purchasePrice<0||item.sellingPrice<0)return alert('Please enter valid stock details.');if(inv.some(x=>String(x.id).trim().toLowerCase()===id.toLowerCase()))return alert(`Product ID "${id}" already exists. Please use a unique ID.`);if(!canAdd()){openPremiumModal();return}inv.push(item);write(K.i,inv);['productId','productName','purchasePrice','sellingPrice','quantity'].forEach(x=>$(x).value='');renderAll();await save()};
-      $('premiumActivateButton').onclick=()=>{const entered=$('premiumPassKey').value.trim();const expected=buildExpectedPassKey();if(!entered){alert('Please enter the pass key sent by the admin.');return}if(entered!==expected){alert('Wrong pass key. Please send the request code and payment screenshot to WhatsApp number 9628655528 and receive the correct pass key.');return}premium=true;premiumAt=Date.now();write(K.pr,true);write(K.a,premiumAt);$('premiumModal').style.display='none';$('premiumPassKey').value='';renderAll();alert(`Premium activated for ${PREMIUM_DAYS} days. (₹${PREMIUM_PRICE})`)};$('premiumCloseButton').onclick=()=>{$('premiumModal').style.display='none';$('premiumPassKey').value=''};$('clearHistoryButton').onclick=()=>{hist=[];write(K.h,hist);renderHistory()};$('logoutButton').onclick=async()=>{if(window.firebaseReady)await window.firebaseHelpers.signOut(window.firebaseAuth);profile=null;write(K.p,null);updateProfile()};
-      $('signUpButton').onclick=async()=>{const email=$('vendorEmail').value.trim(),password=$('vendorPassword').value,owner=$('vendorName').value.trim(),shop=$('shopName').value.trim();if(!email||password.length<6)return $('authMessage').textContent='Enter a valid email and 6+ character password.';try{let user;if(window.firebaseReady){try{user=(await window.firebaseHelpers.signInWithEmailAndPassword(window.firebaseAuth,email,password)).user}catch{user=(await window.firebaseHelpers.createUserWithEmailAndPassword(window.firebaseAuth,email,password)).user}}profile={uid:user?.uid||email,email,ownerName:owner,shopName:shop};write(K.p,profile);updateProfile();await load();$('authMessage').textContent=''}catch(e){$('authMessage').textContent=e.message||'Login failed.'}};
-      if(window.firebaseReady)window.firebaseHelpers.onAuthStateChanged(window.firebaseAuth,async user=>{if(user){profile=read(K.p,{uid:user.uid,email:user.email});profile.uid=user.uid;write(K.p,profile);updateProfile();await load()}else updateProfile()});renderAll();updateProfile();
-    })();
+    (()=>{const $=id=>document.getElementById(id),K={i:'virtualLedger',h:'historyArchive',p:'vendorProfile'},read=(k,f)=>{try{const v=localStorage.getItem(k);return v===null?f:JSON.parse(v)}catch{return f}},write=(k,v)=>localStorage.setItem(k,JSON.stringify(v));let inv=read(K.i,[]),hist=read(K.h,[]),profile=read(K.p,null);
+      const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+      function render(){const available=inv.reduce((s,i)=>s+(Number(i.quantity)||0),0),low=inv.filter(i=>(Number(i.quantity)||0)<=5).length,revenue=inv.reduce((s,i)=>s+(Number(i.sellingPrice)||0)*(Number(i.quantity)||0),0);$('totalItems').textContent=inv.length;$('availableStock').textContent=available;$('lowStockCount').textContent=low;$('totalRevenue').textContent=`₹${revenue.toLocaleString('en-IN')}`;$('inventoryList').innerHTML=inv.length?inv.map((x,i)=>`<div class="inventory-item"><div class="inventory-meta"><strong>${esc(x.name)}</strong><small>${esc(x.id)} • Qty: ${Number(x.quantity)||0}</small></div><div class="inventory-actions"><button class="small-btn" data-sell="${i}">Sell</button><button class="small-btn" style="background:#ef4444" data-delete="${i}">Delete</button></div></div>`).join(''):'<p style="color:#64748b">No inventory items yet.</p>';$('historyList').innerHTML=hist.length?hist.slice().reverse().map(x=>`<div class="history-item"><div><strong>${esc(x.type)}</strong><br><small>${esc(x.message)}</small></div><small>${new Date(x.time).toLocaleString()}</small></div>`).join(''):'<p style="color:#64748b">No history yet.</p>';document.querySelectorAll('[data-sell]').forEach(b=>b.onclick=()=>sell(Number(b.dataset.sell)));document.querySelectorAll('[data-delete]').forEach(b=>b.onclick=()=>remove(Number(b.dataset.delete)))}
+      function showProfile(){if(profile){$('displayShopName').textContent=profile.shopName||'Smart Retail Ledger';$('displayOwnerName').textContent=profile.ownerName||'Welcome Back';$('authScreen').classList.add('hide');$('appMain').classList.remove('hide')}else{$('authScreen').classList.remove('hide');$('appMain').classList.add('hide')}}
+      async function save(){if(!window.firebaseReady||!window.firebaseAuth.currentUser)return;try{const ref=window.firebaseHelpers.collection(window.firebaseDb,'users',window.firebaseAuth.currentUser.uid,'inventory'),old=await window.firebaseHelpers.getDocs(ref);await Promise.all(old.docs.map(d=>window.firebaseHelpers.deleteDoc(d.ref)));await Promise.all(inv.map(x=>window.firebaseHelpers.setDoc(window.firebaseHelpers.doc(ref,String(x.id)),x)))}catch(e){console.error('Save error:',e)}}
+      async function load(){if(!window.firebaseReady||!window.firebaseAuth.currentUser)return;try{const ref=window.firebaseHelpers.collection(window.firebaseDb,'users',window.firebaseAuth.currentUser.uid,'inventory'),snap=await window.firebaseHelpers.getDocs(ref);inv=snap.docs.map(d=>d.data());write(K.i,inv);render()}catch(e){console.error('Load error:',e)}}
+      function history(type,message){hist.push({type,message,time:new Date().toISOString()});hist=hist.slice(-50);write(K.h,hist)}
+      async function sell(i){if(!inv[i]||Number(inv[i].quantity)<=0)return alert('This item is out of stock.');inv[i].quantity--;history('Item Sold',`${inv[i].name} quantity reduced by 1.`);write(K.i,inv);render();await save()}
+      async function remove(i){if(!inv[i]||!confirm(`Delete ${inv[i].name||'this item'}?`))return;history('Stock Removed',`${inv[i].name} removed.`);inv.splice(i,1);write(K.i,inv);render();await save()}
+      $('signUpButton').onclick=async()=>{const email=$('vendorEmail').value.trim(),password=$('vendorPassword').value,owner=$('vendorName').value.trim(),shop=$('shopName').value.trim(),msg=$('authMessage');if(!email||password.length<6){msg.textContent='Valid email aur 6+ character password enter karein.';return}if(!window.firebaseReady){msg.textContent='Firebase load nahi hua. Internet connection check karein.';return}msg.textContent='Please wait...';try{const result=await window.firebaseHelpers.signInWithEmailAndPassword(window.firebaseAuth,email,password);profile={uid:result.user.uid,email:result.user.email,ownerName:owner,shopName:shop};write(K.p,profile);showProfile();await load();msg.textContent=''}catch(e){if(e.code==='auth/invalid-credential'||e.code==='auth/wrong-password'||e.code==='auth/user-not-found')msg.textContent='Email ya password galat hai.';else if(e.code==='auth/too-many-requests')msg.textContent='Bahut zyada attempts ho gaye. Thodi der baad try karein.';else if(e.code==='auth/network-request-failed')msg.textContent='Internet connection ya APK network permission check karein.';else if(e.code==='auth/operation-not-allowed')msg.textContent='Firebase Console me Email/Password login enable karein.';else msg.textContent=`${e.code||'Login failed'}: ${e.message}`;console.error('Firebase login error:',e)}};
+      $('addStockButton').onclick=async()=>{const id=$('productId').value.trim(),item={id,name:$('productName').value.trim(),purchasePrice:Number($('purchasePrice').value),sellingPrice:Number($('sellingPrice').value),quantity:Number($('quantity').value)};if(!id||!item.name||item.quantity<1||item.purchasePrice<0||item.sellingPrice<0)return alert('Please enter valid stock details.');if(inv.some(x=>String(x.id).toLowerCase()===id.toLowerCase()))return alert('Product ID already exists.');inv.push(item);write(K.i,inv);history('Stock Added',`${item.name} added.`);['productId','productName','purchasePrice','sellingPrice','quantity'].forEach(x=>$(x).value='');render();await save()};$('clearHistoryButton').onclick=()=>{hist=[];write(K.h,hist);render()};$('logoutButton').onclick=async()=>{if(window.firebaseReady)await window.firebaseHelpers.signOut(window.firebaseAuth);profile=null;write(K.p,null);showProfile()};if(window.firebaseReady)window.firebaseHelpers.onAuthStateChanged(window.firebaseAuth,async user=>{if(user){profile=read(K.p,{uid:user.uid,email:user.email});profile.uid=user.uid;write(K.p,profile);showProfile();await load()}else showProfile()});render();showProfile()})();
   </script>
 </body>
 </html>
