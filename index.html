@@ -98,7 +98,15 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
     import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
     import { getFirestore, doc, setDoc, collection, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
-    const firebaseConfig={apiKey:"AIzaSyA8Aw8yDNVhH_HOgjf1b4kS0CWcJm8l_J0",authDomain:"smart-inventory-4afbb.firebaseapp.com",projectId:"smart-inventory-4afbb",storageBucket:"smart-inventory-4afbb.firebasestorage.app",messagingSenderId:"835911902484",appId:"1:835911902484:web:9d72422655c2223a070e01"};
+    const firebaseConfig = {
+  apiKey: "AIzaSyA8Aw8yDNVhH_Ogjf1b4kS0CWcJm8l_J0",
+  authDomain: "smart-inventory-4afbb.firebaseapp.com",
+  projectId: "smart-inventory-4afbb",
+  storageBucket: "smart-inventory-4afbb.firebasestorage.app",
+  messagingSenderId: "835911902484",
+  appId: "1:835911902484:web:9d72422655c2223a070e01",
+  measurementId: "G-39V1BVQ7XN"
+};
     try{const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);window.firebaseAuth=auth;window.firebaseDb=db;window.firebaseHelpers={createUserWithEmailAndPassword,signInWithEmailAndPassword,onAuthStateChanged,signOut,doc,setDoc,collection,getDocs,deleteDoc};window.firebaseReady=true}catch(e){console.error(e);window.firebaseReady=false}
   </script>
 
