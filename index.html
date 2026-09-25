@@ -41,88 +41,55 @@
         .qr-placeholder { min-height:110px; display:flex; align-items:center; justify-content:center; margin:15px auto; border:2px dashed #cbd5e1; border-radius:12px; color:var(--text-muted); font-weight:700; background:#f8fafc; }
         .upi-box { padding:12px; margin:12px 0; border-radius:8px; background:#eef2ff; color:#3730a3; font-size:14px; word-break:break-all; }
         .payment-help { margin:12px 0 16px; padding:12px; border-radius:8px; background:#f8fafc; color:var(--text-muted); font-size:13px; line-height:1.5; }
+        #premiumStatus { font-size:12px; color:var(--text-muted); margin-top:6px; }
     </style>
 </head>
 <body>
-    <div id="authScreen">
-        <div class="auth-card">
-            <div style="font-size:32px">🛍️</div>
-            <h2>Create Vendor Profile</h2>
-            <p style="color:var(--text-muted);font-size:14px">Setup your digital business register in seconds.</p>
-            <div class="form-group"><label>Owner Name</label><input type="text" id="vendorName" placeholder="Rajesh Kumar"></div>
-            <div class="form-group"><label>Shop / Boutique Name</label><input type="text" id="shopName" placeholder="Kumar Clothing Hub"></div>
-            <div class="form-group"><label>WhatsApp Number</label><input type="tel" id="vendorPhone" placeholder="9876543210"></div>
-            <button onclick="handleSignUp()">Activate Record Book</button>
-        </div>
-    </div>
-
+    <div id="authScreen"><div class="auth-card">
+        <div style="font-size:32px">🛍️</div><h2>Create Vendor Profile</h2>
+        <p style="color:var(--text-muted);font-size:14px">Setup your digital business register in seconds.</p>
+        <div class="form-group"><label>Owner Name</label><input type="text" id="vendorName" placeholder="Rajesh Kumar"></div>
+        <div class="form-group"><label>Shop / Boutique Name</label><input type="text" id="shopName" placeholder="Kumar Clothing Hub"></div>
+        <div class="form-group"><label>WhatsApp Number</label><input type="tel" id="vendorPhone" placeholder="9876543210"></div>
+        <button onclick="handleSignUp()">Activate Record Book</button>
+    </div></div>
     <div class="container">
-        <header>
-            <div><h1 id="displayShopName">Smart Retail Ledger</h1><p id="displayOwnerName" style="margin:4px 0;color:var(--text-muted)">Welcome Back</p></div>
-            <div id="userProfileTag"></div>
-        </header>
-        <div class="grid">
-            <div class="card">
-                <h3 style="margin-top:0">Log New Stock</h3>
-                <div class="form-group"><label>Physical Tag ID</label><input type="text" id="productId" placeholder="101"></div>
-                <div class="form-group"><label>Item Description</label><input type="text" id="productName" placeholder="Blue Denim Jacket"></div>
-                <div class="form-group"><label>Buying Price (₹)</label><input type="number" id="buyingPrice" placeholder="0.00" min="0"></div>
-                <div class="form-group"><label>Base Selling Price (₹)</label><input type="number" id="initialPrice" placeholder="0.00" min="0"></div>
-                <div class="form-group"><label>Quantity</label><input type="number" id="quantity" placeholder="10" min="1"></div>
-                <button onclick="handleAddProduct()">Add to Virtual Ledger</button>
-            </div>
-            <div>
-                <div class="card">
-                    <h3 style="margin-top:0">Live Inventory Shelf</h3>
-                    <div class="table-container"><table class="product-table"><thead><tr><th>Tag ID</th><th>Item Name</th><th>Stock</th><th>Cost</th><th>Smart Price</th><th>Status</th><th>Actions</th></tr></thead><tbody id="ledgerBody"></tbody></table></div>
-                </div>
-                <div class="card history-section">
-                    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><h3 style="margin:0;color:var(--text-muted)">📦 Inventory History</h3><button class="secondary-btn" style="width:auto;margin:0" onclick="clearHistory()">Clear History</button></div>
-                    <div class="table-container"><table class="product-table" style="opacity:.85"><thead><tr><th>Tag ID</th><th>Item Name</th><th>Total Sold</th><th>Investment</th><th>Status</th></tr></thead><tbody id="historyBody"></tbody></table></div>
-                </div>
-            </div>
-        </div>
+        <header><div><h1 id="displayShopName">Smart Retail Ledger</h1><p id="displayOwnerName" style="margin:4px 0;color:var(--text-muted)">Welcome Back</p><div id="premiumStatus"></div></div><div id="userProfileTag"></div></header>
+        <div class="grid"><div class="card">
+            <h3 style="margin-top:0">Log New Stock</h3>
+            <div class="form-group"><label>Physical Tag ID</label><input type="text" id="productId" placeholder="101"></div>
+            <div class="form-group"><label>Item Description</label><input type="text" id="productName" placeholder="Blue Denim Jacket"></div>
+            <div class="form-group"><label>Buying Price (₹)</label><input type="number" id="buyingPrice" placeholder="0.00" min="0"></div>
+            <div class="form-group"><label>Base Selling Price (₹)</label><input type="number" id="initialPrice" placeholder="0.00" min="0"></div>
+            <div class="form-group"><label>Quantity</label><input type="number" id="quantity" placeholder="10" min="1"></div>
+            <button onclick="handleAddProduct()">Add to Virtual Ledger</button>
+        </div><div>
+            <div class="card"><h3 style="margin-top:0">Live Inventory Shelf</h3><div class="table-container"><table class="product-table"><thead><tr><th>Tag ID</th><th>Item Name</th><th>Stock</th><th>Cost</th><th>Smart Price</th><th>Status</th><th>Actions</th></tr></thead><tbody id="ledgerBody"></tbody></table></div></div>
+            <div class="card history-section"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><h3 style="margin:0;color:var(--text-muted)">📦 Inventory History</h3><button class="secondary-btn" style="width:auto;margin:0" onclick="clearHistory()">Clear History</button></div><div class="table-container"><table class="product-table" style="opacity:.85"><thead><tr><th>Tag ID</th><th>Item Name</th><th>Total Sold</th><th>Investment</th><th>Status</th></tr></thead><tbody id="historyBody"></tbody></table></div></div>
+        </div></div>
     </div>
-
-    <div id="premiumModal" class="modal">
-        <div class="modal-content">
-            <div style="font-size:40px">👑</div><h2>Premium Required</h2>
-            <p style="color:var(--text-muted);font-size:14px">Free tier limit reached. Pay ₹99/month for unlimited access.</p>
-            <div class="qr-placeholder">UPI QR CODE</div>
-            <div class="upi-box"><strong>UPI ID:</strong><br><span>akashji124421@ptyes</span></div>
-            <div class="payment-help">After payment, contact us on WhatsApp and send your passkey along with the payment screenshot.</div>
-            <div style="background:#f1f5f9;padding:10px;border-radius:8px;font-size:13px;margin-bottom:15px;text-align:left">Request Code: <strong id="requestCodeDisplay" style="color:var(--primary)">----</strong></div>
-            <input type="number" id="activationKeyInput" placeholder="Enter Passkey" style="text-align:center;font-weight:bold">
-            <button onclick="verifyActivationKey()">Activate App</button><button onclick="closePaywall()" style="background:#e2e8f0;color:var(--text-muted)">Cancel</button>
-        </div>
-    </div>
-
-    <script>
-        let inventory = readStorage('virtualLedger', []);
-        let historyArchive = readStorage('historyArchive', []);
-        let profile = readStorage('vendorProfile', null);
-        let isPremiumUser = localStorage.getItem('isPremiumUser') === 'true';
-        let currentRequestCode = null;
-
-        function readStorage(key, fallback) { try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; } }
-        function saveAndRender() { localStorage.setItem('virtualLedger', JSON.stringify(inventory)); renderLedger(); }
-        function updateDashboardHeaders() { if (!profile) return; displayShopName.innerText=profile.shop; displayOwnerName.innerText='Merchant Register: '+profile.owner; userProfileTag.innerText='📱 '+profile.phone; }
-        function handleSignUp() { const owner=vendorName.value.trim(), shop=shopName.value.trim(), phone=vendorPhone.value.trim(); if(!owner||!shop||!phone){alert('Please fill all details!');return;} profile={owner,shop,phone}; localStorage.setItem('vendorProfile',JSON.stringify(profile)); authScreen.style.display='none'; updateDashboardHeaders(); renderLedger(); renderHistory(); }
-        function handleAddProduct() { if(!isPremiumUser&&inventory.length>=3){showPaywall();return;} const id=productId.value.trim(), name=productName.value.trim(), buyingPrice=parseFloat(buyingPriceInput.value), baseSellingPrice=parseFloat(initialPrice.value), quantity=parseInt(quantityInput.value); if(!id||!name||isNaN(buyingPrice)||isNaN(baseSellingPrice)||isNaN(quantity)||quantity<1){alert('Please fill all product fields correctly!');return;} if(inventory.some(item=>item.id.toLowerCase()===id.toLowerCase())){alert('This Physical Tag ID already exists!');return;} inventory.push({id,name,buyingPrice,baseSellingPrice,initialQuantity:quantity,currentQuantity:quantity,unitsSold:0}); saveAndRender(); ['productId','productName','buyingPrice','initialPrice','quantity'].forEach(id=>document.getElementById(id).value=''); }
-        function calculateSmartPrice(item) { let modifier=1; if(item.initialQuantity>0){const velocity=item.unitsSold/item.initialQuantity;if(velocity>.6)modifier+=.15;else if(velocity<.1&&item.currentQuantity>5)modifier-=.1;} return Math.max(item.baseSellingPrice*modifier,item.buyingPrice*1.1).toFixed(2); }
-        function recordSale(id) { const item=inventory.find(p=>p.id===id); if(item&&item.currentQuantity>0){item.currentQuantity--;item.unitsSold++;saveAndRender();}else alert('Out of stock!'); }
-        function archiveItem(id) { const index=inventory.findIndex(p=>p.id===id); if(index>-1){historyArchive.push(inventory[index]);inventory.splice(index,1);localStorage.setItem('historyArchive',JSON.stringify(historyArchive));saveAndRender();renderHistory();} }
-        function clearHistory() { if(!historyArchive.length){alert('History is already empty.');return;} if(confirm('Clear all inventory history permanently?')){historyArchive=[];localStorage.removeItem('historyArchive');renderHistory();} }
-        function renderLedger() { ledgerBody.innerHTML=''; if(!inventory.length){ledgerBody.innerHTML='<tr><td colspan="7" style="text-align:center;color:var(--text-muted)">No products logged.</td></tr>';return;} inventory.forEach(item=>{const row=document.createElement('tr');const badge=item.currentQuantity===0?'<span class="badge badge-danger">Out of Stock</span>':'<span class="badge badge-success">In Stock</span>';row.innerHTML='<td><strong>#'+item.id+'</strong></td><td>'+item.name+'</td><td>'+item.currentQuantity+'/'+item.initialQuantity+'</td><td>₹'+item.buyingPrice+'</td><td>₹'+calculateSmartPrice(item)+'</td><td>'+badge+'</td><td><button class="action-btn" onclick="recordSale(\''+item.id+'\')">Sell</button><button class="action-btn archive" onclick="archiveItem(\''+item.id+'\')">Archive</button></td>';ledgerBody.appendChild(row);}); }
-        function renderHistory() { historyBody.innerHTML=''; if(!historyArchive.length){historyBody.innerHTML='<tr><td colspan="5" style="text-align:center;color:var(--text-muted)">History is empty.</td></tr>';return;} historyArchive.forEach(item=>{const row=document.createElement('tr');row.innerHTML='<td>#'+item.id+'</td><td>'+item.name+'</td><td>'+item.unitsSold+' units</td><td>₹'+(item.initialQuantity*item.buyingPrice).toFixed(2)+'</td><td><span class="badge" style="background:#e2e8f0;color:#334155">Archived</span></td>';historyBody.appendChild(row);}); }
-        function showPaywall() { if(!currentRequestCode)currentRequestCode=Math.floor(1000+Math.random()*9000); requestCodeDisplay.innerText=currentRequestCode; premiumModal.style.display='flex'; }
-        function verifyActivationKey() { const key=parseInt(activationKeyInput.value); if(key===currentRequestCode+1234){isPremiumUser=true;localStorage.setItem('isPremiumUser','true');alert('🎉 Premium Activated Successfully!');closePaywall();}else alert('❌ Invalid Key!'); }
-        function closePaywall() { premiumModal.style.display='none'; }
-        if(profile){authScreen.style.display='none';} updateDashboardHeaders(); renderLedger(); renderHistory();
-        if('serviceWorker' in navigator) window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
-
-        const buyingPriceInput=document.getElementById('buyingPrice');
-        const quantityInput=document.getElementById('quantity');
-    </script>
-</body>
-</html>
+    <div id="premiumModal" class="modal"><div class="modal-content"><div style="font-size:40px">👑</div><h2>Premium Required</h2><p style="color:var(--text-muted);font-size:14px">Free tier limit reached. Pay ₹99/month for unlimited access.</p><div class="qr-placeholder">UPI QR CODE</div><div class="upi-box"><strong>UPI ID:</strong><br><span>akashji124421@ptyes</span></div><div class="payment-help">After payment, contact us on WhatsApp and send your passkey along with the payment screenshot.</div><div style="background:#f1f5f9;padding:10px;border-radius:8px;font-size:13px;margin-bottom:15px;text-align:left">Request Code: <strong id="requestCodeDisplay" style="color:var(--primary)">----</strong></div><input type="number" id="activationKeyInput" placeholder="Enter Passkey" style="text-align:center;font-weight:bold"><button onclick="verifyActivationKey()">Activate App</button><button onclick="closePaywall()" style="background:#e2e8f0;color:var(--text-muted)">Cancel</button></div></div>
+<script>
+let inventory=readStorage('virtualLedger',[]), historyArchive=readStorage('historyArchive',[]), profile=readStorage('vendorProfile',null);
+let isPremiumUser=localStorage.getItem('isPremiumUser')==='true', premiumActivatedAt=Number(localStorage.getItem('premiumActivatedAt'))||0, currentRequestCode=null;
+const PREMIUM_DAYS=28, GRACE_DAYS=7, DAY=24*60*60*1000;
+function readStorage(key,fallback){try{return JSON.parse(localStorage.getItem(key))??fallback}catch{return fallback}}
+function saveAndRender(){localStorage.setItem('virtualLedger',JSON.stringify(inventory));renderLedger()}
+function updateDashboardHeaders(){if(!profile)return;displayShopName.innerText=profile.shop;displayOwnerName.innerText='Merchant Register: '+profile.owner;userProfileTag.innerText='📱 '+profile.phone;updatePremiumStatus()}
+function handleSignUp(){const owner=vendorName.value.trim(),shop=shopName.value.trim(),phone=vendorPhone.value.trim();if(!owner||!shop||!phone){alert('Please fill all details!');return}profile={owner,shop,phone};localStorage.setItem('vendorProfile',JSON.stringify(profile));authScreen.style.display='none';updateDashboardHeaders();renderLedger();renderHistory()}
+function handleAddProduct(){if(!checkPremiumStatus()&&inventory.length>=3){showPaywall();return}const id=productId.value.trim(),name=productName.value.trim(),buyingPrice=parseFloat(buyingPriceInput.value),baseSellingPrice=parseFloat(initialPrice.value),quantity=parseInt(quantityInput.value);if(!id||!name||isNaN(buyingPrice)||isNaN(baseSellingPrice)||isNaN(quantity)||quantity<1){alert('Please fill all product fields correctly!');return}if(inventory.some(item=>item.id.toLowerCase()===id.toLowerCase())){alert('This Physical Tag ID already exists!');return}inventory.push({id,name,buyingPrice,baseSellingPrice,initialQuantity:quantity,currentQuantity:quantity,unitsSold:0});saveAndRender();['productId','productName','buyingPrice','initialPrice','quantity'].forEach(id=>document.getElementById(id).value='')}
+function calculateSmartPrice(item){let modifier=1;if(item.initialQuantity>0){const velocity=item.unitsSold/item.initialQuantity;if(velocity>.6)modifier+=.15;else if(velocity<.1&&item.currentQuantity>5)modifier-=.1}return Math.max(item.baseSellingPrice*modifier,item.buyingPrice*1.1).toFixed(2)}
+function recordSale(id){const item=inventory.find(p=>p.id===id);if(item&&item.currentQuantity>0){item.currentQuantity--;item.unitsSold++;saveAndRender()}else alert('Out of stock!')}
+function archiveItem(id){const index=inventory.findIndex(p=>p.id===id);if(index>-1){historyArchive.push(inventory[index]);inventory.splice(index,1);localStorage.setItem('historyArchive',JSON.stringify(historyArchive));saveAndRender();renderHistory()}}
+function clearHistory(){if(!historyArchive.length){alert('History is already empty.');return}if(confirm('Clear all inventory history permanently?')){historyArchive=[];localStorage.removeItem('historyArchive');renderHistory()}}
+function renderLedger(){ledgerBody.innerHTML='';if(!inventory.length){ledgerBody.innerHTML='<tr><td colspan="7" style="text-align:center;color:var(--text-muted)">No products logged.</td></tr>';return}inventory.forEach(item=>{const row=document.createElement('tr'),badge=item.currentQuantity===0?'<span class="badge badge-danger">Out of Stock</span>':'<span class="badge badge-success">In Stock</span>';row.innerHTML='<td><strong>#'+item.id+'</strong></td><td>'+item.name+'</td><td>'+item.currentQuantity+'/'+item.initialQuantity+'</td><td>₹'+item.buyingPrice+'</td><td>₹'+calculateSmartPrice(item)+'</td><td>'+badge+'</td><td><button class="action-btn" onclick="recordSale(\''+item.id+'\')">Sell</button><button class="action-btn archive" onclick="archiveItem(\''+item.id+'\')">Archive</button></td>';ledgerBody.appendChild(row)})}
+function renderHistory(){historyBody.innerHTML='';if(!historyArchive.length){historyBody.innerHTML='<tr><td colspan="5" style="text-align:center;color:var(--text-muted)">History is empty.</td></tr>';return}historyArchive.forEach(item=>{const row=document.createElement('tr');row.innerHTML='<td>#'+item.id+'</td><td>'+item.name+'</td><td>'+item.unitsSold+' units</td><td>₹'+(item.initialQuantity*item.buyingPrice).toFixed(2)+'</td><td><span class="badge" style="background:#e2e8f0;color:#334155">Archived</span></td>';historyBody.appendChild(row)})}
+function showPaywall(){if(!currentRequestCode)currentRequestCode=Math.floor(1000+Math.random()*9000);requestCodeDisplay.innerText=currentRequestCode;premiumModal.style.display='flex'}
+function verifyActivationKey(){const key=parseInt(activationKeyInput.value);if(key===currentRequestCode+1234){isPremiumUser=true;premiumActivatedAt=Date.now();localStorage.setItem('isPremiumUser','true');localStorage.setItem('premiumActivatedAt',String(premiumActivatedAt));alert('👑 Premium Activated Successfully! Valid for 28 days, followed by a 7-day renewal grace period.');closePaywall();updatePremiumStatus()}else alert('❌ Invalid Key!')}
+function checkPremiumStatus(){if(!isPremiumUser)return false;if(!premiumActivatedAt){premiumActivatedAt=Date.now();localStorage.setItem('premiumActivatedAt',String(premiumActivatedAt))}const age=Date.now()-premiumActivatedAt;if(age>=35*DAY){isPremiumUser=false;localStorage.removeItem('isPremiumUser');localStorage.removeItem('premiumActivatedAt');alert('Your premium plan has been cancelled because it was not recharged within the 7-day grace period.');updatePremiumStatus();return false}if(age>=28*DAY){const remaining=Math.ceil((35*DAY-age)/DAY);if(!sessionStorage.getItem('premiumExpiryReminder')){sessionStorage.setItem('premiumExpiryReminder','shown');alert('⏰ Premium reminder: Your 28-day plan has ended. Please recharge within '+remaining+' days, otherwise your premium will be cancelled.')}return true}return true}
+function updatePremiumStatus(){if(!premiumStatus)return;if(!isPremiumUser){premiumStatus.innerText='Free plan';return}const age=Date.now()-premiumActivatedAt;if(age>=35*DAY){checkPremiumStatus();return}if(age>=28*DAY)premiumStatus.innerText='👑 Premium: renewal required within '+Math.ceil((35*DAY-age)/DAY)+' day(s)';else premiumStatus.innerText='👑 Premium active: '+Math.ceil((28*DAY-age)/DAY)+' day(s) remaining'}
+function closePaywall(){premiumModal.style.display='none'}
+if(profile)authScreen.style.display='none';checkPremiumStatus();updateDashboardHeaders();renderLedger();renderHistory();
+if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+const buyingPriceInput=document.getElementById('buyingPrice'),quantityInput=document.getElementById('quantity');
+</script></body></html>
