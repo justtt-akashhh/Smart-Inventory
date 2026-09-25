@@ -7,12 +7,115 @@
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#4f46e5">
   <style>
-    *{box-sizing:border-box}body{margin:0;background:#f8fafc;color:#0f172a;font-family:Arial,sans-serif}.container{max-width:1180px;margin:auto;padding:24px}.hide{display:none!important}.auth-screen{min-height:100vh;display:grid;place-items:center;padding:20px}.auth-card,.card{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:20px;box-shadow:0 8px 25px #0f172a12}.auth-card{width:min(460px,100%)}.form-group{margin:12px 0}.form-group label{display:block;font-weight:700;font-size:13px;margin-bottom:5px}.form-group input{width:100%;padding:11px;border:1px solid #cbd5e1;border-radius:8px}button{border:0;border-radius:8px;padding:11px 16px;background:#4f46e5;color:#fff;font-weight:700;cursor:pointer}.grid{display:grid;grid-template-columns:340px 1fr;gap:20px}.grid>.card:nth-child(3){grid-column:1/-1}.summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:20px 0}.mini-card{background:#fff;padding:18px;border:1px solid #e2e8f0;border-radius:12px}.mini-card span{display:block;color:#64748b;font-size:13px}.mini-card strong{font-size:25px;display:block;margin-top:8px}.inventory-item,.history-item{display:flex;justify-content:space-between;gap:14px;padding:14px 0;border-bottom:1px solid #e2e8f0}.inventory-item small,.history-item small{display:block;color:#64748b;margin-top:5px}.stock-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.small-btn{padding:7px 10px;font-size:12px}.danger{background:#dc2626}.status-badge{display:inline-block;margin-top:6px;padding:4px 8px;border-radius:999px;background:#e0e7ff;color:#3730a3;font-size:12px;font-weight:700}.notice{color:#64748b;font-size:13px}.modal{position:fixed;inset:0;background:#0f172a99;display:grid;place-items:center;padding:20px}.modal-content{background:#fff;padding:28px;border-radius:16px;text-align:center;max-width:420px}.header{display:flex;align-items:center;justify-content:space-between;gap:20px}@media(max-width:760px){.container{padding:14px}.grid{display:block}.grid>.card{margin-bottom:14px}.summary-grid{grid-template-columns:repeat(2,1fr);gap:10px}.header{align-items:flex-start}.inventory-item,.history-item{align-items:flex-start;flex-direction:column}}
-  </style>
+    *{box-sizing:border-box}body{margin:0;background:#f8fafc;color:#0f172a;font-family:Arial,sans-serif}.container{max-width:1180px;margin:auto;padding:24px}.hide{display:none!important}.auth-screen{min-height:100vh;display:grid;place-items:center;background:linear-gradient(135deg,#eef2ff,#f8fafc)}.auth-card{width:min(90vw,460px);background:#fff;border-radius:22px;padding:32px;box-shadow:0 20px 40px rgba(15,23,42,.08);text-align:center}.notice{color:#475569;font-size:14px;margin-top:8px}.app-main{padding:24px}.header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}.status-badge{display:inline-flex;align-items:center;padding:8px 12px;border-radius:999px;background:#ecfeff;color:#0f766e;font-weight:700;font-size:12px}.summary-grid{display:grid;grid-template-columns:repeat(4,minmax(160px,1fr));gap:16px;margin:20px 0}.mini-card,.card{background:#fff;border-radius:18px;padding:18px;box-shadow:0 8px 18px rgba(15,23,42,.06)}.mini-card span{display:block;color:#64748b;font-size:13px}.mini-card strong{display:block;font-size:28px;margin-top:8px}.grid{display:grid;grid-template-columns:1.2fr 1.6fr 1.3fr;gap:16px}.card h3{margin:0 0 12px}.form-group{margin-bottom:12px}.form-group label{display:block;font-size:13px;color:#475569;margin-bottom:6px}.form-group input,button,input[type="text"],input[type="email"],input[type="password"]{width:100%;padding:12px 14px;border:1px solid #cbd5e1;border-radius:12px;font-size:15px}.button-row{display:flex;gap:10px}button{padding:12px 16px;border:none;border-radius:12px;background:#4f46e5;color:#fff;font-weight:700;cursor:pointer}.button-secondary{background:#64748b}.inventory-item,.history-item{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid #e2e8f0}.inventory-meta strong{display:block}.inventory-actions{display:flex;gap:8px}.small-btn{padding:8px 10px;font-size:12px}.modal{position:fixed;inset:0;background:rgba(15,23,42,.45);display:grid;place-items:center;padding:20px}.modal-content{background:#f3f4f6;border-radius:26px;padding:22px;max-width:620px;width:100%;box-shadow:0 30px 70px rgba(15,23,42,.22);text-align:center}.qr-box{width:min(72vw,420px);height:min(72vw,420px);max-width:420px;max-height:420px;margin:14px auto 20px;background:#fff;border-radius:18px;border:8px solid #0f172a;display:grid;place-items:center;box-shadow:inset 0 0 0 10px #fff;position:relative;overflow:hidden}.qr-box::before{content:"";position:absolute;inset:0;background:
+  linear-gradient(#000 0 0) 14% 14% / 18% 18% no-repeat,
+  linear-gradient(#000 0 0) 52% 14% / 18% 18% no-repeat,
+  linear-gradient(#000 0 0) 14% 52% / 18% 18% no-repeat,
+  linear-gradient(#000 0 0) 52% 52% / 18% 18% no-repeat,
+  linear-gradient(#000 0 0) 33% 33% / 12% 12% no-repeat,
+  linear-gradient(#000 0 0) 70% 33% / 12% 12% no-repeat,
+  linear-gradient(#000 0 0) 33% 70% / 12% 12% no-repeat,
+  linear-gradient(#000 0 0) 70% 70% / 12% 12% no-repeat,
+  linear-gradient(#000 0 0) 4% 4% / 8% 8% no-repeat,
+  linear-gradient(#000 0 0) 80% 4% / 8% 8% no-repeat,
+  linear-gradient(#000 0 0) 4% 80% / 8% 8% no-repeat,
+  linear-gradient(#000 0 0) 80% 80% / 8% 8% no-repeat,
+  linear-gradient(#000 0 0) 15% 67% / 8% 8% no-repeat,
+  linear-gradient(#000 0 0) 67% 15% / 8% 8% no-repeat,
+  linear-gradient(#000 0 0) 15% 15% / 8% 8% no-repeat,
+  linear-gradient(#000 0 0) 67% 67% / 8% 8% no-repeat,
+  linear-gradient(#000 0 0) 49% 49% / 10% 10% no-repeat;
+  box-shadow:inset 0 0 0 10px #fff;}
+  .qr-center{position:absolute;width:72px;height:72px;border-radius:50%;background:#fff;border:10px solid #0f172a;display:grid;place-items:center;z-index:2;left:50%;top:50%;transform:translate(-50%,-50%)}.qr-center span{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#ef4444,#10b981,#3b82f6);display:block}.payment-block{background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:16px 18px;margin:18px 0;text-align:left}.upi-text{font-size:1.1rem;color:#0f172a;margin-top:8px}.request-token{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:16px 0;padding:12px 14px;border-radius:12px;background:#fff;border:1px dashed #94a3b8}.request-token strong{font-size:1.8rem;letter-spacing:2px}.note{font-size:14px;color:#475569;line-height:1.6;margin:12px 0 18px}.pass-input{padding:14px 16px;border:1px solid #cbd5e1;border-radius:12px;font-size:16px;width:100%;margin-bottom:10px}.modal-actions{display:flex;gap:10px;justify-content:center}.modal-actions button{flex:1;max-width:220px}.small-text{font-size:12px;color:#64748b;margin-top:6px}.input-row{display:flex;gap:10px}.input-row input{flex:1}.form-button{width:100%}.auth-box{display:grid;gap:12px}.auth-box input{width:100%}.auth-box button{width:100%}.error{color:#dc2626;font-size:13px;min-height:18px}.header button{padding:10px 14px}.@media (max-width: 980px){.grid{grid-template-columns:1fr}.summary-grid{grid-template-columns:repeat(2,minmax(150px,1fr))}}@media (max-width:560px){.summary-grid{grid-template-columns:1fr}.header{flex-direction:column;align-items:flex-start}.auth-card{padding:24px}.modal-content{padding:18px}.request-token{flex-direction:column;align-items:flex-start}.modal-actions{flex-direction:column}.modal-actions button{max-width:none}}  </style>
 </head>
 <body>
-  <section id="authScreen" class="auth-screen"><div class="auth-card"><div style="font-size:32px">🛍️</div><h2>Create / Login</h2><p class="notice">Your first 5 stock entries are free. After that, activate the 28-day premium plan.</p><div class="form-group"><label for="vendorName">Owner Name</label><input id="vendorName" placeholder="Rahul Sharma"></div><div class="form-group"><label for="shopName">Shop Name</label><input id="shopName" placeholder="Sharma Traders"></div><div class="form-group"><label for="businessType">Business Type</label><input id="businessType" placeholder="Grocery / Electronics"></div><div class="form-group"><label for="vendorPhone">Phone Number</label><input id="vendorPhone" placeholder="+91 98765 43210"></div><div class="form-group"><label for="vendorEmail">Email</label><input id="vendorEmail" type="email" placeholder="owner@example.com"></div><div class="form-group"><label for="vendorPassword">Password</label><input id="vendorPassword" type="password" placeholder="Minimum 6 characters"></div><button id="signUpButton" style="width:100%">Create / Login</button><p id="authMessage" class="notice">Use the same email to log in again.</p></div></section>
-  <main class="container hide" id="appMain"><header class="header"><div><h1 id="displayShopName">Smart Retail Ledger</h1><p id="displayOwnerName" style="margin:4px 0;color:#64748b">Welcome Back</p><div id="premiumStatus" class="status-badge">Free trial</div></div><button id="logoutButton">Logout</button></header><div class="summary-grid"><div class="mini-card"><span>Total Items</span><strong id="totalItems">0</strong></div><div class="mini-card"><span>Available Stock</span><strong id="availableStock">0</strong></div><div class="mini-card"><span>Low Stock</span><strong id="lowStockCount">0</strong></div><div class="mini-card"><span>Revenue</span><strong id="totalRevenue">₹0</strong></div></div><div class="grid"><section class="card"><h3>Log New Stock</h3><div class="form-group"><label for="productId">Physical Tag ID</label><input id="productId" placeholder="101"></div><div class="form-group"><label for="productName">Product Name</label><input id="productName" placeholder="Rice 5kg"></div><div class="form-group"><label for="purchasePrice">Purchase Price</label><input id="purchasePrice" type="number" min="0" placeholder="40"></div><div class="form-group"><label for="sellingPrice">Selling Price</label><input id="sellingPrice" type="number" min="0" placeholder="50"></div><div class="form-group"><label for="quantity">Quantity</label><input id="quantity" type="number" min="1" placeholder="20"></div><button id="addStockButton">Add Stock</button></section><section class="card"><h3>Inventory List</h3><div id="inventoryList"></div></section><section class="card"><div class="header"><h3>History</h3><button id="clearHistoryButton">Clear History</button></div><div id="historyList"></div></section></div><div id="premiumModal" class="modal" style="display:none"><div class="modal-content"><div style="font-size:40px">👑</div><h2>Premium Required</h2><p style="color:#64748b">Your 5 free entries are complete. Activate Premium for ₹99 for 28 days and continue adding stock.</p><button id="premiumActivateButton">Activate 28-Day Premium</button><button id="premiumCloseButton" style="background:#64748b;margin-left:8px">Close</button></div></div></main>
+  <section id="authScreen" class="auth-screen">
+    <div class="auth-card">
+      <div style="font-size:32px">🛍️</div>
+      <h2>Create / Login</h2>
+      <p class="notice">Your first 5 stock entries are free. After that, premium unlock is available.</p>
+      <div class="auth-box">
+        <input id="vendorName" placeholder="Owner Name" />
+        <input id="shopName" placeholder="Shop Name" />
+        <input id="vendorEmail" type="email" placeholder="Email Address" />
+        <input id="vendorPassword" type="password" placeholder="Password (6+ chars)" />
+        <div id="authMessage" class="error"></div>
+        <button id="signUpButton">Create / Login</button>
+      </div>
+    </div>
+  </section>
+
+  <main class="container hide" id="appMain">
+    <header class="header">
+      <div>
+        <h1 id="displayShopName">Smart Retail Ledger</h1>
+        <p id="displayOwnerName" style="margin:4px 0;color:#64748b">Welcome Back</p>
+        <div id="premiumStatus" class="status-badge">Free trial</div>
+      </div>
+      <button id="logoutButton" class="button-secondary">Logout</button>
+    </header>
+
+    <div class="summary-grid">
+      <div class="mini-card"><span>Total Items</span><strong id="totalItems">0</strong></div>
+      <div class="mini-card"><span>Available Stock</span><strong id="availableStock">0</strong></div>
+      <div class="mini-card"><span>Low Stock</span><strong id="lowStockCount">0</strong></div>
+      <div class="mini-card"><span>Revenue</span><strong id="totalRevenue">₹0</strong></div>
+    </div>
+
+    <div class="grid">
+      <section class="card">
+        <h3>Log New Stock</h3>
+        <div class="form-group"><label for="productId">Physical Tag ID</label><input id="productId" placeholder="101"></div>
+        <div class="form-group"><label for="productName">Product Name</label><input id="productName" placeholder="Rice 5kg"></div>
+        <div class="form-group"><label for="purchasePrice">Purchase Price</label><input id="purchasePrice" type="number" min="0" placeholder="40"></div>
+        <div class="form-group"><label for="sellingPrice">Selling Price</label><input id="sellingPrice" type="number" min="0" placeholder="50"></div>
+        <div class="form-group"><label for="quantity">Quantity</label><input id="quantity" type="number" min="1" placeholder="20"></div>
+        <button id="addStockButton" class="form-button">Add Stock</button>
+      </section>
+
+      <section class="card">
+        <h3>Inventory List</h3>
+        <div id="inventoryList"></div>
+      </section>
+
+      <section class="card">
+        <div class="header" style="margin-bottom:0;align-items:center">
+          <h3 style="margin:0">History</h3>
+          <button id="clearHistoryButton" class="button-secondary">Clear History</button>
+        </div>
+        <div id="historyList"></div>
+      </section>
+    </div>
+
+    <div id="premiumModal" class="modal" style="display:none">
+      <div class="modal-content">
+        <div class="qr-box"><div class="qr-center"><span></span></div></div>
+        <h2>Premium Required</h2>
+        <p class="note">Pay ₹99 using the UPI details below. Then send your request code and payment screenshot to WhatsApp: <strong>9628655528</strong>.</p>
+
+        <div class="payment-block">
+          <div><strong>UPI ID:</strong> <span class="upi-text">akashji124421@ptyes</span></div>
+          <div class="request-token">
+            <span>Request code</span>
+            <strong id="requestCodeLabel">----</strong>
+          </div>
+        </div>
+
+        <div class="note" style="text-align:left;margin-top:0">
+          Note: Send the request code and screenshot of payment to this WhatsApp number: 9628655528
+        </div>
+
+        <input id="premiumPassKey" class="pass-input" type="text" placeholder="Enter pass key" />
+
+        <div class="modal-actions">
+          <button id="premiumActivateButton">Verify & Activate</button>
+          <button id="premiumCloseButton" class="button-secondary">Close</button>
+        </div>
+        <div class="small-text">Pass key = request code + 1234</div>
+      </div>
+    </div>
+  </main>
+
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
     import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
@@ -21,20 +124,31 @@
     try{const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);window.firebaseAuth=auth;window.firebaseDb=db;window.firebaseHelpers={createUserWithEmailAndPassword,signInWithEmailAndPassword,onAuthStateChanged,signOut,doc,setDoc,collection,getDocs,deleteDoc};window.firebaseReady=true}catch(e){console.error(e);window.firebaseReady=false}
   </script>
   <script>
-    (()=>{const $=id=>document.getElementById(id),K={i:'virtualLedger',h:'historyArchive',p:'vendorProfile',pr:'isPremiumUser',a:'premiumActivatedAt'},FREE_LIMIT=5,PREMIUM_DAYS=28,PREMIUM_PRICE=99;let inv=read(K.i,[]),hist=read(K.h,[]),profile=read(K.p,null),premium=read(K.pr,false),premiumAt=read(K.a,null);
-      function read(k,f){try{const v=localStorage.getItem(k);return v===null?f:JSON.parse(v)}catch{return f}}function write(k,v){localStorage.setItem(k,JSON.stringify(v))}function escapeHtml(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
-      function premiumActive(){if(!premium||!premiumAt)return false;return Date.now()-Number(premiumAt)<PREMIUM_DAYS*24*60*60*1000}function canAdd(){if(premiumActive())return true;if(premium){premium=false;write(K.pr,false)}return inv.length<FREE_LIMIT}function updateStatus(){const active=premiumActive();$('premiumStatus').textContent=active?`Premium · ${Math.ceil((PREMIUM_DAYS*86400000-(Date.now()-Number(premiumAt)))/86400000)} days left`:`Free trial · ${Math.min(inv.length,FREE_LIMIT)}/${FREE_LIMIT} entries`}
+    (()=>{const $=id=>document.getElementById(id),K={i:'virtualLedger',h:'historyArchive',p:'vendorProfile',pr:'isPremiumUser',a:'premiumActivatedAt',r:'premiumRequestCode'},FREE_LIMIT=5,PREMIUM_DAYS=28,PREMIUM_PRICE=99,APPEND_KEY='1234';let inv=read(K.i,[]),hist=read(K.h,[]),profile=read(K.p,null),premium=read(K.pr,false),premiumAt=read(K.a,null);
+
+      function read(k,f){try{const v=localStorage.getItem(k);return v===null?f:JSON.parse(v)}catch{return f}}
+      function write(k,v){localStorage.setItem(k,JSON.stringify(v))}
+      function escapeHtml(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#039;'}[c]))}
+      function premiumActive(){if(!premium||!premiumAt)return false;return Date.now()-Number(premiumAt)<PREMIUM_DAYS*24*60*60*1000}
+      function canAdd(){if(premiumActive())return true;if(premium){premium=false;write(K.pr,false)}return inv.length<FREE_LIMIT}
+      function updateStatus(){const active=premiumActive();$('premiumStatus').textContent=active?`Premium · ${Math.ceil((PREMIUM_DAYS*86400000-(Date.now()-Number(premiumAt)))/86400000)} days left`:`Free trial · ${Math.min(inv.length,FREE_LIMIT)}/${FREE_LIMIT} entries`}
+      function generateRequestCode(){return String(Math.floor(1000 + Math.random()*9000))}
+      function ensureRequestCode(){let code=read(K.r,null); if(!code){code=generateRequestCode(); write(K.r,code); } $('requestCodeLabel').textContent=code; return code}
+      function ensurePremiumModal(){const code=ensureRequestCode(); $('premiumPassKey').value=''; return `${code}${APPEND_KEY}`}
+
       async function save(){if(!window.firebaseReady||!window.firebaseAuth.currentUser)return;const u=window.firebaseAuth.currentUser;try{const ref=window.firebaseHelpers.collection(window.firebaseDb,'users',u.uid,'inventory'),old=await window.firebaseHelpers.getDocs(ref);await Promise.all(old.docs.map(d=>window.firebaseHelpers.deleteDoc(d.ref)));await Promise.all(inv.map(item=>window.firebaseHelpers.setDoc(window.firebaseHelpers.doc(ref,item.id),item)));}catch(e){console.error('Save error',e)}}
       async function load(){if(!window.firebaseReady||!window.firebaseAuth.currentUser)return;try{const u=window.firebaseAuth.currentUser,ref=window.firebaseHelpers.collection(window.firebaseDb,'users',u.uid,'inventory'),snap=await window.firebaseHelpers.getDocs(ref);inv=snap.docs.map(d=>d.data());write(K.i,inv);renderAll()}catch(e){console.error('Load error',e)}}
       function renderSummary(){const available=inv.reduce((s,i)=>s+(Number(i.quantity)||0),0),low=inv.filter(i=>(Number(i.quantity)||0)<=5).length,revenue=inv.reduce((s,i)=>s+(Number(i.sellingPrice)||0)*(Number(i.quantity)||0),0);$('totalItems').textContent=inv.length;$('availableStock').textContent=available;$('lowStockCount').textContent=low;$('totalRevenue').textContent=`₹${revenue.toLocaleString('en-IN')}`;updateStatus()}
-      function renderInventory(){const list=$('inventoryList');if(!inv.length){list.innerHTML='<p style="color:#64748b">No inventory items yet.</p>';return}list.innerHTML=inv.map((item,index)=>`<div class="inventory-item"><div><strong>${escapeHtml(item.name||'Unnamed Item')}</strong><small>ID: ${escapeHtml(item.id||'N/A')} · Purchase: ₹${item.purchasePrice||0}</small></div><div class="stock-meta"><span>Qty: <b>${item.quantity||0}</b></span><span>Sell: ₹${item.sellingPrice||0}</span><button class="small-btn sell-btn" data-index="${index}">Sell</button><button class="small-btn danger delete-btn" data-index="${index}">Delete</button></div></div>`).join('');list.querySelectorAll('.sell-btn').forEach(b=>b.onclick=()=>sellStock(Number(b.dataset.index)));list.querySelectorAll('.delete-btn').forEach(b=>b.onclick=()=>deleteStock(Number(b.dataset.index)))}
-      function renderHistory(){const list=$('historyList');list.innerHTML=hist.length?hist.slice().reverse().map(e=>`<div class="history-item"><div><strong>${escapeHtml(e.type||'Update')}</strong><small>${escapeHtml(e.message||'Inventory updated')} · ${new Date(e.time).toLocaleString('en-IN')}</small></div></div>`).join(''):'<p style="color:#64748b">No history yet.</p>'}function renderAll(){renderInventory();renderHistory();renderSummary()}
+      function renderInventory(){const list=$('inventoryList');if(!inv.length){list.innerHTML='<p style="color:#64748b">No inventory items yet.</p>';return}list.innerHTML=inv.map((item,index)=>`<div class="inventory-item"><div class="inventory-meta"><strong>${escapeHtml(item.name||'Item')}</strong><small>${escapeHtml(item.id||'No ID')} • Qty: ${Number(item.quantity)||0}</small></div><div class="inventory-actions"><button class="small-btn" data-action="sell" data-index="${index}">Sell</button><button class="small-btn" style="background:#ef4444" data-action="delete" data-index="${index}">Delete</button></div></div>`).join('');list.querySelectorAll('button[data-action]').forEach(btn=>{btn.onclick=async()=>{const idx=Number(btn.dataset.index),action=btn.dataset.action;if(action==='sell')await sellStock(idx);if(action==='delete')await deleteStock(idx)}})}
+      function renderHistory(){const list=$('historyList');list.innerHTML=hist.length?hist.slice().reverse().map(e=>`<div class="history-item"><div><strong>${escapeHtml(e.type||'Update')}</strong><small>${escapeHtml(new Date(e.time||Date.now()).toLocaleString())}</small></div><span>${escapeHtml(e.message||'')}</span></div>`).join(''):'<p style="color:#64748b">No history yet.</p>'}
       function addHistory(type,message){hist.push({type,message,time:new Date().toISOString()});hist=hist.slice(-50);write(K.h,hist);renderHistory()}
       async function sellStock(i){const item=inv[i];if(!item||Number(item.quantity)<=0)return alert('This item is out of stock.');item.quantity--;if(!item.quantity)addHistory('Sold Out',`${item.name||'Item'} completely sold out.`);write(K.i,inv);renderAll();await save()}
       async function deleteStock(i){const item=inv[i];if(!item||!confirm(`Delete ${item.name||'this item'}?`))return;inv.splice(i,1);write(K.i,inv);addHistory('Stock Removed',`${item.name||'Item'} removed.`);renderAll();await save()}
-      function updateProfile(){if(profile){$('displayShopName').textContent=profile.shopName||'Smart Retail Ledger';$('displayOwnerName').textContent=profile.ownerName||'Welcome Back';$('authScreen').classList.add('hide');$('appMain').classList.remove('hide')}else{$('authScreen').classList.remove('hide');$('appMain').classList.add('hide')}}
-      $('addStockButton').onclick=async()=>{const id=$('productId').value.trim(),item={id,name:$('productName').value.trim(),purchasePrice:Number($('purchasePrice').value),sellingPrice:Number($('sellingPrice').value),quantity:Number($('quantity').value)};if(!id||!item.name||item.quantity<1||item.purchasePrice<0||item.sellingPrice<0)return alert('Please enter valid stock details.');if(inv.some(x=>String(x.id).trim().toLowerCase()===id.toLowerCase()))return alert(`Product ID "${id}" already exists. Please use a unique ID.`);if(!canAdd()){$('premiumModal').style.display='grid';return}inv.push(item);write(K.i,inv);['productId','productName','purchasePrice','sellingPrice','quantity'].forEach(x=>$(x).value='');renderAll();await save()};
-      $('premiumActivateButton').onclick=()=>{premium=true;premiumAt=Date.now();write(K.pr,true);write(K.a,premiumAt);$('premiumModal').style.display='none';renderAll();alert(`Premium activated for ${PREMIUM_DAYS} days. (₹${PREMIUM_PRICE})`)};$('premiumCloseButton').onclick=()=>{$('premiumModal').style.display='none'};$('clearHistoryButton').onclick=()=>{hist=[];write(K.h,hist);renderHistory()};$('logoutButton').onclick=async()=>{if(window.firebaseReady)await window.firebaseHelpers.signOut(window.firebaseAuth);profile=null;write(K.p,null);updateProfile()};
+      function updateProfile(){if(profile){$('displayShopName').textContent=profile.shopName||'Smart Retail Ledger';$('displayOwnerName').textContent=profile.ownerName||'Welcome Back';$('authScreen').classList.add('hide');$('appMain').classList.remove('hide')}else{$('authScreen').classList.remove('hide');$('appMain').classList.add('hide')}} 
+      function renderAll(){renderSummary();renderInventory();renderHistory();updateStatus()}
+
+      $('addStockButton').onclick=async()=>{const id=$('productId').value.trim(),item={id,name:$('productName').value.trim(),purchasePrice:Number($('purchasePrice').value),sellingPrice:Number($('sellingPrice').value),quantity:Number($('quantity').value)};if(!id||!item.name||item.quantity<1||item.purchasePrice<0||item.sellingPrice<0)return alert('Please enter valid stock details.');if(inv.some(x=>String(x.id).trim().toLowerCase()===id.toLowerCase()))return alert(`Product ID "${id}" already exists. Please use a unique ID.`);if(!canAdd()){ensureRequestCode();$('premiumModal').style.display='grid';return}inv.push(item);write(K.i,inv);['productId','productName','purchasePrice','sellingPrice','quantity'].forEach(x=>$(x).value='');renderAll();await save()};
+      $('premiumActivateButton').onclick=()=>{const expected=ensurePremiumModal();const entered=$('premiumPassKey').value.trim();if(!entered){alert('Please enter the pass key sent by the admin.');return}if(entered!==expected){alert('Wrong pass key. Please send the request code and payment screenshot to WhatsApp number 9628655528 and receive the correct pass key.');return}premium=true;premiumAt=Date.now();write(K.pr,true);write(K.a,premiumAt);$('premiumModal').style.display='none';$('premiumPassKey').value='';renderAll();alert(`Premium activated for ${PREMIUM_DAYS} days. (₹${PREMIUM_PRICE})`)};$('premiumCloseButton').onclick=()=>{$('premiumModal').style.display='none';$('premiumPassKey').value=''};$('clearHistoryButton').onclick=()=>{hist=[];write(K.h,hist);renderHistory()};$('logoutButton').onclick=async()=>{if(window.firebaseReady)await window.firebaseHelpers.signOut(window.firebaseAuth);profile=null;write(K.p,null);updateProfile()};
       $('signUpButton').onclick=async()=>{const email=$('vendorEmail').value.trim(),password=$('vendorPassword').value,owner=$('vendorName').value.trim(),shop=$('shopName').value.trim();if(!email||password.length<6)return $('authMessage').textContent='Enter a valid email and 6+ character password.';try{let user;if(window.firebaseReady){try{user=(await window.firebaseHelpers.signInWithEmailAndPassword(window.firebaseAuth,email,password)).user}catch{user=(await window.firebaseHelpers.createUserWithEmailAndPassword(window.firebaseAuth,email,password)).user}}profile={uid:user?.uid||email,email,ownerName:owner,shopName:shop};write(K.p,profile);updateProfile();await load();$('authMessage').textContent=''}catch(e){$('authMessage').textContent=e.message||'Login failed.'}};
       if(window.firebaseReady)window.firebaseHelpers.onAuthStateChanged(window.firebaseAuth,async user=>{if(user){profile=read(K.p,{uid:user.uid,email:user.email});profile.uid=user.uid;write(K.p,profile);updateProfile();await load()}else updateProfile()});renderAll();updateProfile();
     })();
