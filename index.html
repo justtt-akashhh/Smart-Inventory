@@ -1320,7 +1320,7 @@ body {
 <!-- SIGNUP PAGE -->
 <div class="auth-container" id="signupPage">
   <div class="auth-header">
-    <div class="auth-logo">🏪</div>
+    <div class="auth-logo"></div>
     <h1>Create Account</h1>
     <p>Start managing your inventory today</p>
   </div>
@@ -1618,18 +1618,18 @@ body {
       <select id="prodCategory">
         <option value="grocery">🛒 Grocery</option>
         <option value="electronics">📱 Electronics</option>
-        <option value="clothing">👕 Clothing</option>
+        <option value="clothing"> Clothing</option>
         <option value="food">🍔 Food</option>
         <option value="other">📦 Other</option>
       </select>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
       <div class="form-group">
-        <label>Buying Price (₹)</label>
+        <label>Buying Price ()</label>
         <input type="number" id="prodBuyPrice" placeholder="0.00" min="0" step="0.01">
       </div>
       <div class="form-group">
-        <label>Selling Price (₹)</label>
+        <label>Selling Price ()</label>
         <input type="number" id="prodSellPrice" placeholder="0.00" min="0" step="0.01">
       </div>
     </div>
@@ -1685,42 +1685,95 @@ body {
   </div>
 </div>
 
-<!-- PAYMENT MODAL -->
+<!-- PAYMENT MODAL - UPDATED -->
 <div class="modal-overlay" id="paymentModal">
   <div class="modal">
     <div class="modal-handle"></div>
-    <h3>💳 Premium Payment</h3>
-    <p style="font-size:14px;color:var(--text-light);margin-bottom:20px">Scan QR code or use UPI ID to pay ₹99/month</p>
     
-    <div class="qr-section" style="padding:0">
-      <div class="qr-box">
-        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=akashji124421@pyes&pn=Smart Inventory+Premium&am=99&cu=INR" alt="UPI QR Code" id="qrImage">
+    <!-- Step 1: Payment -->
+    <div id="paymentStep1">
+      <h3> Premium Payment</h3>
+      <p style="font-size:14px;color:var(--text-light);margin-bottom:20px">
+        Scan QR code ya UPI ID se ₹99 pay karo
+      </p>
+      
+      <div class="qr-section" style="padding:0">
+        <div class="qr-box">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=akashji124421@pyes&pn=Smart Inventory+Premium&am=99&cu=INR" alt="UPI QR Code" id="qrImage">
+        </div>
+        <div class="upi-id-box">
+          <span class="upi-text" id="upiIdText">akashji124421@pyes</span>
+          <button class="copy-btn" onclick="copyUPI()"><i class="fas fa-copy"></i> Copy</button>
+        </div>
       </div>
-      <div class="upi-id-box">
-        <span class="upi-text" id="upiIdText">akashji124421@pyes</span>
-        <button class="copy-btn" onclick="copyUPI()"><i class="fas fa-copy"></i> Copy</button>
-      </div>
-    </div>
 
-    <div style="margin-top:20px">
-      <div class="form-group">
-        <label>Transaction ID / UTR Number</label>
-        <input type="text" id="transactionId" placeholder="Enter UTR after payment">
-      </div>
-      <button class="btn btn-primary" onclick="verifyPayment()">
-        <i class="fas fa-shield-check"></i> Verify & Activate Premium
+      <button class="btn btn-primary" onclick="generateRequestCode()" style="margin-top:20px">
+        <i class="fas fa-check-circle"></i> Payment Kar Diya Hai
+      </button>
+      <button class="btn btn-secondary" onclick="closeModal('paymentModal')" style="margin-top:10px">
+        Cancel
       </button>
     </div>
 
-    <div style="text-align:center;margin-top:16px">
-      <p style="font-size:12px;color:var(--text-light)">
-        <i class="fas fa-info-circle"></i> Premium will be activated within 24 hours of verification
-      </p>
+    <!-- Step 2: Request Code + WhatsApp -->
+    <div id="paymentStep2" style="display:none">
+      <h3> Verification</h3>
+      
+      <div style="background:linear-gradient(135deg, #6C5CE7, #A29BFE);border-radius:20px;padding:24px;text-align:center;color:white;margin-bottom:20px">
+        <div style="font-size:12px;opacity:0.9;margin-bottom:8px">YOUR REQUEST CODE</div>
+        <div style="font-size:36px;font-weight:800;letter-spacing:2px" id="requestCodeDisplay">REQ-0000</div>
+        <div style="font-size:12px;opacity:0.8;margin-top:8px">Is code ko screenshot ke saath WhatsApp pe bhejo</div>
+      </div>
+
+      <div style="background:#E8F5E9;border-radius:16px;padding:16px;margin-bottom:20px">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+          <i class="fab fa-whatsapp" style="font-size:28px;color:#25D366"></i>
+          <div>
+            <div style="font-weight:700;font-size:14px;color:#1B5E20">WhatsApp pe bhejo</div>
+            <div style="font-size:12px;color:#2E7D32">Request code + payment screenshot</div>
+          </div>
+        </div>
+        <button class="btn" style="background:#25D366;color:white" onclick="sendWhatsApp()">
+          <i class="fab fa-whatsapp"></i> WhatsApp Open Karo
+        </button>
+      </div>
+
+      <div style="background:#FFF3E0;border-radius:16px;padding:16px;margin-bottom:20px">
+        <div style="font-size:13px;color:#E65100;font-weight:600;margin-bottom:8px">
+          <i class="fas fa-info-circle"></i> Kya Hoga Aage?
+        </div>
+        <div style="font-size:12px;color:#BF360C;line-height:1.6">
+          1. Admin tumhara request code dekhega<br>
+          2. OTP batayega<br>
+          3. Tum wo OTP yahan enter karoge<br>
+          4. Premium activate ho jayega! 🎉
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>OTP Enter Karo (Admin se milega)</label>
+        <input type="text" id="otpInput" placeholder="4 digit OTP" maxlength="4" style="text-align:center;font-size:24px;font-weight:800;letter-spacing:8px">
+      </div>
+
+      <button class="btn btn-success" onclick="verifyOTP()">
+        <i class="fas fa-lock-open"></i> Verify & Activate Premium
+      </button>
+      <button class="btn btn-secondary" onclick="closeModal('paymentModal')" style="margin-top:10px">
+        Close
+      </button>
     </div>
 
-    <button class="btn btn-secondary" onclick="closeModal('paymentModal')" style="margin-top:10px">
-      Close
-    </button>
+    <!-- Step 3: Success -->
+    <div id="paymentStep3" style="display:none;text-align:center;padding:40px 20px">
+      <div style="font-size:80px;margin-bottom:20px">🎉</div>
+      <h3 style="color:var(--secondary);margin-bottom:10px">Premium Activated!</h3>
+      <p style="color:var(--text-light);font-size:14px;margin-bottom:30px">
+        Ab tum unlimited products add kar sakte ho!
+      </p>
+      <button class="btn btn-primary" onclick="closeModal('paymentModal');navigateTo('dashboardPage')">
+        <i class="fas fa-home"></i> Go to Dashboard
+      </button>
+    </div>
   </div>
 </div>
 
@@ -1744,6 +1797,8 @@ let products = [];
 let historyLog = [];
 let currentFilter = 'all';
 let sellQty = 1;
+let currentRequestCode = null;
+let requestCodeNumber = null;
 
 // ===== INITIALIZATION =====
 window.addEventListener('load', function() {
@@ -1793,18 +1848,15 @@ function showApp() {
 }
 
 function navigateTo(pageId) {
-  // Hide all pages
   document.querySelectorAll('.page').forEach(function(p) {
     p.classList.remove('active');
   });
   
-  // Show target page
   var targetPage = document.getElementById(pageId);
   if (targetPage) {
     targetPage.classList.add('active');
   }
   
-  // Update nav
   document.querySelectorAll('.nav-item').forEach(function(n) {
     n.classList.remove('active');
   });
@@ -1813,7 +1865,6 @@ function navigateTo(pageId) {
     navItem.classList.add('active');
   }
 
-  // Refresh data
   if (pageId === 'dashboardPage') {
     renderProducts();
     updateStats();
@@ -1839,7 +1890,6 @@ function handleLogin() {
     return;
   }
 
-  // Check localStorage for registered users
   var users = JSON.parse(localStorage.getItem('Smart Inventory_users') || '[]');
   var user = null;
   for (var i = 0; i < users.length; i++) {
@@ -1855,7 +1905,6 @@ function handleLogin() {
     showToast('Welcome back, ' + user.name + '! 🎉', 'success');
     showApp();
   } else if (email === 'demo@Smart Inventory.com' && password === 'demo123') {
-    // Demo login
     currentUser = {
       id: 'demo_user',
       name: 'Demo Vendor',
@@ -1960,7 +2009,6 @@ function saveData() {
 
 // ===== PRODUCT FUNCTIONS =====
 function showAddProductModal() {
-  // Check subscription limit
   if (currentUser.plan === 'free' && products.length >= 5) {
     showToast('Free plan limit reached! Upgrade to add more products.', 'warning');
     navigateTo('subscriptionPage');
@@ -2014,7 +2062,6 @@ function saveProduct() {
   if (isNaN(quantity) || quantity < 0) { showToast('Please enter valid quantity', 'error'); return; }
 
   if (editId) {
-    // Edit existing
     var idx = -1;
     for (var i = 0; i < products.length; i++) {
       if (products[i].id === editId) {
@@ -2034,7 +2081,6 @@ function saveProduct() {
       showToast('Product updated successfully! ✅', 'success');
     }
   } else {
-    // Check limit
     if (currentUser.plan === 'free' && products.length >= 5) {
       showToast('Free plan limit reached!', 'warning');
       closeModal('productModal');
@@ -2142,7 +2188,7 @@ function updateSellTotal() {
   }
   if (!product) return;
   var total = sellQty * product.sellPrice;
-  document.getElementById('sellTotalAmount').textContent = '₹' + total.toFixed(2);
+  document.getElementById('sellTotalAmount').textContent = '' + total.toFixed(2);
 }
 
 function confirmSell() {
@@ -2194,7 +2240,6 @@ function addHistory(type, productName, description) {
     description: description,
     timestamp: new Date().toISOString()
   });
-  // Keep last 100 entries
   if (historyLog.length > 100) {
     historyLog = historyLog.slice(0, 100);
   }
@@ -2242,7 +2287,6 @@ function renderHistory() {
   }
   container.innerHTML = html;
 
-  // Out of stock products
   var oosProducts = [];
   for (var i = 0; i < products.length; i++) {
     if (products[i].quantity <= 0) {
@@ -2317,7 +2361,7 @@ function renderProducts() {
     if (search) {
       container.innerHTML = '<div class="empty-state"><div class="emoji"></div><h3>No results found</h3><p>Try a different search term</p></div>';
     } else {
-      container.innerHTML = '<div class="empty-state"><div class="emoji"></div><h3>No products yet</h3><p>Tap the + button to add your first product</p></div>';
+      container.innerHTML = '<div class="empty-state"><div class="emoji">📦</div><h3>No products yet</h3><p>Tap the + button to add your first product</p></div>';
     }
     return;
   }
@@ -2343,7 +2387,7 @@ function renderProducts() {
     html += '<div class="product-meta">';
     html += '<span>Buy: ₹' + p.buyPrice + '</span>';
     html += '<span>Sell: ₹' + p.sellPrice + '</span>';
-    html += '<span class="' + profitClass + '">' + (profit >= 0 ? '+' : '') + '₹' + profit.toFixed(0) + '/unit</span>';
+    html += '<span class="' + profitClass + '">' + (profit >= 0 ? '+' : '') + '' + profit.toFixed(0) + '/unit</span>';
     html += '</div>';
     html += '<div class="product-actions">';
     html += '<button class="btn-sell" onclick="openSellModal(\'' + p.id + '\')" ' + sellDisabled + '><i class="fas fa-cart-shopping"></i> Sell</button>';
@@ -2387,7 +2431,7 @@ function updateStats() {
       }
     }
   }
-  document.getElementById('statRevenue').textContent = '₹' + totalRevenue.toFixed(0);
+  document.getElementById('statRevenue').textContent = '' + totalRevenue.toFixed(0);
   
   var lowStock = 0;
   var outStock = 0;
@@ -2398,7 +2442,6 @@ function updateStats() {
   document.getElementById('statLowStock').textContent = lowStock;
   document.getElementById('statOutStock').textContent = outStock;
 
-  // Limit warning
   var limitWarning = document.getElementById('limitWarning');
   if (currentUser && currentUser.plan === 'free' && products.length >= 4) {
     limitWarning.style.display = 'flex';
@@ -2417,12 +2460,107 @@ function updateSubscriptionUI() {
   }
 }
 
+// ===== PAYMENT SYSTEM - UPDATED =====
 function showPaymentModal() {
   if (currentUser.plan === 'premium') {
     showToast('You are already on Premium! 🎉', 'success');
     return;
   }
+  
+  document.getElementById('paymentStep1').style.display = 'block';
+  document.getElementById('paymentStep2').style.display = 'none';
+  document.getElementById('paymentStep3').style.display = 'none';
+  document.getElementById('otpInput').value = '';
+  
   document.getElementById('paymentModal').classList.add('active');
+}
+
+function generateRequestCode() {
+  requestCodeNumber = Math.floor(1000 + Math.random() * 9000);
+  currentRequestCode = 'REQ-' + requestCodeNumber;
+  
+  localStorage.setItem('Smart Inventory_pendingCode_' + currentUser.id, currentRequestCode);
+  localStorage.setItem('Smart Inventory_pendingTime_' + currentUser.id, new Date().toISOString());
+  
+  document.getElementById('requestCodeDisplay').textContent = currentRequestCode;
+  
+  document.getElementById('paymentStep1').style.display = 'none';
+  document.getElementById('paymentStep2').style.display = 'block';
+  
+  showToast('Request Code Generated! 📋', 'success');
+}
+
+function sendWhatsApp() {
+  if (!currentRequestCode) {
+    showToast('Please generate request code first', 'error');
+    return;
+  }
+  
+  var whatsappNumber = '919628655528'; // Updated WhatsApp Number
+  
+  var message = 'Namaste! 🙏\n\n' +
+    'Maine Smart Inventory Premium ke liye payment kar diya hai.\n\n' +
+    '📋 Request Code: ' + currentRequestCode + '\n' +
+    '💰 Amount: ₹99\n' +
+    '👤 Name: ' + (currentUser.name || 'User') + '\n' +
+    '📧 Email: ' + (currentUser.email || 'N/A') + '\n\n' +
+    'Payment screenshot attach kar raha hoon. Please OTP bhejo.\n\n' +
+    'Thank you!';
+  
+  var whatsappURL = 'https://wa.me/' + whatsappNumber + '?text=' + encodeURIComponent(message);
+  window.open(whatsappURL, '_blank');
+  
+  showToast('WhatsApp opened! Screenshot attach karo 📸', 'success');
+}
+
+function verifyOTP() {
+  var otpInput = document.getElementById('otpInput').value.trim();
+  
+  if (!otpInput || otpInput.length !== 4) {
+    showToast('Please enter 4-digit OTP', 'error');
+    return;
+  }
+  
+  if (!requestCodeNumber) {
+    showToast('Request code not found. Please restart payment.', 'error');
+    return;
+  }
+  
+  var expectedOTP = requestCodeNumber + 1234;
+  var expectedOTPStr = expectedOTP.toString();
+  
+  if (expectedOTPStr.length > 4) {
+    expectedOTPStr = expectedOTPStr.slice(-4);
+  }
+  
+  if (otpInput === expectedOTPStr) {
+    activatePremium();
+  } else {
+    showToast('❌ Wrong OTP! Please check with admin.', 'error');
+  }
+}
+
+function activatePremium() {
+  currentUser.plan = 'premium';
+  currentUser.premiumActivatedAt = new Date().toISOString();
+  localStorage.setItem('Smart Inventory_currentUser', JSON.stringify(currentUser));
+  
+  var users = JSON.parse(localStorage.getItem('Smart Inventory_users') || '[]');
+  for (var i = 0; i < users.length; i++) {
+    if (users[i].id === currentUser.id) {
+      users[i].plan = 'premium';
+      break;
+    }
+  }
+  localStorage.setItem('Smart Inventory_users', JSON.stringify(users));
+  
+  localStorage.removeItem('Smart Inventory_pendingCode_' + currentUser.id);
+  localStorage.removeItem('Smart Inventory_pendingTime_' + currentUser.id);
+  
+  document.getElementById('paymentStep2').style.display = 'none';
+  document.getElementById('paymentStep3').style.display = 'block';
+  
+  showToast('🎉 Premium activated successfully!', 'success');
 }
 
 function copyUPI() {
@@ -2446,33 +2584,6 @@ function fallbackCopy(text) {
   document.execCommand('copy');
   document.body.removeChild(ta);
   showToast('UPI ID copied! 📋', 'success');
-}
-
-function verifyPayment() {
-  var txnId = document.getElementById('transactionId').value.trim();
-  if (!txnId) {
-    showToast('Please enter transaction ID', 'error');
-    return;
-  }
-
-  // Activate premium
-  currentUser.plan = 'premium';
-  currentUser.premiumActivatedAt = new Date().toISOString();
-  localStorage.setItem('Smart Inventory_currentUser', JSON.stringify(currentUser));
-  
-  // Update in users list
-  var users = JSON.parse(localStorage.getItem('Smart Inventory_users') || '[]');
-  for (var i = 0; i < users.length; i++) {
-    if (users[i].id === currentUser.id) {
-      users[i].plan = 'premium';
-      break;
-    }
-  }
-  localStorage.setItem('Smart Inventory_users', JSON.stringify(users));
-
-  closeModal('paymentModal');
-  showToast('🎉 Premium activated successfully!', 'success');
-  updateSubscriptionUI();
 }
 
 // ===== PROFILE =====
@@ -2515,7 +2626,7 @@ function updateGreeting() {
 }
 
 function getCategoryEmoji(cat) {
-  var emojis = { grocery: '🛒', electronics: '📱', clothing: '', food: '🍔', other: '📦' };
+  var emojis = { grocery: '🛒', electronics: '📱', clothing: '👕', food: '🍔', other: '📦' };
   return emojis[cat] || '📦';
 }
 
@@ -2572,7 +2683,7 @@ function exportData() {
   a.download = 'Smart Inventory_data_' + new Date().toISOString().split('T')[0] + '.json';
   a.click();
   URL.revokeObjectURL(url);
-  showToast('Data exported successfully! ', 'success');
+  showToast('Data exported successfully! 📥', 'success');
 }
 
 function showAbout() {
