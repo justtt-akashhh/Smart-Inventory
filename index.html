@@ -1,19 +1,2593 @@
-@@ -1,13 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Smart Retail Ledger Pro</title><link rel="manifest" href="manifest.json"><meta name="theme-color" content="#4f46e5"><style>*{box-sizing:border-box}body{margin:0;background:#f8fafc;color:#0f172a;font-family:Arial,sans-serif}.container{max-width:1180px;margin:auto;padding:24px}.hide{display:none!important}.auth-screen{min-height:100vh;display:grid;place-items:center;background:#f1f5f9}.auth-card{width:min(90vw,440px);background:#fff;border-radius:20px;padding:30px 28px;box-shadow:0 12px 28px #0f172a14;text-align:center}.notice{color:#475569;font-size:14px}.auth-box{display:grid;gap:12px;margin-top:18px}.auth-box input,.form-group input{width:100%;padding:12px 14px;border:1px solid #cbd5e1;border-radius:10px;font-size:15px}.auth-box button,.form-button,button{padding:12px 16px;border:0;border-radius:12px;background:#4f46e5;color:#fff;font-weight:700;cursor:pointer}.button-secondary{background:#64748b}.header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:18px}.status-badge{display:inline-flex;padding:6px 10px;border-radius:999px;background:#ecfeff;color:#0f766e;font-weight:700;font-size:12px}.summary-grid{display:grid;grid-template-columns:repeat(4,minmax(160px,1fr));gap:16px;margin:20px 0}.mini-card,.card{background:#fff;border-radius:16px;padding:18px;box-shadow:0 8px 18px #0f172a0f}.mini-card span{display:block;color:#64748b;font-size:13px}.mini-card strong{display:block;font-size:28px;margin-top:8px}.grid{display:grid;grid-template-columns:1.2fr 1.6fr 1.3fr;gap:16px}.form-group{margin-bottom:12px}.form-group label{display:block;font-size:13px;color:#475569;margin-bottom:6px}.inventory-item,.history-item{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #e2e8f0}.inventory-meta strong{display:block}.inventory-meta small{color:#64748b}.inventory-actions{display:flex;gap:8px}.small-btn{padding:8px 10px;font-size:12px;border-radius:8px}.error{color:#dc2626;font-size:13px;min-height:18px}@media(max-width:980px){.grid{grid-template-columns:1fr}.summary-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:560px){.summary-grid{grid-template-columns:1fr}.header{align-items:flex-start;flex-direction:column}}</style></head><body>
-<section id="authScreen" class="auth-screen"><div class="auth-card"><div style="font-size:32px">🛍️</div><h2>Login</h2><p class="notice">Smart Retail Ledger</p><div class="auth-box"><input id="vendorName" placeholder="Owner Name"><input id="shopName" placeholder="Shop Name"><input id="vendorEmail" type="email" placeholder="Email Address"><input id="vendorPassword" type="password" placeholder="Password (6+ chars)"><div id="authMessage" class="error"></div><button id="signUpButton">Login</button></div></div></section>
-<main class="container hide" id="appMain"><header class="header"><div><h1 id="displayShopName">Smart Retail Ledger</h1><p id="displayOwnerName" style="margin:4px 0;color:#64748b">Welcome Back</p><div class="status-badge">Supabase backend</div></div><div><button onclick="location.href='reports.html'">Reports</button> <button id="logoutButton" class="button-secondary">Logout</button></div></header><div class="summary-grid"><div class="mini-card"><span>Total Items</span><strong id="totalItems">0</strong></div><div class="mini-card"><span>Available Stock</span><strong id="availableStock">0</strong></div><div class="mini-card"><span>Low Stock</span><strong id="lowStockCount">0</strong></div><div class="mini-card"><span>Revenue</span><strong id="totalRevenue">₹0</strong></div></div><div class="grid"><section class="card"><h3>Log New Stock</h3><div class="form-group"><label>Physical Tag ID</label><input id="productId" placeholder="101"></div><div class="form-group"><label>Product Name</label><input id="productName" placeholder="Rice 5kg"></div><div class="form-group"><label>Purchase Price</label><input id="purchasePrice" type="number" min="0" placeholder="40"></div><div class="form-group"><label>Selling Price</label><input id="sellingPrice" type="number" min="0" placeholder="50"></div><div class="form-group"><label>Quantity</label><input id="quantity" type="number" min="1" placeholder="20"></div><button id="addStockButton">Add Stock</button></section><section class="card"><h3>Inventory List</h3><div id="inventoryList"></div></section><section class="card"><div class="header" style="margin:0"><h3 style="margin:0">History</h3><button id="clearHistoryButton" class="button-secondary">Clear</button></div><div id="historyList"></div></section></div></main>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script><script>
-(()=>{const $=id=>document.getElementById(id),cfg=window.supabase.createClient(window.SUPABASE_URL,window.SUPABASE_ANON_KEY);let inv=[],hist=[],profile=null,user=null;const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));const msg=t=>$('authMessage').textContent=t;
-function render(){const available=inv.reduce((s,i)=>s+(Number(i.quantity)||0),0),low=inv.filter(i=>(Number(i.quantity)||0)<=5).length,revenue=inv.reduce((s,i)=>s+(Number(i.selling_price??i.sellingPrice)||0)*(Number(i.quantity)||0),0);$('totalItems').textContent=inv.length;$('availableStock').textContent=available;$('lowStockCount').textContent=low;$('totalRevenue').textContent='₹'+revenue.toLocaleString('en-IN');$('inventoryList').innerHTML=inv.length?inv.map((x,i)=>`<div class="inventory-item"><div class="inventory-meta"><strong>${esc(x.name)}</strong><small>${esc(x.id)} • Qty: ${Number(x.quantity)||0}</small></div><div class="inventory-actions"><button class="small-btn" data-sell="${i}">Sell</button><button class="small-btn" style="background:#ef4444" data-delete="${i}">Delete</button></div></div>`).join(''):'<p style="color:#64748b">No inventory items yet.</p>';$('historyList').innerHTML=hist.length?hist.slice().reverse().map(x=>`<div class="history-item"><div><strong>${esc(x.type)}</strong><br><small>${esc(x.message)}</small></div><small>${new Date(x.created_at||x.time).toLocaleString('en-IN')}</small></div>`).join(''):'<p style="color:#64748b">No history yet.</p>';document.querySelectorAll('[data-sell]').forEach(b=>b.onclick=()=>sell(+b.dataset.sell));document.querySelectorAll('[data-delete]').forEach(b=>b.onclick=()=>remove(+b.dataset.delete))}
-function show(){if(!profile){$('authScreen').classList.remove('hide');$('appMain').classList.add('hide');return}$('displayShopName').textContent=profile.shop_name||profile.shopName||'Smart Retail Ledger';$('displayOwnerName').textContent=profile.owner_name||profile.ownerName||'Welcome Back';$('authScreen').classList.add('hide');$('appMain').classList.remove('hide')}
-async function load(){if(!user)return;const [i,h,p]=await Promise.all([cfg.from('inventory').select('*').eq('user_id',user.id).order('created_at'),cfg.from('activity').select('*').eq('user_id',user.id).order('created_at',{ascending:false}).limit(50),cfg.from('profiles').select('*').eq('id',user.id).maybeSingle()]);if(i.error||h.error)throw(i.error||h.error);inv=i.data||[];hist=h.data||[];profile=p.data||profile||{email:user.email};show();render()}
-async function activity(type,message){const {data,error}=await cfg.from('activity').insert({user_id:user.id,type,message}).select().single();if(error)throw error;hist.push(data);hist=hist.slice(-50)}
-async function sell(i){const x=inv[i];if(!x||Number(x.quantity)<=0)return alert('This item is out of stock.');const {error}=await cfg.from('inventory').update({quantity:Number(x.quantity)-1,updated_at:new Date().toISOString()}).eq('user_id',user.id).eq('id',x.id);if(error)return alert(error.message);await activity('Sale Recorded',`${x.name} sold: 1`);await load()}
-async function remove(i){const x=inv[i];if(!x||!confirm(`Delete ${x.name||'this item'}?`))return;const {error}=await cfg.from('inventory').delete().eq('user_id',user.id).eq('id',x.id);if(error)return alert(error.message);await activity('Stock Removed',`${x.name} removed.`);await load()}
-$('signUpButton').onclick=async()=>{const email=$('vendorEmail').value.trim(),password=$('vendorPassword').value,owner=$('vendorName').value.trim(),shop=$('shopName').value.trim();if(!email||password.length<6)return msg('Valid email aur 6+ character password enter karein.');msg('Please wait...');let r=await cfg.auth.signInWithPassword({email,password});if(r.error&&['Invalid login credentials','Email not confirmed'].indexOf(r.error.message)<0)return msg(r.error.message);if(r.error)return msg('Email confirm karke phir login karein.');user=r.data.user;profile={id:user.id,email,owner_name:owner,shop_name:shop};await cfg.from('profiles').upsert(profile);await load();msg('')};$('addStockButton').onclick=async()=>{const item={id:$('productId').value.trim(),name:$('productName').value.trim(),purchase_price:Number($('purchasePrice').value),selling_price:Number($('sellingPrice').value),quantity:Number($('quantity').value),user_id:user.id};if(!item.id||!item.name||item.quantity<1||item.purchase_price<0||item.selling_price<0)return alert('Please enter valid stock details.');if(inv.some(x=>String(x.id).toLowerCase()===item.id.toLowerCase()))return alert('Product ID already exists.');const {error}=await cfg.from('inventory').insert(item);if(error)return alert(error.message);await activity('Stock Added',`${item.name} added.`);['productId','productName','purchasePrice','sellingPrice','quantity'].forEach(x=>$(x).value='');await load()};$('clearHistoryButton').onclick=async()=>{if(!user)return;await cfg.from('activity').delete().eq('user_id',user.id);await load()};$('logoutButton').onclick=async()=>{await cfg.auth.signOut();user=null;profile=null;inv=[];hist=[];show();render()};cfg.auth.getSession().then(async({data})=>{user=data.session?.user||null;if(user)await load();else show();render()});cfg.auth.onAuthStateChange(async(_,session)=>{if(session?.user&&!user){user=session.user;await load()}else if(!session){user=null;profile=null;show()}})})();</script></body></html>
-<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Smart Retail Ledger Pro</title><link rel="manifest" href="manifest.json"><style>*{box-sizing:border-box}body{margin:0;background:#f8fafc;color:#0f172a;font-family:Arial,sans-serif}.container{max-width:1180px;margin:auto;padding:16px}.hide{display:none!important}.auth-screen{min-height:100vh;display:grid;place-items:center;background:#f1f5f9;padding:16px}.auth-card,.card,.payment-card{background:#fff;border-radius:18px;padding:20px;box-shadow:0 8px 24px #0f172a12}.auth-card{width:min(100%,440px);text-align:center}.auth-box{display:grid;gap:11px;margin-top:18px}.auth-box input,.form-group input,.search{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:10px;font-size:15px}.button,button{border:0;border-radius:10px;padding:11px 15px;background:#4f46e5;color:#fff;font-weight:700;cursor:pointer}.secondary{background:#64748b}.danger{background:#ef4444}.header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}.summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0}.mini-card{background:#fff;border-radius:14px;padding:15px;box-shadow:0 5px 16px #0f172a0d}.mini-card span{display:block;color:#64748b;font-size:13px}.mini-card strong{display:block;font-size:25px;margin-top:7px}.grid{display:grid;grid-template-columns:1.1fr 1.6fr 1.3fr;gap:14px}.form-group{margin-bottom:11px}.form-group label{display:block;font-size:13px;color:#475569;margin-bottom:5px}.inventory-item,.history-item{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid #e2e8f0}.inventory-meta strong,.inventory-meta small{display:block}.inventory-meta small{color:#64748b}.inventory-actions{display:flex;gap:6px;align-items:center}.small{padding:8px 10px;font-size:12px}.error{color:#dc2626;min-height:18px;font-size:13px}.payment-overlay{position:fixed;inset:0;background:#f1f5f9ee;z-index:5;overflow:auto;padding:18px}.payment-card{max-width:560px;margin:20px auto}.upi{font-size:18px;font-weight:700;background:#ecfeff;color:#0f766e;padding:12px;border-radius:10px;word-break:break-all}.code{font-size:27px;letter-spacing:5px;font-weight:800;text-align:center;background:#f8fafc;padding:14px;border-radius:10px;margin:12px 0}.instruction{background:#fff3cd;border:1px solid #ffc107;color:#856404;padding:14px;border-radius:10px;margin:14px 0;font-size:14px;line-height:1.5}.instruction a{color:#0b5394;text-decoration:underline;font-weight:700}.qr{display:block;width:min(100%,250px);margin:12px auto;border-radius:10px}.notice{color:#475569;font-size:14px}@media(max-width:900px){.grid{grid-template-columns:1fr}}@media(max-width:600px){.container{padding:12px}.header{align-items:stretch;flex-direction:column}.header>div:last-child{display:flex;gap:8px;flex-wrap:wrap}.summary-grid{grid-template-columns:repeat(2,1fr)}.summary-grid strong{font-size:22px}.inventory-item,.history-item{align-items:flex-start;flex-direction:column}.inventory-actions{width:100%}.inventory-actions button{flex:1}}@media(max-width:360px){.summary-grid{grid-template-columns:1fr}}</style></head><body>
-<section id="authScreen" class="auth-screen"><div class="auth-card"><div style="font-size:32px">🛍️</div><h2>Login</h2><p class="notice">Smart Retail Ledger</p><div class="auth-box"><input id="vendorName" placeholder="Owner Name"><input id="shopName" placeholder="Shop Name"><input id="vendorEmail" type="email" placeholder="Email Address"><input id="vendorPassword" type="password" placeholder="Password (6+ chars)"><div id="authMessage" class="error"></div><button id="loginButton">Login</button></div></div></section>
-<div id="paymentGate" class="payment-overlay hide"><div class="payment-card"><h2>🔒 Activate your account</h2><p class="notice">Payment karne ke baad activation process complete karo.</p><div style="background:#e8f5e9;border:1px solid #4caf50;padding:12px;border-radius:10px;margin:12px 0"><strong style="color:#2e7d32">✓ Your Activation Request Key:</strong><div id="activationCode" class="code"></div></div><div class="upi">💳 UPI: akashji124421@ptyes</div><div class="instruction">📱 <b>Payment Process:</b><br>1. UPI ke through payment karo<br>2. Payment ka screenshot lo<br>3. Neeche diye gaye WhatsApp number par screenshot aur above key bhejo<br>4. Owner approval ke baad OTP milega<br>5. OTP enter karke app open karo</div><a href="https://wa.me/919628655528?text=Mera%20activation%20request%20key%20aur%20payment%20ka%20screenshot%20attached%20hai" class="instruction" style="background:#25d366;border-color:#25d366;color:#fff;text-align:center;display:block;text-decoration:none;margin:12px 0">📲 WhatsApp par Message Bhejo (9628655528)</a><hr><p class="notice"><b>Approval ke baad:</b></p><input id="approvalOtp" class="search" inputmode="numeric" placeholder="WhatsApp se mila OTP enter karo"><button id="verifyPayment" style="margin-top:10px;width:100%">Verify & Start App</button><p id="paymentMessage" class="error"></p></div></div>
-<main id="appMain" class="container hide"><header class="header"><div><h1 id="displayShopName">Smart Retail Ledger</h1><p id="displayOwnerName" style="margin:4px 0;color:#64748b">Welcome Back</p><span class="notice">Supabase backend</span></div><div><button onclick="location.href='reports.html'">Reports</button><button id="logoutButton" class="secondary">Logout</button></div></header><div class="summary-grid"><div class="mini-card"><span>Total Items</span><strong id="totalItems">0</strong></div><div class="mini-card"><span>Available Stock</span><strong id="availableStock">0</strong></div><div class="mini-card"><span>Low Stock</span><strong id="lowStockCount">0</strong></div><div class="mini-card"><span>Revenue</span><strong id="totalRevenue">₹0</strong></div></div><div class="grid"><section class="card"><h3>Log New Stock</h3><div class="form-group"><label>Physical Tag ID</label><input id="productId" placeholder="101"></div><div class="form-group"><label>Product Name</label><input id="productName" placeholder="Rice 5kg"></div><div class="form-group"><label>Purchase Price</label><input id="purchasePrice" type="number" min="0" placeholder="40"></div><div class="form-group"><label>Selling Price</label><input id="sellingPrice" type="number" min="0" placeholder="50"></div><div class="form-group"><label>Quantity</label><input id="quantity" type="number" min="1" placeholder="20"></div><button id="addStockButton">Add Stock</button></section><section class="card"><h3>Inventory List</h3><input id="inventorySearch" class="search" placeholder="Search by product name or tag ID"><div id="inventoryList"></div></section><section class="card"><div class="header"><h3 style="margin:0">History</h3><button id="clearHistoryButton" class="secondary">Clear</button></div><div id="historyList"></div></section></div></main>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="supabase-config.js"></script><script>(async()=>{const $=id=>document.getElementById(id),db=window.supabase.createClient(window.SUPABASE_URL,window.SUPABASE_ANON_KEY);let user=null,profile=null,inv=[],hist=[],request=null;const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));const setMsg=(id,t)=>$(id).textContent=t;function render(){const q=($('inventorySearch').value||'').toLowerCase(),list=inv.filter(x=>String(x.name).toLowerCase().includes(q)||String(x.id).toLowerCase().includes(q)),available=inv.reduce((s,x)=>s+(+x.quantity||0),0),low=inv.filter(x=>(+x.quantity||0)<=5).length,revenue=inv.reduce((s,x)=>s+(+x.selling_price||0)*(+x.quantity||0),0);$('totalItems').textContent=inv.length;$('availableStock').textContent=available;$('lowStockCount').textContent=low;$('totalRevenue').textContent='₹'+revenue.toLocaleString('en-IN');$('inventoryList').innerHTML=list.length?list.map(x=>{const i=inv.indexOf(x);return `<div class="inventory-item"><div class="inventory-meta"><strong>${esc(x.name)}</strong><small>${esc(x.id)} • Qty: ${x.quantity||0}</small></div><div class="inventory-actions"><button class="small" data-sell="${i}">Sell</button><button class="small danger" data-del="${i}">Delete</button></div></div>`}).join(''):'<p class="notice">No matching inventory items.</p>';$('historyList').innerHTML=hist.length?hist.map(x=>`<div class="history-item"><div><b>${esc(x.type)}</b><br><small>${esc(x.message)}</small></div><small>${new Date(x.created_at).toLocaleString('en-IN')}</small></div>`).join(''):'<p class="notice">No history yet.</p>';document.querySelectorAll('[data-sell]').forEach(b=>b.onclick=()=>sell(+b.dataset.sell));document.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>remove(+b.dataset.del))}function showApp(){$('authScreen').classList.add('hide');$('appMain').classList.remove('hide');$('displayShopName').textContent=profile?.shop_name||'Smart Retail Ledger';$('displayOwnerName').textContent=profile?.owner_name||'Welcome Back'}async function loadData(){const [a,b,c]=await Promise.all([db.from('inventory').select('*').eq('user_id',user.id).order('created_at'),db.from('activity').select('*').eq('user_id',user.id).order('created_at',{ascending:false}).limit(50),db.from('profiles').select('*').eq('id',user.id).maybeSingle()]);if(a.error||b.error)throw(a.error||b.error);inv=a.data||[];hist=b.data||[];profile=c.data||profile}async function gate(){let r=await db.from('payment_requests').select('*').eq('user_id',user.id).maybeSingle();if(!r.data){const code=String(Math.floor(100000+Math.random()*900000));const x=await db.from('payment_requests').insert({user_id:user.id,activation_code:code}).select().single();if(x.error)throw x.error;r={data:x.data}}request=r.data;$('activationCode').textContent=request.activation_code;$('paymentGate').classList.remove('hide')}async function activity(type,message){await db.from('activity').insert({user_id:user.id,type,message})}async function sell(i){const x=inv[i];if(!x||x.quantity<=0)return alert('This item is out of stock.');await db.from('inventory').update({quantity:x.quantity-1,updated_at:new Date().toISOString()}).eq('user_id',user.id).eq('id',x.id);await activity('Sale Recorded',`${x.name} sold: 1`);await loadData();render()}async function remove(i){const x=inv[i];if(!x||!confirm(`Delete ${x.name}?`))return;await db.from('inventory').delete().eq('user_id',user.id).eq('id',x.id);await activity('Stock Removed',`${x.name} removed.`);await loadData();render()}$('loginButton').onclick=async()=>{const email=$('vendorEmail').value.trim(),password=$('vendorPassword').value;if(!email||password.length<6)return setMsg('authMessage','Valid email aur 6+ character password enter karein.');setMsg('authMessage','Please wait...');const r=await db.auth.signInWithPassword({email,password});if(r.error)return setMsg('authMessage',r.error.message);user=r.data.user;await db.from('profiles').upsert({id:user.id,email,owner_name:$('vendorName').value.trim(),shop_name:$('shopName').value.trim()});await loadData();await gate();setMsg('authMessage','')}$('verifyPayment').onclick=async()=>{const r=await db.from('payment_approvals').select('approved_otp').eq('request_id',request.id).maybeSingle();if(r.error||!r.data)return setMsg('paymentMessage','Abhi approval pending hai. WhatsApp par status puchhen.');if($('approvalOtp').value.trim()!==r.data.approved_otp)return setMsg('paymentMessage','OTP galat hai.');$('paymentGate').classList.add('hide');showApp();render()}$('addStockButton').onclick=async()=>{const item={user_id:user.id,id:$('productId').value.trim(),name:$('productName').value.trim(),purchase_price:+$('purchasePrice').value,selling_price:+$('sellingPrice').value,quantity:+$('quantity').value};if(!item.id||!item.name||item.quantity<1||item.purchase_price<0||item.selling_price<0)return alert('Please enter valid stock details.');if(inv.some(x=>String(x.id).toLowerCase()===item.id.toLowerCase()))return alert('Product ID already exists. Use different tag ID.');const r=await db.from('inventory').insert(item);if(r.error)return alert(r.error.message);await activity('Stock Added',`${item.name} added.`);['productId','productName','purchasePrice','sellingPrice','quantity'].forEach(x=>$(x).value='');await loadData();render()};$('inventorySearch').oninput=render;$('clearHistoryButton').onclick=async()=>{await db.from('activity').delete().eq('user_id',user.id);await loadData();render()};$('logoutButton').onclick=async()=>{await db.auth.signOut();location.reload()};const s=await db.auth.getSession();if(s.data.session){user=s.data.session.user;await loadData();await gate()}else{$('authScreen').classList.remove('hide')}render()})().catch(e=>{console.error(e);alert(e.message||'App error')});</script></body></html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Vyapaar - Vendor Inventory Manager</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #6C5CE7;
+  --primary-dark: #5A4BD1;
+  --primary-light: #A29BFE;
+  --secondary: #00B894;
+  --accent: #FDCB6E;
+  --danger: #E17055;
+  --bg: #F8F9FE;
+  --card: #FFFFFF;
+  --text: #2D3436;
+  --text-light: #636E72;
+  --border: #E8E8F0;
+  --shadow: 0 2px 20px rgba(108, 92, 231, 0.08);
+  --shadow-lg: 0 8px 40px rgba(108, 92, 231, 0.15);
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* SPLASH SCREEN */
+.splash-screen {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(135deg, #6C5CE7 0%, #A29BFE 50%, #74B9FF 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  transition: opacity 0.5s, visibility 0.5s;
+}
+
+.splash-screen.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.splash-logo {
+  width: 100px;
+  height: 100px;
+  background: white;
+  border-radius: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  margin-bottom: 20px;
+  animation: splashPulse 1.5s ease-in-out infinite;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+}
+
+@keyframes splashPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.splash-title {
+  color: white;
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.splash-subtitle {
+  color: rgba(255,255,255,0.8);
+  font-size: 14px;
+  margin-top: 8px;
+  font-weight: 400;
+}
+
+/* AUTH PAGES */
+.auth-container {
+  min-height: 100vh;
+  display: none;
+  flex-direction: column;
+  background: var(--bg);
+}
+
+.auth-container.active {
+  display: flex;
+}
+
+.auth-header {
+  background: linear-gradient(135deg, #6C5CE7 0%, #A29BFE 100%);
+  padding: 50px 30px 40px;
+  border-radius: 0 0 40px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -30%;
+  width: 200px;
+  height: 200px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 50%;
+}
+
+.auth-header::after {
+  content: '';
+  position: absolute;
+  bottom: -20%;
+  left: -20%;
+  width: 150px;
+  height: 150px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 50%;
+}
+
+.auth-logo {
+  width: 70px;
+  height: 70px;
+  background: white;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  margin: 0 auto 16px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+  position: relative;
+  z-index: 1;
+}
+
+.auth-header h1 {
+  color: white;
+  font-size: 26px;
+  font-weight: 800;
+  position: relative;
+  z-index: 1;
+}
+
+.auth-header p {
+  color: rgba(255,255,255,0.85);
+  font-size: 14px;
+  margin-top: 6px;
+  position: relative;
+  z-index: 1;
+}
+
+.auth-form {
+  padding: 30px 24px;
+  flex: 1;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-light);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-group input, .form-group select {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid var(--border);
+  border-radius: 14px;
+  font-size: 15px;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.3s;
+  background: white;
+  color: var(--text);
+}
+
+.form-group input:focus, .form-group select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(108, 92, 231, 0.1);
+}
+
+.form-group input::placeholder {
+  color: #B2BEC3;
+}
+
+.btn {
+  width: 100%;
+  padding: 16px;
+  border: none;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #6C5CE7, #A29BFE);
+  color: white;
+  box-shadow: 0 4px 20px rgba(108, 92, 231, 0.4);
+}
+
+.btn-primary:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 10px rgba(108, 92, 231, 0.3);
+}
+
+.btn-secondary {
+  background: white;
+  color: var(--primary);
+  border: 2px solid var(--primary);
+}
+
+.btn-success {
+  background: linear-gradient(135deg, #00B894, #55EFC4);
+  color: white;
+  box-shadow: 0 4px 20px rgba(0, 184, 148, 0.4);
+}
+
+.auth-switch {
+  text-align: center;
+  margin-top: 24px;
+  font-size: 14px;
+  color: var(--text-light);
+}
+
+.auth-switch a {
+  color: var(--primary);
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  margin: 24px 0;
+  gap: 12px;
+}
+
+.auth-divider::before, .auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.auth-divider span {
+  font-size: 12px;
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+/* MAIN APP */
+.app-container {
+  display: none;
+  min-height: 100vh;
+  padding-bottom: 90px;
+}
+
+.app-container.active {
+  display: block;
+}
+
+/* Top Bar */
+.top-bar {
+  background: linear-gradient(135deg, #6C5CE7, #A29BFE);
+  padding: 20px 20px 24px;
+  border-radius: 0 0 30px 30px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.top-bar-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.top-bar h2 {
+  color: white;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.top-bar-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.top-bar-btn {
+  width: 40px;
+  height: 40px;
+  background: rgba(255,255,255,0.2);
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  backdrop-filter: blur(10px);
+}
+
+.top-bar-btn:active {
+  background: rgba(255,255,255,0.3);
+  transform: scale(0.95);
+}
+
+/* Stats Cards */
+.stats-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding: 20px;
+  margin-top: -10px;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::after {
+  content: '';
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  opacity: 0.1;
+}
+
+.stat-card.purple::after { background: var(--primary); }
+.stat-card.green::after { background: var(--secondary); }
+.stat-card.orange::after { background: var(--accent); }
+.stat-card.red::after { background: var(--danger); }
+
+.stat-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+.stat-icon.purple { background: rgba(108,92,231,0.1); color: var(--primary); }
+.stat-icon.green { background: rgba(0,184,148,0.1); color: var(--secondary); }
+.stat-icon.orange { background: rgba(253,203,110,0.2); color: #E17055; }
+.stat-icon.red { background: rgba(225,112,85,0.1); color: var(--danger); }
+
+.stat-value {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--text-light);
+  margin-top: 2px;
+  font-weight: 500;
+}
+
+/* Search Bar */
+.search-container {
+  padding: 0 20px;
+  margin-bottom: 16px;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 16px;
+  padding: 12px 16px;
+  box-shadow: var(--shadow);
+  gap: 10px;
+}
+
+.search-box i {
+  color: var(--text-light);
+  font-size: 18px;
+}
+
+.search-box input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 15px;
+  font-family: 'Inter', sans-serif;
+  background: transparent;
+  color: var(--text);
+}
+
+/* Section Headers */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  margin-bottom: 14px;
+}
+
+.section-header h3 {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.section-header .see-all {
+  font-size: 13px;
+  color: var(--primary);
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* Product Cards */
+.product-list {
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.product-card {
+  background: white;
+  border-radius: 18px;
+  padding: 16px;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.product-card:active {
+  transform: scale(0.98);
+}
+
+.product-card.out-of-stock {
+  border-left: 4px solid var(--danger);
+}
+
+.product-card.low-stock {
+  border-left: 4px solid var(--accent);
+}
+
+.product-emoji {
+  width: 50px;
+  height: 50px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.product-emoji.cat-food { background: #FFF3E0; }
+.product-emoji.cat-electronics { background: #E3F2FD; }
+.product-emoji.cat-clothing { background: #F3E5F5; }
+.product-emoji.cat-grocery { background: #E8F5E9; }
+.product-emoji.cat-other { background: #F5F5F5; }
+
+.product-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.product-name {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.product-meta {
+  display: flex;
+  gap: 12px;
+  font-size: 12px;
+  color: var(--text-light);
+  flex-wrap: wrap;
+}
+
+.product-meta span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.product-meta .profit {
+  color: var(--secondary);
+  font-weight: 600;
+}
+
+.product-meta .loss {
+  color: var(--danger);
+  font-weight: 600;
+}
+
+.product-qty {
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.product-qty .qty-num {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.product-qty .qty-label {
+  font-size: 10px;
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+.product-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.product-actions button {
+  flex: 1;
+  padding: 8px;
+  border: none;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  transition: all 0.2s;
+}
+
+.product-actions button:active {
+  transform: scale(0.95);
+}
+
+.btn-sell {
+  background: linear-gradient(135deg, #00B894, #55EFC4);
+  color: white;
+}
+
+.btn-edit {
+  background: rgba(108,92,231,0.1);
+  color: var(--primary);
+}
+
+.btn-delete {
+  background: rgba(225,112,85,0.1);
+  color: var(--danger);
+}
+
+/* Bottom Navigation */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  padding: 8px 16px;
+  padding-bottom: max(8px, env(safe-area-inset-bottom));
+  display: flex;
+  justify-content: space-around;
+  box-shadow: 0 -4px 30px rgba(0,0,0,0.06);
+  border-radius: 24px 24px 0 0;
+  z-index: 1000;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  border-radius: 12px;
+  position: relative;
+}
+
+.nav-item.active {
+  background: rgba(108,92,231,0.08);
+}
+
+.nav-item i {
+  font-size: 20px;
+  color: var(--text-light);
+  transition: all 0.3s;
+}
+
+.nav-item.active i {
+  color: var(--primary);
+}
+
+.nav-item span {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-light);
+  font-family: 'Inter', sans-serif;
+}
+
+.nav-item.active span {
+  color: var(--primary);
+}
+
+.nav-badge {
+  position: absolute;
+  top: 2px;
+  right: 4px;
+  width: 18px;
+  height: 18px;
+  background: var(--danger);
+  color: white;
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Pages */
+.page {
+  display: none;
+}
+
+.page.active {
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 5000;
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+}
+
+.modal-overlay.active {
+  display: flex;
+  animation: fadeIn 0.3s ease;
+}
+
+.modal {
+  background: white;
+  border-radius: 28px 28px 0 0;
+  padding: 24px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.modal-handle {
+  width: 40px;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  margin: 0 auto 20px;
+}
+
+.modal h3 {
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 20px;
+}
+
+/* History */
+.history-item {
+  background: white;
+  border-radius: 16px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.history-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.history-icon.sold { background: rgba(0,184,148,0.1); color: var(--secondary); }
+.history-icon.added { background: rgba(108,92,231,0.1); color: var(--primary); }
+.history-icon.outofstock { background: rgba(225,112,85,0.1); color: var(--danger); }
+.history-icon.edited { background: rgba(253,203,110,0.2); color: #E17055; }
+
+.history-info {
+  flex: 1;
+}
+
+.history-info h4 {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.history-info p {
+  font-size: 12px;
+  color: var(--text-light);
+  margin-top: 2px;
+}
+
+.history-time {
+  font-size: 11px;
+  color: var(--text-light);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* Subscription Page */
+.sub-card {
+  background: linear-gradient(135deg, #6C5CE7, #A29BFE);
+  border-radius: 24px;
+  padding: 28px 24px;
+  margin: 20px;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.sub-card::before {
+  content: '';
+  position: absolute;
+  top: -30px;
+  right: -30px;
+  width: 120px;
+  height: 120px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 50%;
+}
+
+.sub-card .crown {
+  font-size: 40px;
+  margin-bottom: 12px;
+}
+
+.sub-card h3 {
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.sub-card p {
+  font-size: 14px;
+  opacity: 0.9;
+  line-height: 1.5;
+}
+
+.sub-price {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-top: 16px;
+}
+
+.sub-price .amount {
+  font-size: 36px;
+  font-weight: 800;
+}
+
+.sub-price .period {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.sub-features {
+  padding: 0 20px;
+}
+
+.sub-feature {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.sub-feature:last-child {
+  border-bottom: none;
+}
+
+.sub-feature i {
+  width: 32px;
+  height: 32px;
+  background: rgba(108,92,231,0.1);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  font-size: 14px;
+}
+
+.sub-feature span {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* QR Code Section */
+.qr-section {
+  padding: 20px;
+  text-align: center;
+}
+
+.qr-box {
+  background: white;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: var(--shadow-lg);
+  display: inline-block;
+  margin-bottom: 16px;
+}
+
+.qr-box img {
+  width: 200px;
+  height: 200px;
+}
+
+.upi-id-box {
+  background: var(--bg);
+  border-radius: 14px;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+}
+
+.upi-id-box .upi-text {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  font-family: monospace;
+}
+
+.upi-id-box .copy-btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 60px 30px;
+}
+
+.empty-state .emoji {
+  font-size: 64px;
+  margin-bottom: 16px;
+}
+
+.empty-state h3 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.empty-state p {
+  font-size: 14px;
+  color: var(--text-light);
+  line-height: 1.5;
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-100px);
+  background: var(--text);
+  color: white;
+  padding: 14px 24px;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 600;
+  z-index: 9999;
+  transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 90%;
+}
+
+.toast.show {
+  transform: translateX(-50%) translateY(0);
+}
+
+.toast.success { background: var(--secondary); }
+.toast.error { background: var(--danger); }
+.toast.warning { background: #FDCB6E; color: var(--text); }
+
+/* FAB */
+.fab {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, #6C5CE7, #A29BFE);
+  border: none;
+  border-radius: 18px;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 6px 25px rgba(108,92,231,0.4);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+
+.fab:active {
+  transform: scale(0.9);
+}
+
+/* Filter Chips */
+.filter-chips {
+  display: flex;
+  gap: 8px;
+  padding: 0 20px;
+  margin-bottom: 16px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.filter-chips::-webkit-scrollbar { display: none; }
+
+.chip {
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  border: 2px solid var(--border);
+  background: white;
+  color: var(--text-light);
+  cursor: pointer;
+  white-space: nowrap;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.3s;
+}
+
+.chip.active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+/* Limit Warning */
+.limit-warning {
+  background: linear-gradient(135deg, #FDCB6E, #F39C12);
+  border-radius: 16px;
+  padding: 16px 20px;
+  margin: 0 20px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: white;
+}
+
+.limit-warning i {
+  font-size: 24px;
+}
+
+.limit-warning .limit-text h4 {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.limit-warning .limit-text p {
+  font-size: 12px;
+  opacity: 0.9;
+  margin-top: 2px;
+}
+
+.limit-warning .upgrade-btn {
+  margin-left: auto;
+  background: white;
+  color: #F39C12;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  white-space: nowrap;
+}
+
+/* Profile Section */
+.profile-header {
+  text-align: center;
+  padding: 30px 20px;
+}
+
+.profile-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, #6C5CE7, #A29BFE);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  color: white;
+  margin: 0 auto 14px;
+  font-weight: 800;
+}
+
+.profile-name {
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.profile-email {
+  font-size: 14px;
+  color: var(--text-light);
+  margin-top: 4px;
+}
+
+.profile-plan {
+  display: inline-block;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-top: 10px;
+}
+
+.profile-plan.free {
+  background: rgba(108,92,231,0.1);
+  color: var(--primary);
+}
+
+.profile-plan.premium {
+  background: linear-gradient(135deg, #FDCB6E, #F39C12);
+  color: white;
+}
+
+.settings-list {
+  padding: 0 20px;
+}
+
+.settings-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  background: white;
+  border-radius: 16px;
+  margin-bottom: 10px;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  border: none;
+  width: 100%;
+  text-align: left;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.2s;
+}
+
+.settings-item:active {
+  transform: scale(0.98);
+}
+
+.settings-item .s-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+
+.settings-item .s-text {
+  flex: 1;
+}
+
+.settings-item .s-text h4 {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.settings-item .s-text p {
+  font-size: 12px;
+  color: var(--text-light);
+  margin-top: 2px;
+}
+
+.settings-item .s-arrow {
+  color: var(--text-light);
+  font-size: 14px;
+}
+
+/* Sell Modal Quantity */
+.sell-qty-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.sell-qty-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  border: 2px solid var(--border);
+  background: white;
+  font-size: 22px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  color: var(--primary);
+  font-family: 'Inter', sans-serif;
+}
+
+.sell-qty-btn:active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.sell-qty-num {
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--text);
+  min-width: 60px;
+  text-align: center;
+}
+
+/* Responsive */
+@media (min-width: 500px) {
+  body {
+    max-width: 430px;
+    margin: 0 auto;
+    box-shadow: 0 0 40px rgba(0,0,0,0.1);
+    min-height: 100vh;
+  }
+  .bottom-nav {
+    max-width: 430px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .fab {
+    right: calc(50% - 195px);
+  }
+  .toast {
+    max-width: 380px;
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 0; }
+
+/* OOS Badge */
+.oos-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: var(--danger);
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Date filter */
+.date-filter {
+  display: flex;
+  gap: 8px;
+  padding: 0 20px;
+  margin-bottom: 16px;
+}
+
+.date-filter select {
+  flex: 1;
+  padding: 10px 14px;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  font-size: 13px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  color: var(--text);
+  background: white;
+  cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+<!-- Splash Screen -->
+<div class="splash-screen" id="splashScreen">
+  <div class="splash-logo"></div>
+  <div class="splash-title">Vyapaar</div>
+  <div class="splash-subtitle">Smart Inventory for Smart Vendors</div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- LOGIN PAGE -->
+<div class="auth-container" id="loginPage">
+  <div class="auth-header">
+    <div class="auth-logo">🏪</div>
+    <h1>Welcome Back!</h1>
+    <p>Sign in to manage your inventory</p>
+  </div>
+  <div class="auth-form">
+    <div class="form-group">
+      <label>Email Address</label>
+      <input type="email" id="loginEmail" placeholder="Enter your email">
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="loginPassword" placeholder="Enter your password">
+    </div>
+    <button class="btn btn-primary" onclick="handleLogin()" style="margin-top:8px">
+      <i class="fas fa-sign-in-alt"></i> Sign In
+    </button>
+    <div class="auth-divider"><span>OR</span></div>
+    <button class="btn btn-secondary" onclick="showSignup()">
+      <i class="fas fa-user-plus"></i> Create New Account
+    </button>
+    <div style="text-align:center;margin-top:20px;font-size:12px;color:var(--text-light)">
+      Demo: demo@vyapaar.com / demo123
+    </div>
+  </div>
+</div>
+
+<!-- SIGNUP PAGE -->
+<div class="auth-container" id="signupPage">
+  <div class="auth-header">
+    <div class="auth-logo">🏪</div>
+    <h1>Create Account</h1>
+    <p>Start managing your inventory today</p>
+  </div>
+  <div class="auth-form">
+    <div class="form-group">
+      <label>Full Name</label>
+      <input type="text" id="signupName" placeholder="Enter your name">
+    </div>
+    <div class="form-group">
+      <label>Shop Name</label>
+      <input type="text" id="signupShop" placeholder="Enter your shop name">
+    </div>
+    <div class="form-group">
+      <label>Phone Number</label>
+      <input type="tel" id="signupPhone" placeholder="Enter phone number">
+    </div>
+    <div class="form-group">
+      <label>Email Address</label>
+      <input type="email" id="signupEmail" placeholder="Enter your email">
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="signupPassword" placeholder="Create a password (min 6 chars)">
+    </div>
+    <button class="btn btn-primary" onclick="handleSignup()" style="margin-top:8px">
+      <i class="fas fa-rocket"></i> Create Account
+    </button>
+    <div class="auth-switch">
+      Already have an account? <a onclick="showLogin()">Sign In</a>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div class="app-container" id="appContainer">
+
+  <!-- DASHBOARD PAGE -->
+  <div class="page active" id="dashboardPage">
+    <div class="top-bar">
+      <div class="top-bar-row">
+        <div>
+          <h2 id="greetingText">Good Morning! 👋</h2>
+        </div>
+        <div class="top-bar-actions">
+          <button class="top-bar-btn" onclick="showNotifications()">
+            <i class="fas fa-bell"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-card purple">
+        <div class="stat-icon purple"><i class="fas fa-boxes-stacked"></i></div>
+        <div class="stat-value" id="statProducts">0</div>
+        <div class="stat-label">Total Products</div>
+      </div>
+      <div class="stat-card green">
+        <div class="stat-icon green"><i class="fas fa-indian-rupee-sign"></i></div>
+        <div class="stat-value" id="statRevenue">0</div>
+        <div class="stat-label">Total Revenue</div>
+      </div>
+      <div class="stat-card orange">
+        <div class="stat-icon orange"><i class="fas fa-triangle-exclamation"></i></div>
+        <div class="stat-value" id="statLowStock">0</div>
+        <div class="stat-label">Low Stock</div>
+      </div>
+      <div class="stat-card red">
+        <div class="stat-icon red"><i class="fas fa-circle-xmark"></i></div>
+        <div class="stat-value" id="statOutStock">0</div>
+        <div class="stat-label">Out of Stock</div>
+      </div>
+    </div>
+
+    <!-- Limit Warning -->
+    <div class="limit-warning" id="limitWarning" style="display:none">
+      <i class="fas fa-lock"></i>
+      <div class="limit-text">
+        <h4>Free Limit Reached!</h4>
+        <p>Upgrade to add more products</p>
+      </div>
+      <button class="upgrade-btn" onclick="navigateTo('subscriptionPage')">Upgrade</button>
+    </div>
+
+    <div class="section-header">
+      <h3>My Inventory</h3>
+      <button class="see-all" onclick="navigateTo('historyPage')">View All →</button>
+    </div>
+
+    <div class="search-container">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" id="searchInput" placeholder="Search products..." oninput="filterProducts()">
+      </div>
+    </div>
+
+    <div class="filter-chips">
+      <button class="chip active" onclick="filterCategory('all', this)">All</button>
+      <button class="chip" onclick="filterCategory('grocery', this)">🛒 Grocery</button>
+      <button class="chip" onclick="filterCategory('electronics', this)">📱 Electronics</button>
+      <button class="chip" onclick="filterCategory('clothing', this)">👕 Clothing</button>
+      <button class="chip" onclick="filterCategory('food', this)">🍔 Food</button>
+      <button class="chip" onclick="filterCategory('other', this)">📦 Other</button>
+    </div>
+
+    <div class="product-list" id="productList">
+      <div class="empty-state">
+        <div class="emoji">📦</div>
+        <h3>No products yet</h3>
+        <p>Tap the + button to add your first product to inventory</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- HISTORY PAGE -->
+  <div class="page" id="historyPage">
+    <div class="top-bar">
+      <div class="top-bar-row">
+        <h2>📋 History</h2>
+        <div class="top-bar-actions">
+          <button class="top-bar-btn" onclick="clearHistory()">
+            <i class="fas fa-trash-can"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="date-filter" style="margin-top:16px">
+      <select id="historyFilter" onchange="renderHistory()">
+        <option value="all">All Activities</option>
+        <option value="sold">Sales</option>
+        <option value="added">Added</option>
+        <option value="outofstock">Out of Stock</option>
+        <option value="edited">Edited</option>
+      </select>
+    </div>
+
+    <div class="section-header">
+      <h3>Out of Stock Alerts</h3>
+    </div>
+    <div class="product-list" id="outOfStockList" style="margin-bottom:20px">
+    </div>
+
+    <div class="section-header">
+      <h3>Recent Activity</h3>
+    </div>
+    <div id="historyList" style="padding:0 20px">
+    </div>
+  </div>
+
+  <!-- SUBSCRIPTION PAGE -->
+  <div class="page" id="subscriptionPage">
+    <div class="top-bar">
+      <div class="top-bar-row">
+        <h2>💎 Subscription</h2>
+      </div>
+    </div>
+
+    <div class="sub-card">
+      <div class="crown"></div>
+      <h3>Vyapaar Premium</h3>
+      <p>Unlock unlimited products, advanced analytics, and priority support for your growing business.</p>
+      <div class="sub-price">
+        <span class="amount">₹99</span>
+        <span class="period">/ month</span>
+      </div>
+    </div>
+
+    <div class="sub-features">
+      <div class="sub-feature">
+        <i class="fas fa-infinity"></i>
+        <span>Unlimited product entries</span>
+      </div>
+      <div class="sub-feature">
+        <i class="fas fa-chart-line"></i>
+        <span>Advanced sales analytics</span>
+      </div>
+      <div class="sub-feature">
+        <i class="fas fa-bell"></i>
+        <span>Low stock alerts & notifications</span>
+      </div>
+      <div class="sub-feature">
+        <i class="fas fa-cloud"></i>
+        <span>Cloud backup & sync</span>
+      </div>
+      <div class="sub-feature">
+        <i class="fas fa-file-export"></i>
+        <span>Export reports as PDF/Excel</span>
+      </div>
+      <div class="sub-feature">
+        <i class="fas fa-headset"></i>
+        <span>Priority customer support</span>
+      </div>
+    </div>
+
+    <div style="padding:20px">
+      <button class="btn btn-primary" onclick="showPaymentModal()" style="margin-bottom:12px">
+        <i class="fas fa-crown"></i> Upgrade to Premium - ₹99/mo
+      </button>
+      <div id="currentPlanInfo" style="text-align:center; font-size:13px; color:var(--text-light)">
+      </div>
+    </div>
+  </div>
+
+  <!-- PROFILE PAGE -->
+  <div class="page" id="profilePage">
+    <div class="top-bar">
+      <div class="top-bar-row">
+        <h2> Profile</h2>
+      </div>
+    </div>
+
+    <div class="profile-header">
+      <div class="profile-avatar" id="profileAvatar">A</div>
+      <div class="profile-name" id="profileName">User</div>
+      <div class="profile-email" id="profileEmail">user@email.com</div>
+      <div class="profile-plan free" id="profilePlan">FREE PLAN</div>
+    </div>
+
+    <div class="settings-list">
+      <button class="settings-item" onclick="navigateTo('subscriptionPage')">
+        <div class="s-icon" style="background:rgba(253,203,110,0.2);color:#F39C12"><i class="fas fa-crown"></i></div>
+        <div class="s-text">
+          <h4>Subscription</h4>
+          <p>Manage your premium plan</p>
+        </div>
+        <i class="fas fa-chevron-right s-arrow"></i>
+      </button>
+      <button class="settings-item" onclick="exportData()">
+        <div class="s-icon" style="background:rgba(0,184,148,0.1);color:var(--secondary)"><i class="fas fa-download"></i></div>
+        <div class="s-text">
+          <h4>Export Data</h4>
+          <p>Download your inventory as JSON</p>
+        </div>
+        <i class="fas fa-chevron-right s-arrow"></i>
+      </button>
+      <button class="settings-item" onclick="showAbout()">
+        <div class="s-icon" style="background:rgba(108,92,231,0.1);color:var(--primary)"><i class="fas fa-info-circle"></i></div>
+        <div class="s-text">
+          <h4>About Vyapaar</h4>
+          <p>Version 1.0.0</p>
+        </div>
+        <i class="fas fa-chevron-right s-arrow"></i>
+      </button>
+      <button class="settings-item" onclick="handleLogout()" style="margin-top:10px">
+        <div class="s-icon" style="background:rgba(225,112,85,0.1);color:var(--danger)"><i class="fas fa-sign-out-alt"></i></div>
+        <div class="s-text">
+          <h4 style="color:var(--danger)">Logout</h4>
+          <p>Sign out of your account</p>
+        </div>
+        <i class="fas fa-chevron-right s-arrow"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <div class="bottom-nav">
+    <button class="nav-item active" onclick="navigateTo('dashboardPage')" data-page="dashboardPage">
+      <i class="fas fa-house"></i>
+      <span>Home</span>
+    </button>
+    <button class="nav-item" onclick="navigateTo('historyPage')" data-page="historyPage">
+      <i class="fas fa-clock-rotate-left"></i>
+      <span>History</span>
+      <div class="nav-badge" id="historyBadge" style="display:none">0</div>
+    </button>
+    <button class="nav-item" onclick="navigateTo('subscriptionPage')" data-page="subscriptionPage">
+      <i class="fas fa-crown"></i>
+      <span>Premium</span>
+    </button>
+    <button class="nav-item" onclick="navigateTo('profilePage')" data-page="profilePage">
+      <i class="fas fa-user"></i>
+      <span>Profile</span>
+    </button>
+  </div>
+
+  <!-- FAB -->
+  <button class="fab" id="fabBtn" onclick="showAddProductModal()">
+    <i class="fas fa-plus"></i>
+  </button>
+</div>
+
+<!-- ADD/EDIT PRODUCT MODAL -->
+<div class="modal-overlay" id="productModal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h3 id="modalTitle">Add New Product</h3>
+    <input type="hidden" id="editProductId">
+    <div class="form-group">
+      <label>Product Name</label>
+      <input type="text" id="prodName" placeholder="e.g., Basmati Rice 5kg">
+    </div>
+    <div class="form-group">
+      <label>Category</label>
+      <select id="prodCategory">
+        <option value="grocery">🛒 Grocery</option>
+        <option value="electronics">📱 Electronics</option>
+        <option value="clothing">👕 Clothing</option>
+        <option value="food">🍔 Food</option>
+        <option value="other">📦 Other</option>
+      </select>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="form-group">
+        <label>Buying Price (₹)</label>
+        <input type="number" id="prodBuyPrice" placeholder="0.00" min="0" step="0.01">
+      </div>
+      <div class="form-group">
+        <label>Selling Price (₹)</label>
+        <input type="number" id="prodSellPrice" placeholder="0.00" min="0" step="0.01">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Quantity</label>
+      <input type="number" id="prodQty" placeholder="0" min="0">
+    </div>
+    <div class="form-group">
+      <label>Unit</label>
+      <select id="prodUnit">
+        <option value="pcs">Pieces</option>
+        <option value="kg">Kilograms</option>
+        <option value="ltr">Liters</option>
+        <option value="box">Boxes</option>
+        <option value="dozen">Dozens</option>
+      </select>
+    </div>
+    <button class="btn btn-primary" onclick="saveProduct()" style="margin-top:8px">
+      <i class="fas fa-check"></i> Save Product
+    </button>
+    <button class="btn btn-secondary" onclick="closeModal('productModal')" style="margin-top:10px">
+      Cancel
+    </button>
+  </div>
+</div>
+
+<!-- SELL MODAL -->
+<div class="modal-overlay" id="sellModal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h3>🛒 Sell Product</h3>
+    <input type="hidden" id="sellProductId">
+    <div style="text-align:center;margin-bottom:10px">
+      <div style="font-size:14px;color:var(--text-light)" id="sellProductName">Product Name</div>
+      <div style="font-size:13px;color:var(--secondary);font-weight:600;margin-top:4px" id="sellProductPrice">0</div>
+      <div style="font-size:12px;color:var(--text-light);margin-top:4px">Available: <strong id="sellAvailableQty">0</strong></div>
+    </div>
+    <div class="sell-qty-control">
+      <button class="sell-qty-btn" onclick="changeSellQty(-1)">−</button>
+      <div class="sell-qty-num" id="sellQtyNum">1</div>
+      <button class="sell-qty-btn" onclick="changeSellQty(1)">+</button>
+    </div>
+    <div style="text-align:center;margin-bottom:20px">
+      <div style="font-size:13px;color:var(--text-light)">Total Amount</div>
+      <div style="font-size:28px;font-weight:800;color:var(--primary)" id="sellTotalAmount">0</div>
+    </div>
+    <button class="btn btn-success" onclick="confirmSell()">
+      <i class="fas fa-check-circle"></i> Confirm Sale
+    </button>
+    <button class="btn btn-secondary" onclick="closeModal('sellModal')" style="margin-top:10px">
+      Cancel
+    </button>
+  </div>
+</div>
+
+<!-- PAYMENT MODAL -->
+<div class="modal-overlay" id="paymentModal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h3>💳 Premium Payment</h3>
+    <p style="font-size:14px;color:var(--text-light);margin-bottom:20px">Scan QR code or use UPI ID to pay ₹99/month</p>
+    
+    <div class="qr-section" style="padding:0">
+      <div class="qr-box">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=akashji124421@pyes&pn=Vyapaar+Premium&am=99&cu=INR" alt="UPI QR Code" id="qrImage">
+      </div>
+      <div class="upi-id-box">
+        <span class="upi-text" id="upiIdText">akashji124421@pyes</span>
+        <button class="copy-btn" onclick="copyUPI()"><i class="fas fa-copy"></i> Copy</button>
+      </div>
+    </div>
+
+    <div style="margin-top:20px">
+      <div class="form-group">
+        <label>Transaction ID / UTR Number</label>
+        <input type="text" id="transactionId" placeholder="Enter UTR after payment">
+      </div>
+      <button class="btn btn-primary" onclick="verifyPayment()">
+        <i class="fas fa-shield-check"></i> Verify & Activate Premium
+      </button>
+    </div>
+
+    <div style="text-align:center;margin-top:16px">
+      <p style="font-size:12px;color:var(--text-light)">
+        <i class="fas fa-info-circle"></i> Premium will be activated within 24 hours of verification
+      </p>
+    </div>
+
+    <button class="btn btn-secondary" onclick="closeModal('paymentModal')" style="margin-top:10px">
+      Close
+    </button>
+  </div>
+</div>
+
+<!-- NOTIFICATION MODAL -->
+<div class="modal-overlay" id="notificationModal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <h3>🔔 Notifications</h3>
+    <div id="notificationList">
+    </div>
+    <button class="btn btn-secondary" onclick="closeModal('notificationModal')" style="margin-top:16px">
+      Close
+    </button>
+  </div>
+</div>
+
+<script>
+// ===== APP STATE =====
+let currentUser = null;
+let products = [];
+let historyLog = [];
+let currentFilter = 'all';
+let sellQty = 1;
+
+// ===== INITIALIZATION =====
+window.addEventListener('load', function() {
+  setTimeout(function() {
+    document.getElementById('splashScreen').classList.add('hidden');
+    checkAuth();
+  }, 2000);
+});
+
+function checkAuth() {
+  try {
+    const savedUser = localStorage.getItem('vyapaar_currentUser');
+    if (savedUser) {
+      currentUser = JSON.parse(savedUser);
+      showApp();
+    } else {
+      showLogin();
+    }
+  } catch(e) {
+    console.error('Auth check error:', e);
+    showLogin();
+  }
+}
+
+// ===== PAGE NAVIGATION =====
+function showLogin() {
+  document.getElementById('loginPage').classList.add('active');
+  document.getElementById('signupPage').classList.remove('active');
+  document.getElementById('appContainer').classList.remove('active');
+}
+
+function showSignup() {
+  document.getElementById('loginPage').classList.remove('active');
+  document.getElementById('signupPage').classList.add('active');
+  document.getElementById('appContainer').classList.remove('active');
+}
+
+function showApp() {
+  document.getElementById('loginPage').classList.remove('active');
+  document.getElementById('signupPage').classList.remove('active');
+  document.getElementById('appContainer').classList.add('active');
+  updateGreeting();
+  loadData();
+  renderProducts();
+  updateStats();
+  updateHistoryBadge();
+}
+
+function navigateTo(pageId) {
+  // Hide all pages
+  document.querySelectorAll('.page').forEach(function(p) {
+    p.classList.remove('active');
+  });
+  
+  // Show target page
+  var targetPage = document.getElementById(pageId);
+  if (targetPage) {
+    targetPage.classList.add('active');
+  }
+  
+  // Update nav
+  document.querySelectorAll('.nav-item').forEach(function(n) {
+    n.classList.remove('active');
+  });
+  var navItem = document.querySelector('.nav-item[data-page="' + pageId + '"]');
+  if (navItem) {
+    navItem.classList.add('active');
+  }
+
+  // Refresh data
+  if (pageId === 'dashboardPage') {
+    renderProducts();
+    updateStats();
+  }
+  if (pageId === 'historyPage') {
+    renderHistory();
+  }
+  if (pageId === 'subscriptionPage') {
+    updateSubscriptionUI();
+  }
+  if (pageId === 'profilePage') {
+    updateProfileUI();
+  }
+}
+
+// ===== AUTH FUNCTIONS =====
+function handleLogin() {
+  var email = document.getElementById('loginEmail').value.trim();
+  var password = document.getElementById('loginPassword').value;
+
+  if (!email || !password) {
+    showToast('Please fill in all fields', 'error');
+    return;
+  }
+
+  // Check localStorage for registered users
+  var users = JSON.parse(localStorage.getItem('vyapaar_users') || '[]');
+  var user = null;
+  for (var i = 0; i < users.length; i++) {
+    if (users[i].email === email && users[i].password === password) {
+      user = users[i];
+      break;
+    }
+  }
+
+  if (user) {
+    currentUser = user;
+    localStorage.setItem('vyapaar_currentUser', JSON.stringify(user));
+    showToast('Welcome back, ' + user.name + '! 🎉', 'success');
+    showApp();
+  } else if (email === 'demo@vyapaar.com' && password === 'demo123') {
+    // Demo login
+    currentUser = {
+      id: 'demo_user',
+      name: 'Demo Vendor',
+      shopName: 'Demo Shop',
+      phone: '9876543210',
+      email: email,
+      password: password,
+      plan: 'free',
+      createdAt: new Date().toISOString()
+    };
+    localStorage.setItem('vyapaar_currentUser', JSON.stringify(currentUser));
+    showToast('Welcome, Demo Vendor! 🎉', 'success');
+    showApp();
+  } else {
+    showToast('Invalid credentials. Try demo@vyapaar.com / demo123', 'error');
+  }
+}
+
+function handleSignup() {
+  var name = document.getElementById('signupName').value.trim();
+  var shopName = document.getElementById('signupShop').value.trim();
+  var phone = document.getElementById('signupPhone').value.trim();
+  var email = document.getElementById('signupEmail').value.trim();
+  var password = document.getElementById('signupPassword').value;
+
+  if (!name || !shopName || !phone || !email || !password) {
+    showToast('Please fill in all fields', 'error');
+    return;
+  }
+
+  if (password.length < 6) {
+    showToast('Password must be at least 6 characters', 'error');
+    return;
+  }
+
+  var users = JSON.parse(localStorage.getItem('vyapaar_users') || '[]');
+  
+  for (var i = 0; i < users.length; i++) {
+    if (users[i].email === email) {
+      showToast('Email already registered!', 'error');
+      return;
+    }
+  }
+
+  var newUser = {
+    id: 'user_' + Date.now(),
+    name: name,
+    shopName: shopName,
+    phone: phone,
+    email: email,
+    password: password,
+    plan: 'free',
+    entriesUsed: 0,
+    createdAt: new Date().toISOString()
+  };
+
+  users.push(newUser);
+  localStorage.setItem('vyapaar_users', JSON.stringify(users));
+  currentUser = newUser;
+  localStorage.setItem('vyapaar_currentUser', JSON.stringify(newUser));
+  
+  showToast('Account created successfully! 🎉', 'success');
+  showApp();
+}
+
+function handleLogout() {
+  if (confirm('Are you sure you want to logout?')) {
+    localStorage.removeItem('vyapaar_currentUser');
+    currentUser = null;
+    products = [];
+    historyLog = [];
+    document.getElementById('appContainer').classList.remove('active');
+    showLogin();
+    showToast('Logged out successfully', 'success');
+  }
+}
+
+// ===== DATA MANAGEMENT =====
+function loadData() {
+  if (!currentUser) return;
+  try {
+    var key = 'vyapaar_products_' + currentUser.id;
+    var hKey = 'vyapaar_history_' + currentUser.id;
+    products = JSON.parse(localStorage.getItem(key) || '[]');
+    historyLog = JSON.parse(localStorage.getItem(hKey) || '[]');
+  } catch(e) {
+    console.error('Load data error:', e);
+    products = [];
+    historyLog = [];
+  }
+}
+
+function saveData() {
+  if (!currentUser) return;
+  try {
+    localStorage.setItem('vyapaar_products_' + currentUser.id, JSON.stringify(products));
+    localStorage.setItem('vyapaar_history_' + currentUser.id, JSON.stringify(historyLog));
+  } catch(e) {
+    console.error('Save data error:', e);
+  }
+}
+
+// ===== PRODUCT FUNCTIONS =====
+function showAddProductModal() {
+  // Check subscription limit
+  if (currentUser.plan === 'free' && products.length >= 5) {
+    showToast('Free plan limit reached! Upgrade to add more products.', 'warning');
+    navigateTo('subscriptionPage');
+    return;
+  }
+
+  document.getElementById('modalTitle').textContent = 'Add New Product';
+  document.getElementById('editProductId').value = '';
+  document.getElementById('prodName').value = '';
+  document.getElementById('prodCategory').value = 'grocery';
+  document.getElementById('prodBuyPrice').value = '';
+  document.getElementById('prodSellPrice').value = '';
+  document.getElementById('prodQty').value = '';
+  document.getElementById('prodUnit').value = 'pcs';
+  document.getElementById('productModal').classList.add('active');
+}
+
+function editProduct(id) {
+  var product = null;
+  for (var i = 0; i < products.length; i++) {
+    if (products[i].id === id) {
+      product = products[i];
+      break;
+    }
+  }
+  if (!product) return;
+
+  document.getElementById('modalTitle').textContent = 'Edit Product';
+  document.getElementById('editProductId').value = id;
+  document.getElementById('prodName').value = product.name;
+  document.getElementById('prodCategory').value = product.category;
+  document.getElementById('prodBuyPrice').value = product.buyPrice;
+  document.getElementById('prodSellPrice').value = product.sellPrice;
+  document.getElementById('prodQty').value = product.quantity;
+  document.getElementById('prodUnit').value = product.unit;
+  document.getElementById('productModal').classList.add('active');
+}
+
+function saveProduct() {
+  var name = document.getElementById('prodName').value.trim();
+  var category = document.getElementById('prodCategory').value;
+  var buyPrice = parseFloat(document.getElementById('prodBuyPrice').value);
+  var sellPrice = parseFloat(document.getElementById('prodSellPrice').value);
+  var quantity = parseInt(document.getElementById('prodQty').value);
+  var unit = document.getElementById('prodUnit').value;
+  var editId = document.getElementById('editProductId').value;
+
+  if (!name) { showToast('Please enter product name', 'error'); return; }
+  if (isNaN(buyPrice) || buyPrice < 0) { showToast('Please enter valid buying price', 'error'); return; }
+  if (isNaN(sellPrice) || sellPrice < 0) { showToast('Please enter valid selling price', 'error'); return; }
+  if (isNaN(quantity) || quantity < 0) { showToast('Please enter valid quantity', 'error'); return; }
+
+  if (editId) {
+    // Edit existing
+    var idx = -1;
+    for (var i = 0; i < products.length; i++) {
+      if (products[i].id === editId) {
+        idx = i;
+        break;
+      }
+    }
+    if (idx !== -1) {
+      products[idx].name = name;
+      products[idx].category = category;
+      products[idx].buyPrice = buyPrice;
+      products[idx].sellPrice = sellPrice;
+      products[idx].quantity = quantity;
+      products[idx].unit = unit;
+      products[idx].updatedAt = new Date().toISOString();
+      addHistory('edited', name, 'Updated ' + name + ' - Qty: ' + quantity + ' ' + unit);
+      showToast('Product updated successfully! ✅', 'success');
+    }
+  } else {
+    // Check limit
+    if (currentUser.plan === 'free' && products.length >= 5) {
+      showToast('Free plan limit reached!', 'warning');
+      closeModal('productModal');
+      return;
+    }
+
+    var newProduct = {
+      id: 'prod_' + Date.now(),
+      name: name,
+      category: category,
+      buyPrice: buyPrice,
+      sellPrice: sellPrice,
+      quantity: quantity,
+      unit: unit,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+    products.push(newProduct);
+    addHistory('added', name, 'Added ' + name + ' - ' + quantity + ' ' + unit + ' @ ₹' + sellPrice);
+    showToast('Product added successfully! 🎉', 'success');
+  }
+
+  saveData();
+  renderProducts();
+  updateStats();
+  updateHistoryBadge();
+  closeModal('productModal');
+}
+
+function deleteProduct(id) {
+  var product = null;
+  for (var i = 0; i < products.length; i++) {
+    if (products[i].id === id) {
+      product = products[i];
+      break;
+    }
+  }
+  if (!product) return;
+  
+  if (confirm('Delete "' + product.name + '"? This cannot be undone.')) {
+    var newProducts = [];
+    for (var i = 0; i < products.length; i++) {
+      if (products[i].id !== id) {
+        newProducts.push(products[i]);
+      }
+    }
+    products = newProducts;
+    addHistory('deleted', product.name, 'Deleted ' + product.name);
+    saveData();
+    renderProducts();
+    updateStats();
+    showToast('Product deleted', 'success');
+  }
+}
+
+// ===== SELL FUNCTIONS =====
+function openSellModal(id) {
+  var product = null;
+  for (var i = 0; i < products.length; i++) {
+    if (products[i].id === id) {
+      product = products[i];
+      break;
+    }
+  }
+  if (!product) return;
+  if (product.quantity <= 0) {
+    showToast('Product is out of stock!', 'error');
+    return;
+  }
+
+  sellQty = 1;
+  document.getElementById('sellProductId').value = id;
+  document.getElementById('sellProductName').textContent = product.name;
+  document.getElementById('sellProductPrice').textContent = '₹' + product.sellPrice + ' per ' + product.unit;
+  document.getElementById('sellAvailableQty').textContent = product.quantity + ' ' + product.unit;
+  document.getElementById('sellQtyNum').textContent = '1';
+  updateSellTotal();
+  document.getElementById('sellModal').classList.add('active');
+}
+
+function changeSellQty(delta) {
+  var id = document.getElementById('sellProductId').value;
+  var product = null;
+  for (var i = 0; i < products.length; i++) {
+    if (products[i].id === id) {
+      product = products[i];
+      break;
+    }
+  }
+  if (!product) return;
+  
+  sellQty = Math.max(1, Math.min(sellQty + delta, product.quantity));
+  document.getElementById('sellQtyNum').textContent = sellQty;
+  updateSellTotal();
+}
+
+function updateSellTotal() {
+  var id = document.getElementById('sellProductId').value;
+  var product = null;
+  for (var i = 0; i < products.length; i++) {
+    if (products[i].id === id) {
+      product = products[i];
+      break;
+    }
+  }
+  if (!product) return;
+  var total = sellQty * product.sellPrice;
+  document.getElementById('sellTotalAmount').textContent = '₹' + total.toFixed(2);
+}
+
+function confirmSell() {
+  var id = document.getElementById('sellProductId').value;
+  var product = null;
+  for (var i = 0; i < products.length; i++) {
+    if (products[i].id === id) {
+      product = products[i];
+      break;
+    }
+  }
+  if (!product) return;
+
+  if (sellQty > product.quantity) {
+    showToast('Not enough stock!', 'error');
+    return;
+  }
+
+  product.quantity -= sellQty;
+  product.updatedAt = new Date().toISOString();
+  
+  var totalAmount = sellQty * product.sellPrice;
+  var profit = (product.sellPrice - product.buyPrice) * sellQty;
+  
+  addHistory('sold', product.name, 'Sold ' + sellQty + ' ' + product.unit + ' - ₹' + totalAmount.toFixed(2) + ' (Profit: ₹' + profit.toFixed(2) + ')');
+
+  if (product.quantity === 0) {
+    addHistory('outofstock', product.name, product.name + ' is now OUT OF STOCK!');
+    showToast('⚠️ ' + product.name + ' is now out of stock!', 'warning');
+  } else if (product.quantity <= 5) {
+    showToast('⚠️ Low stock: ' + product.name + ' (' + product.quantity + ' left)', 'warning');
+  } else {
+    showToast('Sold ' + sellQty + ' ' + product.unit + ' of ' + product.name + '! 💰', 'success');
+  }
+
+  saveData();
+  renderProducts();
+  updateStats();
+  updateHistoryBadge();
+  closeModal('sellModal');
+}
+
+// ===== HISTORY =====
+function addHistory(type, productName, description) {
+  historyLog.unshift({
+    id: 'hist_' + Date.now(),
+    type: type,
+    productName: productName,
+    description: description,
+    timestamp: new Date().toISOString()
+  });
+  // Keep last 100 entries
+  if (historyLog.length > 100) {
+    historyLog = historyLog.slice(0, 100);
+  }
+}
+
+function renderHistory() {
+  var filter = document.getElementById('historyFilter').value;
+  var filteredHistory = [];
+  
+  if (filter === 'all') {
+    filteredHistory = historyLog;
+  } else {
+    for (var i = 0; i < historyLog.length; i++) {
+      if (historyLog[i].type === filter) {
+        filteredHistory.push(historyLog[i]);
+      }
+    }
+  }
+  
+  var container = document.getElementById('historyList');
+  
+  if (filteredHistory.length === 0) {
+    container.innerHTML = '<div class="empty-state" style="padding:40px 20px"><div class="emoji">📋</div><h3>No history yet</h3><p>Your activity will appear here</p></div>';
+    return;
+  }
+
+  var icons = { 
+    sold: 'fa-cart-shopping', 
+    added: 'fa-plus', 
+    outofstock: 'fa-triangle-exclamation', 
+    edited: 'fa-pen', 
+    deleted: 'fa-trash' 
+  };
+
+  var html = '';
+  for (var i = 0; i < filteredHistory.length; i++) {
+    var h = filteredHistory[i];
+    var icon = icons[h.type] || 'fa-circle';
+    var timeAgo = getTimeAgo(h.timestamp);
+    html += '<div class="history-item">';
+    html += '<div class="history-icon ' + h.type + '"><i class="fas ' + icon + '"></i></div>';
+    html += '<div class="history-info"><h4>' + h.productName + '</h4><p>' + h.description + '</p></div>';
+    html += '<div class="history-time">' + timeAgo + '</div>';
+    html += '</div>';
+  }
+  container.innerHTML = html;
+
+  // Out of stock products
+  var oosProducts = [];
+  for (var i = 0; i < products.length; i++) {
+    if (products[i].quantity <= 0) {
+      oosProducts.push(products[i]);
+    }
+  }
+  
+  var oosContainer = document.getElementById('outOfStockList');
+  if (oosProducts.length === 0) {
+    oosContainer.innerHTML = '<p style="text-align:center;color:var(--text-light);font-size:13px;padding:10px">✅ All products in stock!</p>';
+  } else {
+    var oosHtml = '';
+    for (var i = 0; i < oosProducts.length; i++) {
+      var p = oosProducts[i];
+      oosHtml += '<div class="product-card out-of-stock">';
+      oosHtml += '<div class="product-emoji cat-' + p.category + '">' + getCategoryEmoji(p.category) + '</div>';
+      oosHtml += '<div class="product-info">';
+      oosHtml += '<div class="product-name">' + p.name + '</div>';
+      oosHtml += '<div class="product-meta"><span>₹' + p.buyPrice + ' → ₹' + p.sellPrice + '</span></div>';
+      oosHtml += '</div>';
+      oosHtml += '<div class="product-qty"><div class="qty-num" style="color:var(--danger)">0</div><div class="qty-label">' + p.unit + '</div></div>';
+      oosHtml += '<span class="oos-badge">Out of Stock</span>';
+      oosHtml += '</div>';
+    }
+    oosContainer.innerHTML = oosHtml;
+  }
+}
+
+function clearHistory() {
+  if (confirm('Clear all history?')) {
+    historyLog = [];
+    saveData();
+    renderHistory();
+    updateHistoryBadge();
+    showToast('History cleared', 'success');
+  }
+}
+
+function updateHistoryBadge() {
+  var oosCount = 0;
+  for (var i = 0; i < products.length; i++) {
+    if (products[i].quantity <= 0) {
+      oosCount++;
+    }
+  }
+  var badge = document.getElementById('historyBadge');
+  if (oosCount > 0) {
+    badge.style.display = 'flex';
+    badge.textContent = oosCount;
+  } else {
+    badge.style.display = 'none';
+  }
+}
+
+// ===== RENDER PRODUCTS =====
+function renderProducts() {
+  var search = document.getElementById('searchInput').value.toLowerCase();
+  var filtered = [];
+  
+  for (var i = 0; i < products.length; i++) {
+    var p = products[i];
+    var matchSearch = p.name.toLowerCase().indexOf(search) !== -1;
+    var matchCategory = currentFilter === 'all' || p.category === currentFilter;
+    if (matchSearch && matchCategory) {
+      filtered.push(p);
+    }
+  }
+
+  var container = document.getElementById('productList');
+
+  if (filtered.length === 0) {
+    if (search) {
+      container.innerHTML = '<div class="empty-state"><div class="emoji"></div><h3>No results found</h3><p>Try a different search term</p></div>';
+    } else {
+      container.innerHTML = '<div class="empty-state"><div class="emoji"></div><h3>No products yet</h3><p>Tap the + button to add your first product</p></div>';
+    }
+    return;
+  }
+
+  var html = '';
+  for (var i = 0; i < filtered.length; i++) {
+    var p = filtered[i];
+    var profit = p.sellPrice - p.buyPrice;
+    var profitClass = profit >= 0 ? 'profit' : 'loss';
+    var stockClass = '';
+    if (p.quantity === 0) stockClass = 'out-of-stock';
+    else if (p.quantity <= 5) stockClass = 'low-stock';
+    
+    var oosBadge = p.quantity === 0 ? '<span class="oos-badge">Out of Stock</span>' : '';
+    var sellDisabled = p.quantity <= 0 ? 'disabled style="opacity:0.5"' : '';
+    var qtyColor = p.quantity === 0 ? 'var(--danger)' : (p.quantity <= 5 ? '#F39C12' : 'var(--primary)');
+    
+    html += '<div class="product-card ' + stockClass + '">';
+    html += oosBadge;
+    html += '<div class="product-emoji cat-' + p.category + '">' + getCategoryEmoji(p.category) + '</div>';
+    html += '<div class="product-info">';
+    html += '<div class="product-name">' + p.name + '</div>';
+    html += '<div class="product-meta">';
+    html += '<span>Buy: ₹' + p.buyPrice + '</span>';
+    html += '<span>Sell: ₹' + p.sellPrice + '</span>';
+    html += '<span class="' + profitClass + '">' + (profit >= 0 ? '+' : '') + '₹' + profit.toFixed(0) + '/unit</span>';
+    html += '</div>';
+    html += '<div class="product-actions">';
+    html += '<button class="btn-sell" onclick="openSellModal(\'' + p.id + '\')" ' + sellDisabled + '><i class="fas fa-cart-shopping"></i> Sell</button>';
+    html += '<button class="btn-edit" onclick="editProduct(\'' + p.id + '\')"><i class="fas fa-pen"></i></button>';
+    html += '<button class="btn-delete" onclick="deleteProduct(\'' + p.id + '\')"><i class="fas fa-trash"></i></button>';
+    html += '</div>';
+    html += '</div>';
+    html += '<div class="product-qty">';
+    html += '<div class="qty-num" style="color:' + qtyColor + '">' + p.quantity + '</div>';
+    html += '<div class="qty-label">' + p.unit + '</div>';
+    html += '</div>';
+    html += '</div>';
+  }
+  container.innerHTML = html;
+}
+
+function filterProducts() {
+  renderProducts();
+}
+
+function filterCategory(cat, btn) {
+  currentFilter = cat;
+  var chips = document.querySelectorAll('.chip');
+  for (var i = 0; i < chips.length; i++) {
+    chips[i].classList.remove('active');
+  }
+  btn.classList.add('active');
+  renderProducts();
+}
+
+// ===== STATS =====
+function updateStats() {
+  document.getElementById('statProducts').textContent = products.length;
+  
+  var totalRevenue = 0;
+  for (var i = 0; i < historyLog.length; i++) {
+    if (historyLog[i].type === 'sold') {
+      var match = historyLog[i].description.match(/₹([\d.]+)/);
+      if (match) {
+        totalRevenue += parseFloat(match[1]);
+      }
+    }
+  }
+  document.getElementById('statRevenue').textContent = '₹' + totalRevenue.toFixed(0);
+  
+  var lowStock = 0;
+  var outStock = 0;
+  for (var i = 0; i < products.length; i++) {
+    if (products[i].quantity === 0) outStock++;
+    else if (products[i].quantity <= 5) lowStock++;
+  }
+  document.getElementById('statLowStock').textContent = lowStock;
+  document.getElementById('statOutStock').textContent = outStock;
+
+  // Limit warning
+  var limitWarning = document.getElementById('limitWarning');
+  if (currentUser && currentUser.plan === 'free' && products.length >= 4) {
+    limitWarning.style.display = 'flex';
+  } else {
+    limitWarning.style.display = 'none';
+  }
+}
+
+// ===== SUBSCRIPTION =====
+function updateSubscriptionUI() {
+  var info = document.getElementById('currentPlanInfo');
+  if (currentUser.plan === 'premium') {
+    info.innerHTML = '<span style="color:var(--secondary);font-weight:600">✅ You are on Premium Plan</span><br><span style="font-size:12px">Unlimited products • Active</span>';
+  } else {
+    info.innerHTML = '<span style="color:var(--text-light)">Current: Free Plan (' + products.length + '/5 products used)</span>';
+  }
+}
+
+function showPaymentModal() {
+  if (currentUser.plan === 'premium') {
+    showToast('You are already on Premium! 🎉', 'success');
+    return;
+  }
+  document.getElementById('paymentModal').classList.add('active');
+}
+
+function copyUPI() {
+  var upiId = 'akashji124421@pyes';
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(upiId).then(function() {
+      showToast('UPI ID copied! 📋', 'success');
+    }).catch(function() {
+      fallbackCopy(upiId);
+    });
+  } else {
+    fallbackCopy(upiId);
+  }
+}
+
+function fallbackCopy(text) {
+  var ta = document.createElement('textarea');
+  ta.value = text;
+  document.body.appendChild(ta);
+  ta.select();
+  document.execCommand('copy');
+  document.body.removeChild(ta);
+  showToast('UPI ID copied! 📋', 'success');
+}
+
+function verifyPayment() {
+  var txnId = document.getElementById('transactionId').value.trim();
+  if (!txnId) {
+    showToast('Please enter transaction ID', 'error');
+    return;
+  }
+
+  // Activate premium
+  currentUser.plan = 'premium';
+  currentUser.premiumActivatedAt = new Date().toISOString();
+  localStorage.setItem('vyapaar_currentUser', JSON.stringify(currentUser));
+  
+  // Update in users list
+  var users = JSON.parse(localStorage.getItem('vyapaar_users') || '[]');
+  for (var i = 0; i < users.length; i++) {
+    if (users[i].id === currentUser.id) {
+      users[i].plan = 'premium';
+      break;
+    }
+  }
+  localStorage.setItem('vyapaar_users', JSON.stringify(users));
+
+  closeModal('paymentModal');
+  showToast('🎉 Premium activated successfully!', 'success');
+  updateSubscriptionUI();
+}
+
+// ===== PROFILE =====
+function updateProfileUI() {
+  if (!currentUser) return;
+  document.getElementById('profileAvatar').textContent = currentUser.name.charAt(0).toUpperCase();
+  document.getElementById('profileName').textContent = currentUser.name;
+  document.getElementById('profileEmail').textContent = currentUser.email;
+  
+  var planEl = document.getElementById('profilePlan');
+  if (currentUser.plan === 'premium') {
+    planEl.textContent = '👑 PREMIUM PLAN';
+    planEl.className = 'profile-plan premium';
+  } else {
+    planEl.textContent = 'FREE PLAN';
+    planEl.className = 'profile-plan free';
+  }
+}
+
+// ===== UTILITIES =====
+function closeModal(id) {
+  document.getElementById(id).classList.remove('active');
+}
+
+function showToast(message, type) {
+  type = type || 'success';
+  var toast = document.getElementById('toast');
+  toast.textContent = message;
+  toast.className = 'toast ' + type;
+  setTimeout(function() { toast.classList.add('show'); }, 10);
+  setTimeout(function() { toast.classList.remove('show'); }, 3000);
+}
+
+function updateGreeting() {
+  var hour = new Date().getHours();
+  var greeting = 'Good Morning';
+  if (hour >= 12 && hour < 17) greeting = 'Good Afternoon';
+  else if (hour >= 17) greeting = 'Good Evening';
+  document.getElementById('greetingText').textContent = greeting + '! 👋';
+}
+
+function getCategoryEmoji(cat) {
+  var emojis = { grocery: '🛒', electronics: '📱', clothing: '', food: '🍔', other: '📦' };
+  return emojis[cat] || '📦';
+}
+
+function getTimeAgo(timestamp) {
+  var seconds = Math.floor((new Date() - new Date(timestamp)) / 1000);
+  if (seconds < 60) return 'Just now';
+  var minutes = Math.floor(seconds / 60);
+  if (minutes < 60) return minutes + 'm ago';
+  var hours = Math.floor(minutes / 60);
+  if (hours < 24) return hours + 'h ago';
+  var days = Math.floor(hours / 24);
+  return days + 'd ago';
+}
+
+function showNotifications() {
+  var oosProducts = [];
+  var lowStock = [];
+  
+  for (var i = 0; i < products.length; i++) {
+    if (products[i].quantity <= 0) oosProducts.push(products[i]);
+    else if (products[i].quantity <= 5) lowStock.push(products[i]);
+  }
+  
+  var html = '';
+  if (oosProducts.length === 0 && lowStock.length === 0) {
+    html = '<div class="empty-state" style="padding:30px"><div class="emoji">✅</div><h3>All Clear!</h3><p>No notifications</p></div>';
+  } else {
+    if (oosProducts.length > 0) {
+      html += '<h4 style="margin-bottom:10px;color:var(--danger)">🚨 Out of Stock</h4>';
+      for (var i = 0; i < oosProducts.length; i++) {
+        var p = oosProducts[i];
+        html += '<div class="history-item"><div class="history-icon outofstock"><i class="fas fa-triangle-exclamation"></i></div><div class="history-info"><h4>' + p.name + '</h4><p>Quantity: 0 ' + p.unit + '</p></div></div>';
+      }
+    }
+    if (lowStock.length > 0) {
+      html += '<h4 style="margin:16px 0 10px;color:#F39C12">⚠️ Low Stock</h4>';
+      for (var i = 0; i < lowStock.length; i++) {
+        var p = lowStock[i];
+        html += '<div class="history-item"><div class="history-icon edited"><i class="fas fa-exclamation"></i></div><div class="history-info"><h4>' + p.name + '</h4><p>Only ' + p.quantity + ' ' + p.unit + ' left</p></div></div>';
+      }
+    }
+  }
+  
+  document.getElementById('notificationList').innerHTML = html;
+  document.getElementById('notificationModal').classList.add('active');
+}
+
+function exportData() {
+  var data = { products: products, history: historyLog, exportedAt: new Date().toISOString() };
+  var blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'vyapaar_data_' + new Date().toISOString().split('T')[0] + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('Data exported successfully! ', 'success');
+}
+
+function showAbout() {
+  alert('Vyapaar v1.0.0\nSmart Inventory Manager for Indian Vendors\n\nMade with ❤️ for small businesses');
+}
+
+// Close modals on overlay click
+var overlays = document.querySelectorAll('.modal-overlay');
+for (var i = 0; i < overlays.length; i++) {
+  overlays[i].addEventListener('click', function(e) {
+    if (e.target === this) {
+      this.classList.remove('active');
+    }
+  });
+}
+</script>
+</body>
+</html>
