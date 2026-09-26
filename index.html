@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Vyapaar - Vendor Inventory Manager</title>
+<title>Smart Inventory - Vendor Inventory Manager</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
@@ -1281,7 +1281,7 @@ body {
 <!-- Splash Screen -->
 <div class="splash-screen" id="splashScreen">
   <div class="splash-logo"></div>
-  <div class="splash-title">Vyapaar</div>
+  <div class="splash-title">Smart Inventory</div>
   <div class="splash-subtitle">Smart Inventory for Smart Vendors</div>
 </div>
 
@@ -1312,7 +1312,7 @@ body {
       <i class="fas fa-user-plus"></i> Create New Account
     </button>
     <div style="text-align:center;margin-top:20px;font-size:12px;color:var(--text-light)">
-      Demo: demo@vyapaar.com / demo123
+      Demo: demo@Smart Inventory.com / demo123
     </div>
   </div>
 </div>
@@ -1481,7 +1481,7 @@ body {
 
     <div class="sub-card">
       <div class="crown"></div>
-      <h3>Vyapaar Premium</h3>
+      <h3>Smart Inventory Premium</h3>
       <p>Unlock unlimited products, advanced analytics, and priority support for your growing business.</p>
       <div class="sub-price">
         <span class="amount">₹99</span>
@@ -1560,7 +1560,7 @@ body {
       <button class="settings-item" onclick="showAbout()">
         <div class="s-icon" style="background:rgba(108,92,231,0.1);color:var(--primary)"><i class="fas fa-info-circle"></i></div>
         <div class="s-text">
-          <h4>About Vyapaar</h4>
+          <h4>About Smart Inventory</h4>
           <p>Version 1.0.0</p>
         </div>
         <i class="fas fa-chevron-right s-arrow"></i>
@@ -1694,7 +1694,7 @@ body {
     
     <div class="qr-section" style="padding:0">
       <div class="qr-box">
-        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=akashji124421@pyes&pn=Vyapaar+Premium&am=99&cu=INR" alt="UPI QR Code" id="qrImage">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=akashji124421@pyes&pn=Smart Inventory+Premium&am=99&cu=INR" alt="UPI QR Code" id="qrImage">
       </div>
       <div class="upi-id-box">
         <span class="upi-text" id="upiIdText">akashji124421@pyes</span>
@@ -1755,7 +1755,7 @@ window.addEventListener('load', function() {
 
 function checkAuth() {
   try {
-    const savedUser = localStorage.getItem('vyapaar_currentUser');
+    const savedUser = localStorage.getItem('Smart Inventory_currentUser');
     if (savedUser) {
       currentUser = JSON.parse(savedUser);
       showApp();
@@ -1840,7 +1840,7 @@ function handleLogin() {
   }
 
   // Check localStorage for registered users
-  var users = JSON.parse(localStorage.getItem('vyapaar_users') || '[]');
+  var users = JSON.parse(localStorage.getItem('Smart Inventory_users') || '[]');
   var user = null;
   for (var i = 0; i < users.length; i++) {
     if (users[i].email === email && users[i].password === password) {
@@ -1851,10 +1851,10 @@ function handleLogin() {
 
   if (user) {
     currentUser = user;
-    localStorage.setItem('vyapaar_currentUser', JSON.stringify(user));
+    localStorage.setItem('Smart Inventory_currentUser', JSON.stringify(user));
     showToast('Welcome back, ' + user.name + '! 🎉', 'success');
     showApp();
-  } else if (email === 'demo@vyapaar.com' && password === 'demo123') {
+  } else if (email === 'demo@Smart Inventory.com' && password === 'demo123') {
     // Demo login
     currentUser = {
       id: 'demo_user',
@@ -1866,11 +1866,11 @@ function handleLogin() {
       plan: 'free',
       createdAt: new Date().toISOString()
     };
-    localStorage.setItem('vyapaar_currentUser', JSON.stringify(currentUser));
+    localStorage.setItem('Smart Inventory_currentUser', JSON.stringify(currentUser));
     showToast('Welcome, Demo Vendor! 🎉', 'success');
     showApp();
   } else {
-    showToast('Invalid credentials. Try demo@vyapaar.com / demo123', 'error');
+    showToast('Invalid credentials. Try demo@Smart Inventory.com / demo123', 'error');
   }
 }
 
@@ -1891,7 +1891,7 @@ function handleSignup() {
     return;
   }
 
-  var users = JSON.parse(localStorage.getItem('vyapaar_users') || '[]');
+  var users = JSON.parse(localStorage.getItem('Smart Inventory_users') || '[]');
   
   for (var i = 0; i < users.length; i++) {
     if (users[i].email === email) {
@@ -1913,9 +1913,9 @@ function handleSignup() {
   };
 
   users.push(newUser);
-  localStorage.setItem('vyapaar_users', JSON.stringify(users));
+  localStorage.setItem('Smart Inventory_users', JSON.stringify(users));
   currentUser = newUser;
-  localStorage.setItem('vyapaar_currentUser', JSON.stringify(newUser));
+  localStorage.setItem('Smart Inventory_currentUser', JSON.stringify(newUser));
   
   showToast('Account created successfully! 🎉', 'success');
   showApp();
@@ -1923,7 +1923,7 @@ function handleSignup() {
 
 function handleLogout() {
   if (confirm('Are you sure you want to logout?')) {
-    localStorage.removeItem('vyapaar_currentUser');
+    localStorage.removeItem('Smart Inventory_currentUser');
     currentUser = null;
     products = [];
     historyLog = [];
@@ -1937,8 +1937,8 @@ function handleLogout() {
 function loadData() {
   if (!currentUser) return;
   try {
-    var key = 'vyapaar_products_' + currentUser.id;
-    var hKey = 'vyapaar_history_' + currentUser.id;
+    var key = 'Smart Inventory_products_' + currentUser.id;
+    var hKey = 'Smart Inventory_history_' + currentUser.id;
     products = JSON.parse(localStorage.getItem(key) || '[]');
     historyLog = JSON.parse(localStorage.getItem(hKey) || '[]');
   } catch(e) {
@@ -1951,8 +1951,8 @@ function loadData() {
 function saveData() {
   if (!currentUser) return;
   try {
-    localStorage.setItem('vyapaar_products_' + currentUser.id, JSON.stringify(products));
-    localStorage.setItem('vyapaar_history_' + currentUser.id, JSON.stringify(historyLog));
+    localStorage.setItem('Smart Inventory_products_' + currentUser.id, JSON.stringify(products));
+    localStorage.setItem('Smart Inventory_history_' + currentUser.id, JSON.stringify(historyLog));
   } catch(e) {
     console.error('Save data error:', e);
   }
@@ -2458,17 +2458,17 @@ function verifyPayment() {
   // Activate premium
   currentUser.plan = 'premium';
   currentUser.premiumActivatedAt = new Date().toISOString();
-  localStorage.setItem('vyapaar_currentUser', JSON.stringify(currentUser));
+  localStorage.setItem('Smart Inventory_currentUser', JSON.stringify(currentUser));
   
   // Update in users list
-  var users = JSON.parse(localStorage.getItem('vyapaar_users') || '[]');
+  var users = JSON.parse(localStorage.getItem('Smart Inventory_users') || '[]');
   for (var i = 0; i < users.length; i++) {
     if (users[i].id === currentUser.id) {
       users[i].plan = 'premium';
       break;
     }
   }
-  localStorage.setItem('vyapaar_users', JSON.stringify(users));
+  localStorage.setItem('Smart Inventory_users', JSON.stringify(users));
 
   closeModal('paymentModal');
   showToast('🎉 Premium activated successfully!', 'success');
@@ -2569,14 +2569,14 @@ function exportData() {
   var url = URL.createObjectURL(blob);
   var a = document.createElement('a');
   a.href = url;
-  a.download = 'vyapaar_data_' + new Date().toISOString().split('T')[0] + '.json';
+  a.download = 'Smart Inventory_data_' + new Date().toISOString().split('T')[0] + '.json';
   a.click();
   URL.revokeObjectURL(url);
   showToast('Data exported successfully! ', 'success');
 }
 
 function showAbout() {
-  alert('Vyapaar v1.0.0\nSmart Inventory Manager for Indian Vendors\n\nMade with ❤️ for small businesses');
+  alert('Smart Inventory v1.0.0\nSmart Inventory Manager for Indian Vendors\n\nMade with ❤️ for small businesses');
 }
 
 // Close modals on overlay click
