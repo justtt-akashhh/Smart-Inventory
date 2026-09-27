@@ -1056,7 +1056,7 @@ function activatePremium(){
   refreshDynamicUI();
 }
 function copyUPI(){
-  var upiId='akashji124421@pyes';
+  var upiId='akashji124421@ptyes';
   if(navigator.clipboard){ navigator.clipboard.writeText(upiId).then(()=>showToast(t('t_upi_copied'),'success')).catch(()=>fallbackCopy(upiId)); } else fallbackCopy(upiId);
 }
 function fallbackCopy(text){ var ta=document.createElement('textarea'); ta.value=text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); showToast(t('t_upi_copied'),'success'); }
