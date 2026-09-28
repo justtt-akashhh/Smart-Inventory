@@ -8,6 +8,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <!-- PDF Generation Library -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<!-- ================= FIREBASE SDK (Compat Version for HTML) ================= -->
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -477,9 +483,7 @@ body.hindi { font-family: 'Noto Sans Devanagari', 'Inter', sans-serif; }
               <th data-i18n="profit"></th>
             </tr>
           </thead>
-          <tbody id="reportTableBody">
-            <!-- Dynamic Rows -->
-          </tbody>
+          <tbody id="reportTableBody"></tbody>
         </table>
       </div>
       <div class="report-footer">
@@ -540,6 +544,23 @@ body.hindi { font-family: 'Noto Sans Devanagari', 'Inter', sans-serif; }
 </div>
 
 <script>
+// ===================== FIREBASE CONFIGURATION =====================
+const firebaseConfig = {
+  apiKey: "AIzaSyCpyByv6PsdHVHijdXeuh-0iQkzc4U3LvQ",
+  authDomain: "smart-inventory-real.firebaseapp.com",
+  projectId: "smart-inventory-real",
+  storageBucket: "smart-inventory-real.firebasestorage.app",
+  messagingSenderId: "456274845690",
+  appId: "1:456274845690:web:0177b414b7fb7a078b4e43",
+  measurementId: "G-6MS36JTDK3"
+};
+
+// Initialize Firebase (Compat version used for seamless single HTML file integration)
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+// ================================================================
+
 // ===================== TRANSLATIONS (i18n) =====================
 const translations = {
   en: {
@@ -663,7 +684,7 @@ function refreshDynamicUI(){
   renderHistory();
   updateSubscriptionUI();
   updateProfileUI();
-  updateTodayProfit(); // Update today's profit on lang change
+  updateTodayProfit();
 }
 
 // ===================== APP STATE =====================
@@ -675,24 +696,40 @@ let sellQty = 1;
 let currentRequestCode = null;
 let requestCodeNumber = null;
 
+// ===================== FIREBASE AUTH OBSERVER =====================
+auth.onAuthStateChanged((user) => {
+  if (user) {
+    currentUser = { 
+      id: user.uid, 
+      email: user.email,
+      name: user.displayName || user.email.split('@')[0],
+      shopName: 'My Shop',
+      phone: '',
+      plan: 'free' 
+    };
+    showApp();
+  } else {
+    currentUser = null;
+    showLogin();
+  }
+});
+
 window.addEventListener('load', function() {
   applyStaticTranslations();
   setTimeout(function() {
     document.getElementById('splashScreen').classList.add('hidden');
-    checkAuth();
+    // checkAuth() is now handled by onAuthStateChanged
   }, 2000);
 });
 
-function checkAuth() {
-  try {
-    const savedUser = localStorage.getItem('SI_currentUser');
-    if (savedUser) { currentUser = JSON.parse(savedUser); showApp(); } else { showLogin(); }
-  } catch(e) { console.error(e); showLogin(); }
-}
-
 function showLogin(){ document.getElementById('loginPage').classList.add('active'); document.getElementById('signupPage').classList.remove('active'); document.getElementById('appContainer').classList.remove('active'); }
 function showSignup(){ document.getElementById('loginPage').classList.remove('active'); document.getElementById('signupPage').classList.add('active'); document.getElementById('appContainer').classList.remove('active'); }
-function showApp(){ document.getElementById('loginPage').classList.remove('active'); document.getElementById('signupPage').classList.remove('active'); document.getElementById('appContainer').classList.add('active'); refreshDynamicUI(); }
+function showApp(){ 
+  document.getElementById('loginPage').classList.remove('active'); 
+  document.getElementById('signupPage').classList.remove('active'); 
+  document.getElementById('appContainer').classList.add('active'); 
+  loadData(); // Load data from Firebase
+}
 
 function navigateTo(pageId){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
@@ -705,19 +742,26 @@ function navigateTo(pageId){
   if(pageId==='profilePage'){ updateProfileUI(); }
 }
 
-// ===================== AUTH =====================
+// ===================== AUTH (FIREBASE) =====================
 function handleLogin(){
   var email=document.getElementById('loginEmail').value.trim();
   var password=document.getElementById('loginPassword').value;
   if(!email||!password){ showToast(t('t_fill_fields'),'error'); return; }
-  var users=JSON.parse(localStorage.getItem('SI_users')||'[]');
-  var user=null;
-  for(var i=0;i<users.length;i++){ if(users[i].email===email&&users[i].password===password){user=users[i];break;} }
-  if(user){ currentUser=user; localStorage.setItem('SI_currentUser',JSON.stringify(user)); showToast(t('t_welcome',{name:user.name}),'success'); showApp(); }
-  else if(email==='demo@smartinventory.com'&&password==='demo123'){
-    currentUser={id:'demo_user',name:'Demo Vendor',shopName:'Demo Shop',phone:'9876543210',email:email,password:password,plan:'free',createdAt:new Date().toISOString()};
-    localStorage.setItem('SI_currentUser',JSON.stringify(currentUser)); showToast(t('t_welcome_demo'),'success'); showApp();
-  } else { showToast(t('t_invalid'),'error'); }
+  
+  if(email==='demo@smartinventory.com'&&password==='demo123'){
+    currentUser={id:'demo_user',name:'Demo Vendor',shopName:'Demo Shop',phone:'9876543210',email:email,plan:'free'};
+    showToast(t('t_welcome_demo'),'success'); showApp();
+    return;
+  }
+
+  showToast('Logging in...', 'success');
+  auth.signInWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+      showToast(t('t_welcome',{name:userCredential.user.displayName || 'User'}),'success');
+    })
+    .catch((error) => {
+      showToast(t('t_invalid'),'error');
+    });
 }
 
 function handleSignup(){
@@ -728,21 +772,86 @@ function handleSignup(){
   var password=document.getElementById('signupPassword').value;
   if(!name||!shopName||!phone||!email||!password){ showToast(t('t_fill_fields'),'error'); return; }
   if(password.length<6){ showToast(t('t_pw_short'),'error'); return; }
-  var users=JSON.parse(localStorage.getItem('SI_users')||'[]');
-  for(var i=0;i<users.length;i++){ if(users[i].email===email){ showToast(t('t_email_exists'),'error'); return; } }
-  var newUser={id:'user_'+Date.now(),name:name,shopName:shopName,phone:phone,email:email,password:password,plan:'free',entriesUsed:0,createdAt:new Date().toISOString()};
-  users.push(newUser); localStorage.setItem('SI_users',JSON.stringify(users));
-  currentUser=newUser; localStorage.setItem('SI_currentUser',JSON.stringify(newUser));
-  showToast(t('t_signup_ok'),'success'); showApp();
+
+  showToast('Creating account...', 'success');
+
+  auth.createUserWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+      var user = userCredential.user;
+      return user.updateProfile({ displayName: name }).then(() => {
+        return db.collection('users').doc(user.uid).set({
+          name: name,
+          shopName: shopName,
+          phone: phone,
+          email: email,
+          plan: 'free',
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+      });
+    })
+    .then(() => {
+      showToast(t('t_signup_ok'),'success');
+    })
+    .catch((error) => {
+      if(error.code === 'auth/email-already-in-use') showToast(t('t_email_exists'),'error');
+      else showToast('Error: ' + error.message, 'error');
+    });
 }
 
 function handleLogout(){
-  if(confirm(t('confirm_logout'))){ localStorage.removeItem('SI_currentUser'); currentUser=null; products=[]; historyLog=[]; document.getElementById('appContainer').classList.remove('active'); showLogin(); showToast(t('t_logged_out'),'success'); }
+  if(confirm(t('confirm_logout'))){
+    auth.signOut().then(() => {
+      currentUser=null; products=[]; historyLog=[]; 
+      document.getElementById('appContainer').classList.remove('active'); 
+      showLogin(); 
+      showToast(t('t_logged_out'),'success'); 
+    });
+  }
 }
 
-// ===================== DATA =====================
-function loadData(){ if(!currentUser)return; try{ products=JSON.parse(localStorage.getItem('SI_products_'+currentUser.id)||'[]'); historyLog=JSON.parse(localStorage.getItem('SI_history_'+currentUser.id)||'[]'); }catch(e){products=[];historyLog=[];} }
-function saveData(){ if(!currentUser)return; try{ localStorage.setItem('SI_products_'+currentUser.id,JSON.stringify(products)); localStorage.setItem('SI_history_'+currentUser.id,JSON.stringify(historyLog)); }catch(e){console.error(e);} }
+// ===================== DATA (FIRESTORE) =====================
+async function loadData(){ 
+  if(!currentUser || currentUser.id === 'demo_user') {
+    try{ products=JSON.parse(localStorage.getItem('SI_products_demo')||'[]'); historyLog=JSON.parse(localStorage.getItem('SI_history_demo')||'[]'); }catch(e){products=[];historyLog=[];}
+    refreshDynamicUI();
+    return; 
+  } 
+  try{ 
+    const docRef = db.collection('users').doc(currentUser.id).collection('inventory').doc('data');
+    const docSnap = await docRef.get();
+    if (docSnap.exists) {
+      const data = docSnap.data();
+      products = data.products || [];
+      historyLog = data.historyLog || [];
+    } else {
+      products = [];
+      historyLog = [];
+    }
+    refreshDynamicUI();
+  }catch(e){
+    console.error(e);
+    products=[];
+    historyLog=[];
+    refreshDynamicUI();
+  } 
+}
+
+async function saveData(){ 
+  if(!currentUser || currentUser.id === 'demo_user') {
+    try{ localStorage.setItem('SI_products_demo',JSON.stringify(products)); localStorage.setItem('SI_history_demo',JSON.stringify(historyLog)); }catch(e){console.error(e);}
+    return; 
+  }
+  try{ 
+    const docRef = db.collection('users').doc(currentUser.id).collection('inventory').doc('data');
+    await docRef.set({
+      products: products,
+      historyLog: historyLog,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    }, { merge: true });
+  }catch(e){
+    console.error(e);
+  } 
+}
 
 // ===================== PRODUCTS =====================
 function showAddProductModal(){
@@ -826,10 +935,7 @@ function confirmSell(){
   product.quantity-=sellQty; product.updatedAt=new Date().toISOString();
   var totalAmount=sellQty*product.sellPrice; 
   var profit=(product.sellPrice-product.buyPrice)*sellQty;
-  
-  // Save revenue and profit directly in history for easy reporting
   addHistory('sold', product.name, t('hd_sold',{q:sellQty,u:unitLabel(product.unit),total:totalAmount.toFixed(2),profit:profit.toFixed(2)}), totalAmount, profit, sellQty);
-  
   if(product.quantity===0){ addHistory('outofstock',product.name,t('hd_oos',{name:product.name})); showToast(t('t_out_warn',{name:product.name}),'warning'); }
   else if(product.quantity<=5){ showToast(t('t_low',{name:product.name,q:product.quantity}),'warning'); }
   else { showToast(t('t_sold',{q:sellQty,u:unitLabel(product.unit),name:product.name}),'success'); }
@@ -945,17 +1051,13 @@ function openMonthlyReport(){
   monthSales.forEach(h => {
     const dateStr = new Date(h.timestamp).toLocaleDateString();
     if (!dailyData[dateStr]) dailyData[dateStr] = { rev: 0, prof: 0, items: 0, details: [] };
-    
-    // Fallback for old data without revenue/profit fields
     const rev = h.revenue || 0;
     const prof = h.profit || 0;
     const qty = h.qty || 1;
-
     dailyData[dateStr].rev += rev;
     dailyData[dateStr].prof += prof;
     dailyData[dateStr].items += qty;
     dailyData[dateStr].details.push(h.productName + " (x" + qty + ")");
-
     totalRev += rev;
     totalProf += prof;
     totalItems += qty;
@@ -967,11 +1069,9 @@ function openMonthlyReport(){
 
   const tbody = document.getElementById('reportTableBody');
   tbody.innerHTML = '';
-  
   if (Object.keys(dailyData).length === 0) {
     tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:20px;color:var(--text-light)">'+t('no_sales')+'</td></tr>';
   } else {
-    // Sort dates descending
     const sortedDates = Object.keys(dailyData).sort((a,b) => new Date(b) - new Date(a));
     sortedDates.forEach(date => {
       const d = dailyData[date];
@@ -984,7 +1084,6 @@ function openMonthlyReport(){
       tbody.innerHTML += row;
     });
   }
-
   document.getElementById('reportModal').classList.add('active');
 }
 
@@ -997,7 +1096,6 @@ function downloadReportPDF(){
     html2canvas: { scale: 2, useCORS: true },
     jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
   };
-  
   showToast('Generating PDF...', 'success');
   html2pdf().set(opt).from(element).save().then(() => {
     showToast(t('t_data_exp'), 'success');
@@ -1045,11 +1143,7 @@ function verifyOTP(){
 }
 function activatePremium(){
   currentUser.plan='premium'; currentUser.premiumActivatedAt=new Date().toISOString();
-  localStorage.setItem('SI_currentUser',JSON.stringify(currentUser));
-  var users=JSON.parse(localStorage.getItem('SI_users')||'[]');
-  for(var i=0;i<users.length;i++){ if(users[i].id===currentUser.id){users[i].plan='premium';break;} }
-  localStorage.setItem('SI_users',JSON.stringify(users));
-  localStorage.removeItem('SI_pendingCode_'+currentUser.id); localStorage.removeItem('SI_pendingTime_'+currentUser.id);
+  db.collection('users').doc(currentUser.id).update({ plan: 'premium' });
   document.getElementById('paymentStep2').style.display='none';
   document.getElementById('paymentStep3').style.display='block';
   showToast(t('t_prem_act'),'success');
