@@ -232,6 +232,7 @@ body.hindi { font-family: 'Noto Sans Devanagari', 'Inter', sans-serif; }
 .profile-plan { display:inline-block; padding:6px 16px; border-radius:20px; font-size:12px; font-weight:700; margin-top:10px; }
 .profile-plan.free { background:rgba(108,92,231,.1); color:var(--primary); }
 .profile-plan.premium { background:linear-gradient(135deg,#FDCB6E,#F39C12); color:white; }
+.profile-plan.expired { background:rgba(225,112,85,.1); color:var(--danger); }
 .settings-list { padding:0 20px; }
 .settings-item { display:flex; align-items:center; gap:14px; padding:16px; background:white; border-radius:16px; margin-bottom:10px; box-shadow:var(--shadow); cursor:pointer; border:none; width:100%; text-align:left; font-family:inherit; transition:all .2s; }
 .settings-item:active { transform:scale(.98); }
@@ -582,21 +583,21 @@ const translations = {
     hf_all:"All Activities", hf_sold:"Sales", hf_added:"Added", hf_oos:"Out of Stock", hf_edited:"Edited",
     oos_alerts:"Out of Stock Alerts", recent_activity:"Recent Activity",
     hist_empty_h:"No history yet", hist_empty_p:"Your activity will appear here", all_in_stock:"✅ All products in stock!",
-    sub_title:"Smart Inventory Premium", sub_desc:"Unlock unlimited products, advanced analytics, and priority support for your growing business.", sub_period:"/ month",
+    sub_title:"Smart Inventory Premium", sub_desc:"Unlock unlimited products, advanced analytics, and priority support for your growing business.", sub_period:"/ 28 days",
     feat_1:"Unlimited product entries", feat_2:"Advanced sales analytics", feat_3:"Low stock alerts & notifications", feat_4:"Cloud backup & sync", feat_5:"Export reports as PDF/Excel", feat_6:"Priority customer support",
-    upgrade_btn:"Upgrade to Premium - ₹99/mo", plan_premium:"✅ You are on Premium Plan", plan_premium_d:"Unlimited products • Active", plan_free:"Current: Free Plan ({used}/5 products used)",
+    upgrade_btn:"Upgrade to Premium - ₹99/28 days", plan_premium:"✅ You are on Premium Plan", plan_premium_d:"Unlimited products • Active", plan_free:"Current: Free Plan ({used}/5 products used)",
     set_sub:"Subscription", set_sub_d:"Manage your premium plan", set_export:"Export Data", set_export_d:"Download your inventory as JSON", set_about:"About Smart Inventory", set_logout:"Logout", set_logout_d:"Sign out of your account",
     pf_add:"Add New Product", pf_edit:"Edit Product", pf_name:"Product Name", ph_prod_name:"e.g., Basmati Rice 5kg", pf_category:"Category", pf_buy:"Buying Price (₹)", pf_sell:"Selling Price (₹)", pf_qty:"Quantity", pf_unit:"Unit", save_product:"Save Product", cancel:"Cancel",
     u_pcs:"Pieces", u_kg:"Kilograms", u_ltr:"Liters", u_box:"Boxes", u_dozen:"Dozens",
     sell_title:"🛒 Sell Product", sell_available:"Available", sell_total:"Total Amount", sell_confirm:"Confirm Sale",
     pay_title:"💳 Premium Payment", pay_desc:"Pay ₹99 via UPI using the QR code or UPI ID", copy:"Copy", paid_btn:"I Have Paid",
-    verify_title:"🔐 Verification", your_code:"YOUR REQUEST CODE", code_hint:"Send this code with a screenshot on WhatsApp", wa_send:"Send on WhatsApp", wa_send_d:"Request code + payment screenshot", wa_open:"Open WhatsApp", next_q:"What Happens Next?", next_steps:"1. Admin checks your request code<br>2. Sends you an OTP<br>3. You enter that OTP here<br>4. Premium gets activated! 🎉", otp_label:"Enter OTP (from admin)", verify_btn:"Verify & Activate Premium", close:"Close",
-    success_title:"Premium Activated!", success_desc:"Now you can add unlimited products!", go_dashboard:"Go to Dashboard",
+    verify_title:"🔐 Verification", your_code:"YOUR REQUEST CODE", code_hint:"Send this code with a screenshot on WhatsApp", wa_send:"Send on WhatsApp", wa_send_d:"Request code + payment screenshot", wa_open:"Open WhatsApp", next_q:"What Happens Next?", next_steps:"1. Admin checks your request code<br>2. Sends you an OTP<br>3. You enter that OTP here<br>4. Premium gets activated for 28 days! 🎉", otp_label:"Enter OTP (from admin)", verify_btn:"Verify & Activate Premium", close:"Close",
+    success_title:"Premium Activated!", success_desc:"Now you can add unlimited products for 28 days!", go_dashboard:"Go to Dashboard",
     notif_title:"🔔 Notifications", notif_oos:"🚨 Out of Stock", notif_low:"⚠️ Low Stock", notif_clear_h:"All Clear!", notif_clear_p:"No notifications", only_left:"Only {q} {u} left", quantity_is:"Quantity: 0 {u}",
     good_morning:"Good Morning", good_afternoon:"Good Afternoon", good_evening:"Good Evening",
     t_fill_fields:"Please fill in all fields", t_invalid:"Invalid credentials. Try demo@smartinventory.com / demo123", t_welcome:"Welcome back, {name}! 🎉", t_welcome_demo:"Welcome, Demo Vendor! 🎉", t_pw_short:"Password must be at least 6 characters", t_email_exists:"Email already registered!", t_signup_ok:"Account created successfully! 🎉", t_logged_out:"Logged out successfully",
     t_limit:"Free plan limit reached! Upgrade to add more products.", t_limit2:"Free plan limit reached!", t_need_name:"Please enter product name", t_need_buy:"Please enter valid buying price", t_need_sell:"Please enter valid selling price", t_need_qty:"Please enter valid quantity", t_updated:"Product updated successfully! ✅", t_added:"Product added successfully! 🎉", t_deleted:"Product deleted", t_oos_now:"Product is out of stock!", t_not_enough:"Not enough stock!", t_sold:"Sold {q} {u} of {name}! 💰", t_low:"⚠️ Low stock: {name} ({q} left)", t_out_warn:"⚠️ {name} is now out of stock!",
-    t_hist_cleared:"History cleared", t_already_prem:"You are already on Premium! 🎉", t_req_gen:"Request Code Generated! 📋", t_wa_open:"WhatsApp opened! Attach screenshot 📸", t_enter_otp:"Please enter 4-digit OTP", t_no_req:"Request code not found. Please restart payment.", t_wrong_otp:"❌ Wrong OTP! Please check with admin.", t_prem_act:"🎉 Premium activated successfully!", t_upi_copied:"UPI ID copied! 📋", t_data_exp:"Data exported successfully! 📥",
+    t_hist_cleared:"History cleared", t_already_prem:"You are already on Premium! 🎉", t_req_gen:"Request Code Generated! 📋", t_wa_open:"WhatsApp opened! Attach screenshot 📸", t_enter_otp:"Please enter 4-digit OTP", t_no_req:"Request code not found. Please restart payment.", t_wrong_otp:"❌ Wrong OTP! Please check with admin.", t_prem_act:"🎉 Premium activated for 28 days!", t_upi_copied:"UPI ID copied! 📋", t_data_exp:"Data exported successfully! 📥",
     confirm_logout:"Are you sure you want to logout?", confirm_delete:'Delete "{name}"? This cannot be undone.', confirm_clear:"Clear all history?",
     about_text:"Smart Inventory v1.0.0\nSmart Inventory Manager for Indian Vendors\n\nMade with ❤️ for small businesses",
     hd_added:"Added {name} - {q} {u} @ ₹{price}", hd_edited:"Updated {name} - Qty: {q} {u}", hd_deleted:"Deleted {name}", hd_sold:"Sold {q} {u} - ₹{total} (Profit: ₹{profit})", hd_oos:"{name} is now OUT OF STOCK!",
@@ -624,21 +625,21 @@ const translations = {
     hf_all:"सभी गतिविधियाँ", hf_sold:"बिक्री", hf_added:"जोड़े गए", hf_oos:"स्टॉक ख़त्म", hf_edited:"संपादित",
     oos_alerts:"स्टॉक ख़त्म चेतावनी", recent_activity:"हाल की गतिविधि",
     hist_empty_h:"अभी कोई इतिहास नहीं", hist_empty_p:"आपकी गतिविधि यहाँ दिखेगी", all_in_stock:"✅ सभी उत्पाद स्टॉक में हैं!",
-    sub_title:"स्मार्ट इन्वेंटरी प्रीमियम", sub_desc:"अपने बढ़ते व्यापार के लिए असीमित उत्पाद, उन्नत एनालिटिक्स और प्राथमिकता सहायता अनलॉक करें।", sub_period:"/ माह",
+    sub_title:"स्मार्ट इन्वेंटरी प्रीमियम", sub_desc:"अपने बढ़ते व्यापार के लिए असीमित उत्पाद, उन्नत एनालिटिक्स और प्राथमिकता सहायता अनलॉक करें।", sub_period:"/ 28 दिन",
     feat_1:"असीमित उत्पाद प्रविष्टियाँ", feat_2:"उन्नत बिक्री विश्लेषण", feat_3:"कम स्टॉक अलर्ट और सूचनाएँ", feat_4:"क्लाउड बैकअप और सिंक", feat_5:"PDF/Excel में रिपोर्ट निर्यात", feat_6:"प्राथमिकता ग्राहक सहायता",
-    upgrade_btn:"प्रीमियम में अपग्रेड करें - ₹99/माह", plan_premium:"✅ आप प्रीमियम प्लान पर हैं", plan_premium_d:"असीमित उत्पाद • सक्रिय", plan_free:"वर्तमान: फ़्री प्लान ({used}/5 उत्पाद उपयोग हुए)",
+    upgrade_btn:"प्रीमियम में अपग्रेड करें - ₹99/28 दिन", plan_premium:"✅ आप प्रीमियम प्लान पर हैं", plan_premium_d:"असीमित उत्पाद • सक्रिय", plan_free:"वर्तमान: फ़्री प्लान ({used}/5 उत्पाद उपयोग हुए)",
     set_sub:"सदस्यता", set_sub_d:"अपना प्रीमियम प्लान प्रबंधित करें", set_export:"डेटा निर्यात करें", set_export_d:"JSON के रूप में अपनी इन्वेंटरी डाउनलोड करें", set_about:"स्मार्ट इन्वेंटरी के बारे में", set_logout:"लॉगआउट", set_logout_d:"अपने खाते से साइन आउट करें",
     pf_add:"नया उत्पाद जोड़ें", pf_edit:"उत्पाद संपादित करें", pf_name:"उत्पाद का नाम", ph_prod_name:"जैसे, बासमती चावल 5 किग्रा", pf_category:"श्रेणी", pf_buy:"खरीद मूल्य (₹)", pf_sell:"बिक्री मूल्य (₹)", pf_qty:"मात्रा", pf_unit:"इकाई", save_product:"उत्पाद सहेजें", cancel:"रद्द करें",
     u_pcs:"पीस", u_kg:"किलोग्राम", u_ltr:"लीटर", u_box:"डिब्बे", u_dozen:"दर्जन",
     sell_title:"🛒 उत्पाद बेचें", sell_available:"उपलब्ध", sell_total:"कुल राशि", sell_confirm:"बिक्री पुष्टि करें",
     pay_title:"💳 प्रीमियम भुगतान", pay_desc:"QR कोड या UPI आईडी से ₹99 का भुगतान करें", copy:"कॉपी", paid_btn:"मैंने भुगतान कर दिया है",
-    verify_title:"🔐 सत्यापन", your_code:"आपका अनुरोध कोड", code_hint:"इस कोड को स्क्रीनशॉट के साथ WhatsApp पर भेजें", wa_send:"WhatsApp पर भेजें", wa_send_d:"अनुरोध कोड + भुगतान स्क्रीनशॉट", wa_open:"WhatsApp खोलें", next_q:"आगे क्या होगा?", next_steps:"1. एडमिन आपका अनुरोध कोड देखेगा<br>2. आपको OTP भेजेगा<br>3. आप वही OTP यहाँ दर्ज करेंगे<br>4. प्रीमियम चालू हो जाएगा! 🎉", otp_label:"OTP दर्ज करें (एडमिन से मिलेगा)", verify_btn:"सत्यापित करें और प्रीमियम चालू करें", close:"बंद करें",
-    success_title:"प्रीमियम चालू हो गया!", success_desc:"अब आप असीमित उत्पाद जोड़ सकते हैं!", go_dashboard:"डैशबोर्ड पर जाएँ",
+    verify_title:"🔐 सत्यापन", your_code:"आपका अनुरोध कोड", code_hint:"इस कोड को स्क्रीनशॉट के साथ WhatsApp पर भेजें", wa_send:"WhatsApp पर भेजें", wa_send_d:"अनुरोध कोड + भुगतान स्क्रीनशॉट", wa_open:"WhatsApp खोलें", next_q:"आगे क्या होगा?", next_steps:"1. एडमिन आपका अनुरोध कोड देखेगा<br>2. आपको OTP भेजेगा<br>3. आप वही OTP यहाँ दर्ज करेंगे<br>4. 28 दिनों के लिए प्रीमियम चालू हो जाएगा! 🎉", otp_label:"OTP दर्ज करें (एडमिन से मिलेगा)", verify_btn:"सत्यापित करें और प्रीमियम चालू करें", close:"बंद करें",
+    success_title:"प्रीमियम चालू हो गया!", success_desc:"अब आप 28 दिनों के लिए असीमित उत्पाद जोड़ सकते हैं!", go_dashboard:"डैशबोर्ड पर जाएँ",
     notif_title:"🔔 सूचनाएँ", notif_oos:"🚨 स्टॉक ख़त्म", notif_low:"⚠️ कम स्टॉक", notif_clear_h:"सब ठीक है!", notif_clear_p:"कोई सूचना नहीं", only_left:"केवल {q} {u} बचे हैं", quantity_is:"मात्रा: 0 {u}",
     good_morning:"सुप्रभात", good_afternoon:"नमस्कार", good_evening:"शुभ संध्या",
     t_fill_fields:"कृपया सभी फ़ील्ड भरें", t_invalid:"गलत क्रेडेंशियल। demo@smartinventory.com / demo123 आज़माएँ", t_welcome:"वापसी पर स्वागत है, {name}! 🎉", t_welcome_demo:"स्वागत है, डेमो विक्रेता! 🎉", t_pw_short:"पासवर्ड कम से कम 6 अक्षर का होना चाहिए", t_email_exists:"ईमेल पहले से पंजीकृत है!", t_signup_ok:"खाता सफलतापूर्वक बन गया! 🎉", t_logged_out:"सफलतापूर्वक लॉग आउट हो गए",
     t_limit:"फ़्री प्लान की सीमा पूरी! और उत्पाद जोड़ने के लिए अपग्रेड करें।", t_limit2:"फ़्री प्लान की सीमा पूरी!", t_need_name:"कृपया उत्पाद का नाम दर्ज करें", t_need_buy:"कृपया मान्य खरीद मूल्य दर्ज करें", t_need_sell:"कृपया मान्य बिक्री मूल्य दर्ज करें", t_need_qty:"कृपया मान्य मात्रा दर्ज करें", t_updated:"उत्पाद सफलतापूर्वक अपडेट हुआ! ✅", t_added:"उत्पाद सफलतापूर्वक जोड़ा गया! 🎉", t_deleted:"उत्पाद हटा दिया गया", t_oos_now:"उत्पाद स्टॉक में नहीं है!", t_not_enough:"पर्याप्त स्टॉक नहीं है!", t_sold:"{name} के {q} {u} बिके! 💰", t_low:"⚠️ कम स्टॉक: {name} ({q} बचे)", t_out_warn:"⚠️ {name} अब स्टॉक ख़त्म!",
-    t_hist_cleared:"इतिहास मिटा दिया गया", t_already_prem:"आप पहले से प्रीमियम पर हैं! 🎉", t_req_gen:"अनुरोध कोड जनरेट हुआ! 📋", t_wa_open:"WhatsApp खुल गया! स्क्रीनशॉट संलग्न करें 📸", t_enter_otp:"कृपया 4 अंकों का OTP दर्ज करें", t_no_req:"अनुरोध कोड नहीं मिला। कृपया भुगतान फिर से शुरू करें।", t_wrong_otp:"❌ गलत OTP! कृपया एडमिन से जाँचें।", t_prem_act:"🎉 प्रीमियम सफलतापूर्वक चालू हुआ!", t_upi_copied:"UPI आईडी कॉपी हुई! 📋", t_data_exp:"डेटा सफलतापूर्वक निर्यात हुआ! 📥",
+    t_hist_cleared:"इतिहास मिटा दिया गया", t_already_prem:"आप पहले से प्रीमियम पर हैं! 🎉", t_req_gen:"अनुरोध कोड जनरेट हुआ! 📋", t_wa_open:"WhatsApp खुल गया! स्क्रीनशॉट संलग्न करें 📸", t_enter_otp:"कृपया 4 अंकों का OTP दर्ज करें", t_no_req:"अनुरोध कोड नहीं मिला। कृपया भुगतान फिर से शुरू करें।", t_wrong_otp:"❌ गलत OTP! कृपया एडमिन से जाँचें।", t_prem_act:"🎉 28 दिनों के लिए प्रीमियम चालू हुआ!", t_upi_copied:"UPI आईडी कॉपी हुई! 📋", t_data_exp:"डेटा सफलतापूर्वक निर्यात हुआ! 📥",
     confirm_logout:"क्या आप वाकई लॉग आउट करना चाहते हैं?", confirm_delete:'"{name}" को हटाएँ? यह वापस नहीं आएगा।', confirm_clear:"सारा इतिहास मिटाएँ?",
     about_text:"स्मार्ट इन्वेंटरी v1.0.0\nभारतीय दुकानदारों के लिए स्मार्ट इन्वेंटरी मैनेजर\n\nछोटे व्यवसायों के लिए ❤️ से बनाया गया",
     hd_added:"{name} जोड़ा - {q} {u} @ ₹{price}", hd_edited:"{name} अपडेट किया - मात्रा: {q} {u}", hd_deleted:"{name} हटाया गया", hd_sold:"{q} {u} बेचे - ₹{total} (लाभ: ₹{profit})", hd_oos:"{name} अब स्टॉक ख़त्म है!",
@@ -718,7 +719,6 @@ window.addEventListener('load', function() {
   applyStaticTranslations();
   setTimeout(function() {
     document.getElementById('splashScreen').classList.add('hidden');
-    // checkAuth() is now handled by onAuthStateChanged
   }, 2000);
 });
 
@@ -728,7 +728,9 @@ function showApp(){
   document.getElementById('loginPage').classList.remove('active'); 
   document.getElementById('signupPage').classList.remove('active'); 
   document.getElementById('appContainer').classList.add('active'); 
-  loadData(); // Load data from Firebase
+  loadData().then(() => {
+      checkPremiumValidity();
+  });
 }
 
 function navigateTo(pageId){
@@ -740,6 +742,56 @@ function navigateTo(pageId){
   if(pageId==='historyPage'){ renderHistory(); }
   if(pageId==='subscriptionPage'){ updateSubscriptionUI(); }
   if(pageId==='profilePage'){ updateProfileUI(); }
+}
+
+// ===================== PREMIUM VALIDITY CHECKER (28 DAYS + 7 DAYS GRACE) =====================
+async function checkPremiumValidity() {
+  if (!currentUser || currentUser.id === 'demo_user') return;
+  if (!currentUser.premiumActivatedAt) return;
+
+  const activatedDate = new Date(currentUser.premiumActivatedAt);
+  const today = new Date();
+  const diffTime = Math.abs(today - activatedDate);
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+  currentUser.premiumDaysUsed = diffDays;
+
+  if (diffDays <= 28) {
+    currentUser.plan = 'premium';
+    currentUser.graceStatus = 'active';
+  } 
+  else if (diffDays > 28 && diffDays <= 35) {
+    currentUser.plan = 'premium';
+    currentUser.graceStatus = 'grace';
+    const daysLeft = 35 - diffDays;
+    
+    setTimeout(() => {
+      showToast(`⚠️ Premium expires in ${daysLeft} day(s)! Renew now.`, 'warning');
+    }, 1500);
+    
+    addNotification('premium_expiry', `⏰ Your premium expires in ${daysLeft} day(s)!`, 'warning');
+  } 
+  else {
+    currentUser.plan = 'expired';
+    currentUser.graceStatus = 'expired';
+    
+    await db.collection('users').doc(currentUser.id).update({ 
+      plan: 'expired' 
+    });
+    
+    setTimeout(() => {
+      showToast('⚠️ Premium expired! Only first 5 products accessible. Renew to unlock all.', 'warning');
+    }, 1500);
+  }
+}
+
+function addNotification(type, message, level) {
+  try {
+    let notifs = JSON.parse(localStorage.getItem('SI_notifs_' + currentUser.id) || '[]');
+    notifs.unshift({ type, message, level, time: new Date().toISOString() });
+    if (notifs.length > 20) notifs = notifs.slice(0, 20);
+    localStorage.setItem('SI_notifs_' + currentUser.id, JSON.stringify(notifs));
+  } catch(e) {}
 }
 
 // ===================== AUTH (FIREBASE) =====================
@@ -817,6 +869,16 @@ async function loadData(){
     return; 
   } 
   try{ 
+    const userDoc = await db.collection('users').doc(currentUser.id).get();
+    if (userDoc.exists) {
+      const userData = userDoc.data();
+      currentUser.name = userData.name || currentUser.name;
+      currentUser.shopName = userData.shopName || 'My Shop';
+      currentUser.phone = userData.phone || '';
+      currentUser.plan = userData.plan || 'free';
+      currentUser.premiumActivatedAt = userData.premiumActivatedAt ? userData.premiumActivatedAt.toDate().toISOString() : null;
+    }
+
     const docRef = db.collection('users').doc(currentUser.id).collection('inventory').doc('data');
     const docSnap = await docRef.get();
     if (docSnap.exists) {
@@ -855,7 +917,16 @@ async function saveData(){
 
 // ===================== PRODUCTS =====================
 function showAddProductModal(){
-  if(currentUser.plan==='free'&&products.length>=5){ showToast(t('t_limit'),'warning'); navigateTo('subscriptionPage'); return; }
+  if (currentUser.plan === 'expired' && products.length >= 5) {
+    showToast('🔒 Premium expired! Renew to add more products.', 'warning');
+    navigateTo('subscriptionPage');
+    return;
+  }
+  if(currentUser.plan==='free'&&products.length>=5){ 
+    showToast(t('t_limit'),'warning'); 
+    navigateTo('subscriptionPage'); 
+    return; 
+  }
   document.getElementById('modalTitle').textContent=t('pf_add');
   document.getElementById('editProductId').value='';
   document.getElementById('prodName').value='';
@@ -866,6 +937,7 @@ function showAddProductModal(){
   document.getElementById('prodUnit').value='pcs';
   document.getElementById('productModal').classList.add('active');
 }
+
 function editProduct(id){
   var product=findProd(id); if(!product)return;
   document.getElementById('modalTitle').textContent=t('pf_edit');
@@ -878,6 +950,7 @@ function editProduct(id){
   document.getElementById('prodUnit').value=product.unit;
   document.getElementById('productModal').classList.add('active');
 }
+
 function findProd(id){ for(var i=0;i<products.length;i++){ if(products[i].id===id) return products[i]; } return null; }
 
 function saveProduct(){
@@ -896,12 +969,18 @@ function saveProduct(){
     var idx=-1; for(var i=0;i<products.length;i++){ if(products[i].id===editId){idx=i;break;} }
     if(idx!==-1){ Object.assign(products[idx],{name,category,buyPrice,sellPrice,quantity,unit,updatedAt:new Date().toISOString()}); addHistory('edited',name,t('hd_edited',{name,q:quantity,u:unitLabel(unit)})); showToast(t('t_updated'),'success'); }
   } else {
+    if (currentUser.plan === 'expired' && products.length >= 5) {
+      showToast('🔒 Premium expired! Renew to add more products.', 'warning');
+      closeModal('productModal');
+      return;
+    }
     if(currentUser.plan==='free'&&products.length>=5){ showToast(t('t_limit2'),'warning'); closeModal('productModal'); return; }
     products.push({id:'prod_'+Date.now(),name,category,buyPrice,sellPrice,quantity,unit,createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()});
     addHistory('added',name,t('hd_added',{name,q:quantity,u:unitLabel(unit),price:sellPrice})); showToast(t('t_added'),'success');
   }
   saveData(); renderProducts(); updateStats(); updateHistoryBadge(); closeModal('productModal');
 }
+
 function deleteProduct(id){
   var product=findProd(id); if(!product)return;
   if(confirm(t('confirm_delete',{name:product.name}))){ products=products.filter(p=>p.id!==id); addHistory('deleted',product.name,t('hd_deleted',{name:product.name})); saveData(); renderProducts(); updateStats(); showToast(t('t_deleted'),'success'); }
@@ -920,15 +999,18 @@ function openSellModal(id){
   updateSellTotal();
   document.getElementById('sellModal').classList.add('active');
 }
+
 function changeSellQty(delta){
   var product=findProd(document.getElementById('sellProductId').value); if(!product)return;
   sellQty=Math.max(1,Math.min(sellQty+delta,product.quantity));
   document.getElementById('sellQtyNum').textContent=sellQty; updateSellTotal();
 }
+
 function updateSellTotal(){
   var product=findProd(document.getElementById('sellProductId').value); if(!product)return;
   document.getElementById('sellTotalAmount').textContent='₹'+(sellQty*product.sellPrice).toFixed(2);
 }
+
 function confirmSell(){
   var product=findProd(document.getElementById('sellProductId').value); if(!product)return;
   if(sellQty>product.quantity){ showToast(t('t_not_enough'),'error'); return; }
@@ -947,6 +1029,7 @@ function addHistory(type, productName, description, revenue=0, profit=0, qty=0){
   historyLog.unshift({id:'hist_'+Date.now(), type, productName, description, revenue, profit, qty, timestamp:new Date().toISOString()});
   if(historyLog.length>100) historyLog=historyLog.slice(0,100);
 }
+
 function renderHistory(){
   var filter=document.getElementById('historyFilter').value;
   var filteredHistory = filter==='all'?historyLog:historyLog.filter(h=>h.type===filter);
@@ -971,6 +1054,7 @@ function renderHistory(){
     oosContainer.innerHTML=oosHtml;
   }
 }
+
 function clearHistory(){ if(confirm(t('confirm_clear'))){ historyLog=[]; saveData(); renderHistory(); updateHistoryBadge(); updateTodayProfit(); showToast(t('t_hist_cleared'),'success'); } }
 function updateHistoryBadge(){ var c=products.filter(p=>p.quantity<=0).length; var badge=document.getElementById('historyBadge'); if(c>0){badge.style.display='flex';badge.textContent=c;}else{badge.style.display='none';} }
 
@@ -979,28 +1063,60 @@ function renderProducts(){
   var search=document.getElementById('searchInput').value.toLowerCase();
   var filtered=products.filter(p=> p.name.toLowerCase().indexOf(search)!==-1 && (currentFilter==='all'||p.category===currentFilter));
   var container=document.getElementById('productList');
+  
   if(filtered.length===0){
     container.innerHTML = search
       ? '<div class="empty-state"><div class="emoji">🔍</div><h3>'+t('empty_no_results_h')+'</h3><p>'+t('empty_no_results_p')+'</p></div>'
       : '<div class="empty-state"><div class="emoji">📦</div><h3>'+t('empty_no_products_h')+'</h3><p>'+t('empty_no_products_p')+'</p></div>';
     return;
   }
+
+  const isExpired = currentUser && currentUser.plan === 'expired';
+  let accessibleCount = 0;
+
   var html='';
-  for(var i=0;i<filtered.length;i++){ var p=filtered[i];
-    var profit=p.sellPrice-p.buyPrice; var profitClass=profit>=0?'profit':'loss';
+  for(var i=0;i<filtered.length;i++){ 
+    var p=filtered[i];
+    var profit=p.sellPrice-p.buyPrice; 
+    var profitClass=profit>=0?'profit':'loss';
     var stockClass = p.quantity===0?'out-of-stock':(p.quantity<=5?'low-stock':'');
     var oosBadge = p.quantity===0?'<span class="oos-badge">'+t('oos_badge')+'</span>':'';
-    var sellDisabled = p.quantity<=0?'disabled style="opacity:0.5"':'';
     var qtyColor = p.quantity===0?'var(--danger)':(p.quantity<=5?'#F39C12':'var(--primary)');
-    html+='<div class="product-card '+stockClass+'">'+oosBadge;
-    html+='<div class="product-emoji cat-'+p.category+'">'+getCategoryEmoji(p.category)+'</div>';
-    html+='<div class="product-info"><div class="product-name">'+p.name+'</div>';
-    html+='<div class="product-meta"><span>'+t('buy')+': ₹'+p.buyPrice+'</span><span>'+t('sell_lbl')+': ₹'+p.sellPrice+'</span><span class="'+profitClass+'">'+(profit>=0?'+':'')+'₹'+profit.toFixed(0)+t('per_unit')+'</span></div>';
-    html+='<div class="product-actions"><button class="btn-sell" onclick="openSellModal(\''+p.id+'\')" '+sellDisabled+'><i class="fas fa-cart-shopping"></i> '+t('sell')+'</button><button class="btn-edit" onclick="editProduct(\''+p.id+'\')"><i class="fas fa-pen"></i></button><button class="btn-delete" onclick="deleteProduct(\''+p.id+'\')"><i class="fas fa-trash"></i></button></div></div>';
-    html+='<div class="product-qty"><div class="qty-num" style="color:'+qtyColor+'">'+p.quantity+'</div><div class="qty-label">'+unitLabel(p.unit)+'</div></div></div>';
+
+    const isLocked = isExpired && accessibleCount >= 5;
+    
+    if (!isLocked) accessibleCount++;
+
+    if (isLocked) {
+      html+='<div class="product-card" style="opacity:0.6;filter:grayscale(0.5);border-left:4px solid var(--text-light);">';
+      html+='<div class="product-emoji cat-'+p.category+'">'+getCategoryEmoji(p.category)+'</div>';
+      html+='<div class="product-info"><div class="product-name">'+p.name+'</div>';
+      html+='<div class="product-meta"><span style="color:var(--danger);font-weight:700">🔒 Locked</span></div>';
+      html+='<div style="margin-top:8px;font-size:11px;color:var(--text-light);line-height:1.4">Premium expired. Renew to unlock this product.</div>';
+      html+='</div></div>';
+    } else {
+      var sellDisabled = p.quantity<=0?'disabled style="opacity:0.5"':'';
+      html+='<div class="product-card '+stockClass+'">'+oosBadge;
+      html+='<div class="product-emoji cat-'+p.category+'">'+getCategoryEmoji(p.category)+'</div>';
+      html+='<div class="product-info"><div class="product-name">'+p.name+'</div>';
+      html+='<div class="product-meta"><span>'+t('buy')+': ₹'+p.buyPrice+'</span><span>'+t('sell_lbl')+': ₹'+p.sellPrice+'</span><span class="'+profitClass+'">'+(profit>=0?'+':'')+'₹'+profit.toFixed(0)+t('per_unit')+'</span></div>';
+      html+='<div class="product-actions"><button class="btn-sell" onclick="openSellModal(\''+p.id+'\')" '+sellDisabled+'><i class="fas fa-cart-shopping"></i> '+t('sell')+'</button><button class="btn-edit" onclick="editProduct(\''+p.id+'\')"><i class="fas fa-pen"></i></button><button class="btn-delete" onclick="deleteProduct(\''+p.id+'\')"><i class="fas fa-trash"></i></button></div></div>';
+      html+='<div class="product-qty"><div class="qty-num" style="color:'+qtyColor+'">'+p.quantity+'</div><div class="qty-label">'+unitLabel(p.unit)+'</div></div></div>';
+    }
   }
+
+  if (isExpired && products.length > 5) {
+    html += '<div style="margin-top:20px;background:linear-gradient(135deg,#FDCB6E,#F39C12);border-radius:16px;padding:20px;text-align:center;color:white;">';
+    html += '<div style="font-size:32px;margin-bottom:8px">🔒</div>';
+    html += '<h3 style="font-size:16px;font-weight:700;margin-bottom:6px">Unlock All ' + products.length + ' Products</h3>';
+    html += '<p style="font-size:13px;opacity:0.95;margin-bottom:14px">Your premium has expired. Renew now to access all products and continue selling.</p>';
+    html += '<button onclick="navigateTo(\'subscriptionPage\')" style="background:white;color:#F39C12;border:none;padding:10px 24px;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit">Renew Premium - ₹99</button>';
+    html += '</div>';
+  }
+
   container.innerHTML=html;
 }
+
 function filterProducts(){ renderProducts(); }
 function filterCategory(cat,btn){ currentFilter=cat; document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active')); btn.classList.add('active'); renderProducts(); }
 
@@ -1105,19 +1221,36 @@ function downloadReportPDF(){
 // ===================== SUBSCRIPTION =====================
 function updateSubscriptionUI(){
   var info=document.getElementById('currentPlanInfo');
-  if(currentUser.plan==='premium'){ info.innerHTML='<span style="color:var(--secondary);font-weight:600">'+t('plan_premium')+'</span><br><span style="font-size:12px">'+t('plan_premium_d')+'</span>'; }
-  else { info.innerHTML=t('plan_free',{used:products.length}); }
+  if(currentUser.plan==='premium'){
+    const daysUsed = currentUser.premiumDaysUsed || 0;
+    const daysLeft = Math.max(0, 28 - daysUsed);
+    const isGrace = currentUser.graceStatus === 'grace';
+    
+    if (isGrace) {
+      const graceDaysLeft = 35 - daysUsed;
+      info.innerHTML = '<span style="color:#F39C12;font-weight:600">⚠️ Grace Period: ' + graceDaysLeft + ' day(s) left</span><br><span style="font-size:12px">Renew now to keep all features!</span>';
+    } else {
+      info.innerHTML = '<span style="color:var(--secondary);font-weight:600">'+t('plan_premium')+'</span><br><span style="font-size:12px">' + daysLeft + ' days remaining</span>';
+    }
+  } 
+  else if (currentUser.plan === 'expired') {
+    info.innerHTML = '<span style="color:var(--danger);font-weight:600">🔒 Premium Expired</span><br><span style="font-size:12px">Only first 5 products accessible. Renew to unlock all.</span>';
+  }
+  else { 
+    info.innerHTML = t('plan_free',{used:products.length}); 
+  }
 }
 
 // ===================== PAYMENT =====================
 function showPaymentModal(){
-  if(currentUser.plan==='premium'){ showToast(t('t_already_prem'),'success'); return; }
+  if(currentUser.plan==='premium' && currentUser.graceStatus !== 'grace'){ showToast(t('t_already_prem'),'success'); return; }
   document.getElementById('paymentStep1').style.display='block';
   document.getElementById('paymentStep2').style.display='none';
   document.getElementById('paymentStep3').style.display='none';
   document.getElementById('otpInput').value='';
   document.getElementById('paymentModal').classList.add('active');
 }
+
 function generateRequestCode(){
   requestCodeNumber=Math.floor(1000+Math.random()*9000);
   currentRequestCode='REQ-'+requestCodeNumber;
@@ -1128,12 +1261,14 @@ function generateRequestCode(){
   document.getElementById('paymentStep2').style.display='block';
   showToast(t('t_req_gen'),'success');
 }
+
 function sendWhatsApp(){
   if(!currentRequestCode){ showToast(t('t_no_req'),'error'); return; }
   var msg='Namaste! 🙏\n\nMaine Smart Inventory Premium ke liye payment kar diya hai.\n\n📋 Request Code: '+currentRequestCode+'\n💰 Amount: ₹99\n👤 Name: '+(currentUser.name||'User')+'\n📧 Email: '+(currentUser.email||'N/A')+'\n\nPayment screenshot attach kar raha hoon. Please OTP bhejo.\n\nThank you!';
   window.open('https://wa.me/919628655528?text='+encodeURIComponent(msg),'_blank');
   showToast(t('t_wa_open'),'success');
 }
+
 function verifyOTP(){
   var otp=document.getElementById('otpInput').value.trim();
   if(!otp||otp.length!==4){ showToast(t('t_enter_otp'),'error'); return; }
@@ -1141,18 +1276,29 @@ function verifyOTP(){
   var exp=(requestCodeNumber+1234).toString(); if(exp.length>4) exp=exp.slice(-4);
   if(otp===exp){ activatePremium(); } else { showToast(t('t_wrong_otp'),'error'); }
 }
+
 function activatePremium(){
-  currentUser.plan='premium'; currentUser.premiumActivatedAt=new Date().toISOString();
-  db.collection('users').doc(currentUser.id).update({ plan: 'premium' });
+  currentUser.plan = 'premium';
+  currentUser.premiumActivatedAt = new Date().toISOString();
+  currentUser.graceStatus = 'active';
+  currentUser.premiumDaysUsed = 0;
+  
+  db.collection('users').doc(currentUser.id).update({ 
+    plan: 'premium',
+    premiumActivatedAt: firebase.firestore.Timestamp.now()
+  });
+  
   document.getElementById('paymentStep2').style.display='none';
   document.getElementById('paymentStep3').style.display='block';
   showToast(t('t_prem_act'),'success');
   refreshDynamicUI();
 }
+
 function copyUPI(){
   var upiId='akashji124421@ptyes';
   if(navigator.clipboard){ navigator.clipboard.writeText(upiId).then(()=>showToast(t('t_upi_copied'),'success')).catch(()=>fallbackCopy(upiId)); } else fallbackCopy(upiId);
 }
+
 function fallbackCopy(text){ var ta=document.createElement('textarea'); ta.value=text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); showToast(t('t_upi_copied'),'success'); }
 
 // ===================== PROFILE =====================
@@ -1162,8 +1308,20 @@ function updateProfileUI(){
   document.getElementById('profileName').textContent=currentUser.name;
   document.getElementById('profileEmail').textContent=currentUser.email;
   var planEl=document.getElementById('profilePlan');
-  if(currentUser.plan==='premium'){ planEl.textContent='👑 '+(currentLang==='hi'?'प्रीमियम प्लान':'PREMIUM PLAN'); planEl.className='profile-plan premium'; }
-  else { planEl.textContent=currentLang==='hi'?'फ़्री प्लान':'FREE PLAN'; planEl.className='profile-plan free'; }
+  if(currentUser.plan==='premium'){
+    const daysUsed = currentUser.premiumDaysUsed || 0;
+    const daysLeft = Math.max(0, 28 - daysUsed);
+    planEl.textContent='👑 '+(currentLang==='hi'?'प्रीमियम ('+daysLeft+' दिन शेष)':'PREMIUM ('+daysLeft+' days left)');
+    planEl.className='profile-plan premium';
+  }
+  else if(currentUser.plan==='expired'){
+    planEl.textContent='🔒 '+(currentLang==='hi'?'प्रीमियम समाप्त':'PREMIUM EXPIRED');
+    planEl.className='profile-plan expired';
+  }
+  else { 
+    planEl.textContent=currentLang==='hi'?'फ़्री प्लान':'FREE PLAN'; 
+    planEl.className='profile-plan free'; 
+  }
 }
 
 // ===================== UTILITIES =====================
@@ -1173,10 +1331,20 @@ function updateGreeting(){ var h=new Date().getHours(); var g=h<12?t('good_morni
 function getCategoryEmoji(cat){ return {grocery:'🛒',electronics:'📱',clothing:'👕',food:'🍔',other:'📦'}[cat]||'📦'; }
 function unitLabel(u){ return {pcs:t('u_pcs'),kg:t('u_kg'),ltr:t('u_ltr'),box:t('u_box'),dozen:t('u_dozen')}[u]||u; }
 function getTimeAgo(ts){ var s=Math.floor((new Date()-new Date(ts))/1000); if(s<60)return t('just_now'); var m=Math.floor(s/60); if(m<60)return t('mins_ago',{n:m}); var hr=Math.floor(m/60); if(hr<24)return t('hours_ago',{n:hr}); return t('days_ago',{n:Math.floor(hr/24)}); }
+
 function showNotifications(){
   var oos=products.filter(p=>p.quantity<=0), low=products.filter(p=>p.quantity>0&&p.quantity<=5);
   var html='';
-  if(oos.length===0&&low.length===0){ html='<div class="empty-state" style="padding:30px"><div class="emoji">✅</div><h3>'+t('notif_clear_h')+'</h3><p>'+t('notif_clear_p')+'</p></div>'; }
+  
+  // Premium expiry notifications
+  if (currentUser && currentUser.graceStatus === 'grace') {
+    const daysLeft = 35 - (currentUser.premiumDaysUsed || 0);
+    html += '<div class="history-item"><div class="history-icon edited"><i class="fas fa-clock"></i></div><div class="history-info"><h4>⏰ Premium Expiring Soon</h4><p>Your premium will expire in ' + daysLeft + ' day(s). Renew now!</p></div></div>';
+  } else if (currentUser && currentUser.plan === 'expired') {
+    html += '<div class="history-item"><div class="history-icon outofstock"><i class="fas fa-lock"></i></div><div class="history-info"><h4>🔒 Premium Expired</h4><p>Only first 5 products accessible. Renew to unlock all.</p></div></div>';
+  }
+  
+  if(oos.length===0&&low.length===0&&html===''){ html='<div class="empty-state" style="padding:30px"><div class="emoji">✅</div><h3>'+t('notif_clear_h')+'</h3><p>'+t('notif_clear_p')+'</p></div>'; }
   else {
     if(oos.length>0){ html+='<h4 style="margin-bottom:10px;color:var(--danger)">'+t('notif_oos')+'</h4>'; for(var i=0;i<oos.length;i++){ var p=oos[i]; html+='<div class="history-item"><div class="history-icon outofstock"><i class="fas fa-triangle-exclamation"></i></div><div class="history-info"><h4>'+p.name+'</h4><p>'+t('quantity_is',{u:unitLabel(p.unit)})+'</p></div></div>'; } }
     if(low.length>0){ html+='<h4 style="margin:16px 0 10px;color:#F39C12">'+t('notif_low')+'</h4>'; for(var j=0;j<low.length;j++){ var q=low[j]; html+='<div class="history-item"><div class="history-icon edited"><i class="fas fa-exclamation"></i></div><div class="history-info"><h4>'+q.name+'</h4><p>'+t('only_left',{q:q.quantity,u:unitLabel(q.unit)})+'</p></div></div>'; } }
@@ -1184,12 +1352,14 @@ function showNotifications(){
   document.getElementById('notificationList').innerHTML=html;
   document.getElementById('notificationModal').classList.add('active');
 }
+
 function exportData(){
   var data={products,history:historyLog,exportedAt:new Date().toISOString()};
   var blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   var url=URL.createObjectURL(blob); var a=document.createElement('a'); a.href=url; a.download='SmartInventory_data_'+new Date().toISOString().split('T')[0]+'.json'; a.click(); URL.revokeObjectURL(url);
   showToast(t('t_data_exp'),'success');
 }
+
 function showAbout(){ alert(t('about_text')); }
 
 document.querySelectorAll('.modal-overlay').forEach(function(ov){ ov.addEventListener('click',function(e){ if(e.target===this) this.classList.remove('active'); }); });
