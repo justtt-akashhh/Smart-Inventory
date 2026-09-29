@@ -6,10 +6,8 @@
 <title>Smart Inventory - Vendor Inventory Manager</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<!-- PDF Generation Library -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
-<!-- ================= FIREBASE SDK (Compat Version for HTML) ================= -->
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
@@ -27,19 +25,17 @@
 
 body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; transition: padding-top 0.3s ease; }
 body.hindi { font-family: 'Noto Sans Devanagari', 'Inter', sans-serif; }
-body.is-offline { padding-top: 40px; } /* Push content down when offline banner is shown */
+body.is-offline { padding-top: 38px; }
 
 /* OFFLINE BANNER */
 .offline-banner {
   position: fixed; top: 0; left: 0; right: 0; background: linear-gradient(90deg, #E17055, #D63031);
   color: white; text-align: center; padding: 10px; font-size: 13px;
   font-weight: 700; z-index: 10001; display: none; box-shadow: 0 4px 15px rgba(225, 112, 85, 0.4);
-  letter-spacing: 0.5px;
 }
-.offline-banner.show { display: block; animation: slideDown 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+.offline-banner.show { display: block; animation: slideDown 0.4s ease; }
 @keyframes slideDown { from { transform: translateY(-100%); } to { transform: translateY(0); } }
 
-/* LANGUAGE SWITCHER */
 .lang-switch-wrap { display:flex; justify-content:center; gap:6px; margin-bottom:18px; }
 .lang-pill { display:inline-flex; background:rgba(255,255,255,0.25); border-radius:14px; padding:4px; backdrop-filter:blur(10px); }
 .lang-opt { border:none; background:transparent; color:#fff; font-family:'Inter','Noto Sans Devanagari',sans-serif; font-weight:700; font-size:13px; padding:7px 16px; border-radius:11px; cursor:pointer; transition:all .25s; }
@@ -47,7 +43,6 @@ body.is-offline { padding-top: 40px; } /* Push content down when offline banner 
 .top-lang-btn { position:relative; }
 .top-lang-btn .lang-label { font-size:11px; font-weight:800; letter-spacing:.5px; }
 
-/* SPLASH SCREEN */
 .splash-screen { position:fixed; inset:0; background:linear-gradient(135deg,#6C5CE7 0%,#A29BFE 50%,#74B9FF 100%); display:flex; flex-direction:column; align-items:center; justify-content:center; z-index:10000; transition:opacity .5s,visibility .5s; }
 .splash-screen.hidden { opacity:0; visibility:hidden; pointer-events:none; }
 .splash-logo { width:100px; height:100px; background:white; border-radius:28px; display:flex; align-items:center; justify-content:center; font-size:48px; margin-bottom:20px; animation:splashPulse 1.5s ease-in-out infinite; box-shadow:0 10px 40px rgba(0,0,0,.2); }
@@ -55,7 +50,6 @@ body.is-offline { padding-top: 40px; } /* Push content down when offline banner 
 .splash-title { color:white; font-size:32px; font-weight:800; letter-spacing:-1px; }
 .splash-subtitle { color:rgba(255,255,255,.8); font-size:14px; margin-top:8px; font-weight:400; }
 
-/* AUTH PAGES */
 .auth-container { min-height:100vh; display:none; flex-direction:column; background:var(--bg); }
 .auth-container.active { display:flex; }
 .auth-header { background:linear-gradient(135deg,#6C5CE7 0%,#A29BFE 100%); padding:50px 30px 40px; border-radius:0 0 40px 40px; text-align:center; position:relative; overflow:hidden; }
@@ -82,7 +76,6 @@ body.is-offline { padding-top: 40px; } /* Push content down when offline banner 
 .auth-divider::before, .auth-divider::after { content:''; flex:1; height:1px; background:var(--border); }
 .auth-divider span { font-size:12px; color:var(--text-light); font-weight:500; }
 
-/* MAIN APP */
 .app-container { display:none; min-height:100vh; padding-bottom:90px; }
 .app-container.active { display:block; }
 .top-bar { background:linear-gradient(135deg,#6C5CE7,#A29BFE); padding:20px 20px 24px; border-radius:0 0 30px 30px; position:sticky; top:0; z-index:100; }
@@ -92,7 +85,6 @@ body.is-offline { padding-top: 40px; } /* Push content down when offline banner 
 .top-bar-btn { min-width:40px; height:40px; padding:0 10px; background:rgba(255,255,255,.2); border:none; border-radius:12px; color:white; font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; transition:all .3s; backdrop-filter:blur(10px); }
 .top-bar-btn:active { background:rgba(255,255,255,.3); transform:scale(.95); }
 
-/* TODAY'S PROFIT CARD */
 .today-profit-card {
   background: linear-gradient(135deg, #00B894, #55EFC4);
   margin: -10px 20px 16px;
@@ -169,7 +161,6 @@ body.is-offline { padding-top: 40px; } /* Push content down when offline banner 
 .modal-handle { width:40px; height:4px; background:var(--border); border-radius:2px; margin:0 auto 20px; }
 .modal h3 { font-size:20px; font-weight:800; margin-bottom:20px; }
 
-/* MONTHLY REPORT STYLES */
 .report-header { text-align: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px dashed var(--border); }
 .report-header h2 { font-size: 22px; color: var(--primary); margin-bottom: 5px; }
 .report-header p { font-size: 13px; color: var(--text-light); }
@@ -218,10 +209,10 @@ body.is-offline { padding-top: 40px; } /* Push content down when offline banner 
 .empty-state h3 { font-size:18px; font-weight:700; margin-bottom:8px; }
 .empty-state p { font-size:14px; color:var(--text-light); line-height:1.5; }
 
-.toast { position:fixed; top:20px; left:50%; transform:translateX(-50%) translateY(-100px); background:var(--text); color:white; padding:14px 24px; border-radius:14px; font-size:14px; font-weight:600; z-index:9999; transition:transform .4s cubic-bezier(.68,-.55,.265,1.55); box-shadow:0 8px 30px rgba(0,0,0,.2); display:flex; align-items:center; gap:8px; max-width:90%; font-family:inherit; text-align: center; }
+.toast { position:fixed; top:20px; left:50%; transform:translateX(-50%) translateY(-100px); background:var(--text); color:white; padding:14px 24px; border-radius:14px; font-size:14px; font-weight:600; z-index:9999; transition:transform .4s cubic-bezier(.68,-.55,.265,1.55); box-shadow:0 8px 30px rgba(0,0,0,.2); display:flex; align-items:center; gap:8px; max-width:90%; font-family:inherit; text-align:center; }
 .toast.show { transform:translateX(-50%) translateY(0); }
 .toast.success{background:var(--secondary);} .toast.error{background:var(--danger);} .toast.warning{background:#FDCB6E;color:var(--text);}
-body.is-offline .toast.show { top: 50px; } /* Adjust toast position when offline banner is visible */
+body.is-offline .toast.show { top: 50px; }
 
 .fab { position:fixed; bottom:90px; right:20px; width:56px; height:56px; background:linear-gradient(135deg,#6C5CE7,#A29BFE); border:none; border-radius:18px; color:white; font-size:24px; cursor:pointer; box-shadow:0 6px 25px rgba(108,92,231,.4); z-index:999; display:flex; align-items:center; justify-content:center; transition:all .3s; }
 .fab:active { transform:scale(.9); }
@@ -264,7 +255,7 @@ body.is-offline .toast.show { top: 50px; } /* Adjust toast position when offline
   .bottom-nav { max-width:430px; left:50%; transform:translateX(-50%); }
   .fab { right:calc(50% - 195px); }
   .toast { max-width:380px; }
-  .offline-banner { max-width:430px; left:50%; transform:translateX(-50%); border-radius: 0 0 12px 12px;}
+  .offline-banner { max-width:430px; left:50%; transform:translateX(-50%); }
 }
 ::-webkit-scrollbar { width:0; }
 .oos-badge { position:absolute; top:12px; right:12px; background:var(--danger); color:white; font-size:10px; font-weight:700; padding:4px 10px; border-radius:8px; text-transform:uppercase; letter-spacing:.5px; }
@@ -275,19 +266,16 @@ body.is-offline .toast.show { top: 50px; } /* Adjust toast position when offline
 <body>
 
 <!-- OFFLINE BANNER -->
-<div class="offline-banner" id="offlineBanner">📵 You are offline. Changes saved locally & will sync automatically.</div>
+<div class="offline-banner" id="offlineBanner">📵 Offline mode - Changes saved locally & will sync when online</div>
 
-<!-- Splash Screen -->
 <div class="splash-screen" id="splashScreen">
   <div class="splash-logo">🛍️</div>
   <div class="splash-title">Smart Inventory</div>
   <div class="splash-subtitle" data-i18n="app_tagline"></div>
 </div>
 
-<!-- Toast -->
 <div class="toast" id="toast"></div>
 
-<!-- LOGIN PAGE -->
 <div class="auth-container" id="loginPage">
   <div class="auth-header">
     <div class="auth-logo">🛍️</div>
@@ -308,7 +296,6 @@ body.is-offline .toast.show { top: 50px; } /* Adjust toast position when offline
   </div>
 </div>
 
-<!-- SIGNUP PAGE -->
 <div class="auth-container" id="signupPage">
   <div class="auth-header">
     <div class="auth-logo">🛍️</div>
@@ -330,10 +317,8 @@ body.is-offline .toast.show { top: 50px; } /* Adjust toast position when offline
   </div>
 </div>
 
-<!-- MAIN APP -->
 <div class="app-container" id="appContainer">
 
-  <!-- DASHBOARD PAGE -->
   <div class="page active" id="dashboardPage">
     <div class="top-bar">
       <div class="top-bar-row">
@@ -346,7 +331,6 @@ body.is-offline .toast.show { top: 50px; } /* Adjust toast position when offline
       </div>
     </div>
 
-    <!-- Today's Profit Card -->
     <div class="today-profit-card">
       <div class="tp-info">
         <h4 data-i18n="today_profit"></h4>
@@ -384,7 +368,6 @@ body.is-offline .toast.show { top: 50px; } /* Adjust toast position when offline
     <div class="product-list" id="productList"></div>
   </div>
 
-  <!-- HISTORY PAGE -->
   <div class="page" id="historyPage">
     <div class="top-bar"><div class="top-bar-row"><h2 data-i18n="nav_history"></h2><div class="top-bar-actions"><button class="top-bar-btn" onclick="clearHistory()"><i class="fas fa-trash-can"></i></button></div></div></div>
     <div class="date-filter" style="margin-top:16px"><select id="historyFilter" onchange="renderHistory()">
@@ -396,7 +379,6 @@ body.is-offline .toast.show { top: 50px; } /* Adjust toast position when offline
     <div id="historyList" style="padding:0 20px"></div>
   </div>
 
-  <!-- SUBSCRIPTION PAGE -->
   <div class="page" id="subscriptionPage">
     <div class="top-bar"><div class="top-bar-row"><h2 data-i18n="nav_premium"></h2></div></div>
     <div class="sub-card"><div class="crown">👑</div><h3 data-i18n="sub_title"></h3><p data-i18n="sub_desc"></p><div class="sub-price"><span class="amount">₹99</span><span class="period" data-i18n="sub_period"></span></div></div>
@@ -411,7 +393,6 @@ body.is-offline .toast.show { top: 50px; } /* Adjust toast position when offline
     <div style="padding:20px"><button class="btn btn-primary" onclick="showPaymentModal()" style="margin-bottom:12px"><i class="fas fa-crown"></i> <span data-i18n="upgrade_btn"></span></button><div id="currentPlanInfo" style="text-align:center;font-size:13px;color:var(--text-light)"></div></div>
   </div>
 
-  <!-- PROFILE PAGE -->
   <div class="page" id="profilePage">
     <div class="top-bar"><div class="top-bar-row"><h2 data-i18n="nav_profile"></h2></div></div>
     <div class="profile-header"><div class="profile-avatar" id="profileAvatar">A</div><div class="profile-name" id="profileName">User</div><div class="profile-email" id="profileEmail">user@email.com</div><div class="profile-plan free" id="profilePlan"></div></div>
@@ -423,7 +404,6 @@ body.is-offline .toast.show { top: 50px; } /* Adjust toast position when offline
     </div>
   </div>
 
-  <!-- Bottom Navigation -->
   <div class="bottom-nav">
     <button class="nav-item active" onclick="navigateTo('dashboardPage')" data-page="dashboardPage"><i class="fas fa-house"></i><span data-i18n="nav_home"></span></button>
     <button class="nav-item" onclick="navigateTo('historyPage')" data-page="historyPage"><i class="fas fa-clock-rotate-left"></i><span data-i18n="nav_history"></span><div class="nav-badge" id="historyBadge" style="display:none">0</div></button>
@@ -434,7 +414,6 @@ body.is-offline .toast.show { top: 50px; } /* Adjust toast position when offline
   <button class="fab" id="fabBtn" onclick="showAddProductModal()"><i class="fas fa-plus"></i></button>
 </div>
 
-<!-- ADD/EDIT PRODUCT MODAL -->
 <div class="modal-overlay" id="productModal">
   <div class="modal"><div class="modal-handle"></div><h3 id="modalTitle"></h3>
     <input type="hidden" id="editProductId">
@@ -455,7 +434,6 @@ body.is-offline .toast.show { top: 50px; } /* Adjust toast position when offline
   </div>
 </div>
 
-<!-- SELL MODAL -->
 <div class="modal-overlay" id="sellModal">
   <div class="modal"><div class="modal-handle"></div><h3 data-i18n="sell_title"></h3>
     <input type="hidden" id="sellProductId">
@@ -471,7 +449,6 @@ body.is-offline .toast.show { top: 50px; } /* Adjust toast position when offline
   </div>
 </div>
 
-<!-- MONTHLY REPORT MODAL -->
 <div class="modal-overlay" id="reportModal">
   <div class="modal" style="max-height: 95vh;">
     <div class="modal-handle"></div>
@@ -514,7 +491,6 @@ body.is-offline .toast.show { top: 50px; } /* Adjust toast position when offline
   </div>
 </div>
 
-<!-- PAYMENT MODAL -->
 <div class="modal-overlay" id="paymentModal">
   <div class="modal"><div class="modal-handle"></div>
     <div id="paymentStep1">
@@ -555,7 +531,6 @@ body.is-offline .toast.show { top: 50px; } /* Adjust toast position when offline
   </div>
 </div>
 
-<!-- NOTIFICATION MODAL -->
 <div class="modal-overlay" id="notificationModal">
   <div class="modal"><div class="modal-handle"></div><h3 data-i18n="notif_title"></h3><div id="notificationList"></div><button class="btn btn-secondary" onclick="closeModal('notificationModal')" style="margin-top:16px" data-i18n="close"></button></div>
 </div>
@@ -572,23 +547,20 @@ const firebaseConfig = {
   measurementId: "G-6MS36JTDK3"
 };
 
-// Initialize Firebase (Compat version used for seamless single HTML file integration)
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-// ===================== ENABLE OFFLINE PERSISTENCE =====================
-// This is the magic that allows the app to work without internet.
-// It caches reads and queues writes locally in IndexedDB.
-db.enableIndexedDbPersistence({synchronizeTabs: true})
+// ===================== OFFLINE PERSISTENCE (NEW) =====================
+db.enableIndexedDbPersistence({ synchronizeTabs: true })
   .catch((err) => {
-    if (err.code == 'failed-precondition') {
-      console.warn('Offline persistence is only supported by one tab at a time.');
-    } else if (err.code == 'unimplemented') {
-      console.warn('Browser does not support offline persistence.');
+    if (err.code === 'failed-precondition') {
+      console.warn('Offline persistence: only one tab supported');
+    } else if (err.code === 'unimplemented') {
+      console.warn('Browser does not support offline persistence');
     }
   });
-// ================================================================
+// =================================================================
 
 // ===================== TRANSLATIONS (i18n) =====================
 const translations = {
@@ -633,7 +605,7 @@ const translations = {
     lang_switched:"Language changed: English",
     mr_title:"Monthly Sales Summary", mr_total_sales:"Total Sales", mr_total_profit:"Total Profit", mr_items_sold:"Items Sold", mr_daily_breakdown:"Daily Breakdown", download_pdf:"Download PDF", no_sales:"No sales this month",
     date:"Date", items:"Items", revenue:"Revenue", profit:"Profit",
-    t_offline_save:"📵 Offline: Saved locally. Will sync when online.", t_back_online:"🌐 Back online! Syncing data..."
+    t_offline:"📵 Offline: Saved locally. Will sync when online.", t_online:"🌐 Back online! Syncing data..."
   },
   hi: {
     app_tagline:"स्मार्ट दुकानदारों के लिए स्मार्ट इन्वेंटरी",
@@ -676,7 +648,7 @@ const translations = {
     lang_switched:"भाषा बदल दी गई: हिन्दी",
     mr_title:"मासिक बिक्री सारांश", mr_total_sales:"कुल बिक्री", mr_total_profit:"कुल लाभ", mr_items_sold:"बिके आइटम", mr_daily_breakdown:"दैनिक विवरण", download_pdf:"PDF डाउनलोड करें", no_sales:"इस महीने कोई बिक्री नहीं",
     date:"तारीख", items:"आइटम", revenue:"राशि", profit:"लाभ",
-    t_offline_save:"📵 ऑफ़लाइन: लोकल में सेव हो गया। नेट आने पर सिंक होगा।", t_back_online:"🌐 ऑनलाइन हो गए! डेटा सिंक हो रहा है..."
+    t_offline:"📵 ऑफ़लाइन: लोकल में सेव। नेट आने पर सिंक होगा।", t_online:"🌐 ऑनलाइन! डेटा सिंक हो रहा है..."
   }
 };
 
@@ -747,37 +719,36 @@ auth.onAuthStateChanged((user) => {
 
 window.addEventListener('load', function() {
   applyStaticTranslations();
-  updateNetworkStatus(); // Check initial network status
+  updateNetworkStatus(); // NEW: Check initial network
   setTimeout(function() {
     document.getElementById('splashScreen').classList.add('hidden');
   }, 2000);
 });
 
-// ===================== NETWORK STATUS HANDLERS =====================
+// ===================== NETWORK STATUS (NEW) =====================
 function updateNetworkStatus() {
-  const isOnline = navigator.onLine;
   const banner = document.getElementById('offlineBanner');
-  if (!isOnline) {
-    banner.classList.add('show');
-    document.body.classList.add('is-offline');
-  } else {
+  if (navigator.onLine) {
     banner.classList.remove('show');
     document.body.classList.remove('is-offline');
+  } else {
+    banner.classList.add('show');
+    document.body.classList.add('is-offline');
   }
 }
 
 window.addEventListener('online', () => {
   updateNetworkStatus();
-  showToast(t('t_back_online'), 'success');
-  // Trigger a silent reload of data from server to ensure sync
-  if(currentUser && currentUser.id !== 'demo_user') {
-    loadData(); 
+  showToast(t('t_online'), 'success');
+  if (currentUser && currentUser.id !== 'demo_user') {
+    loadData();
   }
 });
 
 window.addEventListener('offline', () => {
   updateNetworkStatus();
 });
+// ============================================================
 
 function showLogin(){ document.getElementById('loginPage').classList.add('active'); document.getElementById('signupPage').classList.remove('active'); document.getElementById('appContainer').classList.remove('active'); }
 function showSignup(){ document.getElementById('loginPage').classList.remove('active'); document.getElementById('signupPage').classList.add('active'); document.getElementById('appContainer').classList.remove('active'); }
@@ -808,8 +779,6 @@ async function checkPremiumValidity() {
 
   const activatedDate = new Date(currentUser.premiumActivatedAt);
   const today = new Date();
-  
-  // Calculate exact difference in days (floor to ensure same day = 0 days used)
   const diffTime = today.getTime() - activatedDate.getTime();
   const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
@@ -834,12 +803,9 @@ async function checkPremiumValidity() {
     currentUser.plan = 'expired';
     currentUser.graceStatus = 'expired';
     
-    // Only update server if online
-    if(navigator.onLine) {
+    if (navigator.onLine) {
       try {
-        await db.collection('users').doc(currentUser.id).update({ 
-          plan: 'expired' 
-        });
+        await db.collection('users').doc(currentUser.id).update({ plan: 'expired' });
       } catch(e) {}
     }
     
@@ -860,10 +826,6 @@ function addNotification(type, message, level) {
 
 // ===================== AUTH (FIREBASE) =====================
 function handleLogin(){
-  if(!navigator.onLine) {
-    showToast(t('t_offline_save') + " (Login requires internet)", 'error');
-    return;
-  }
   var email=document.getElementById('loginEmail').value.trim();
   var password=document.getElementById('loginPassword').value;
   if(!email||!password){ showToast(t('t_fill_fields'),'error'); return; }
@@ -885,10 +847,6 @@ function handleLogin(){
 }
 
 function handleSignup(){
-  if(!navigator.onLine) {
-    showToast(t('t_offline_save') + " (Signup requires internet)", 'error');
-    return;
-  }
   var name=document.getElementById('signupName').value.trim();
   var shopName=document.getElementById('signupShop').value.trim();
   var phone=document.getElementById('signupPhone').value.trim();
@@ -952,7 +910,6 @@ async function loadData(){
     }
 
     const docRef = db.collection('users').doc(currentUser.id).collection('inventory').doc('data');
-    // get() will automatically fetch from cache if offline due to enableIndexedDbPersistence
     const docSnap = await docRef.get();
     if (docSnap.exists) {
       const data = docSnap.data();
@@ -977,13 +934,13 @@ async function saveData(){
     return; 
   }
   
-  if(!navigator.onLine) {
-    showToast(t('t_offline_save'), 'warning');
+  // NEW: Show offline toast only when actually offline
+  if (!navigator.onLine) {
+    showToast(t('t_offline'), 'warning');
   }
-
+  
   try{ 
     const docRef = db.collection('users').doc(currentUser.id).collection('inventory').doc('data');
-    // set() will automatically queue this write locally and sync when internet returns
     await docRef.set({
       products: products,
       historyLog: historyLog,
@@ -1305,7 +1262,6 @@ function updateSubscriptionUI(){
     const daysLeft = Math.max(0, 28 - daysUsed);
     const isGrace = currentUser.graceStatus === 'grace';
     
-    // Calculate exact dates for transparent display
     const activatedDate = new Date(currentUser.premiumActivatedAt);
     const expiryDate = new Date(activatedDate);
     expiryDate.setDate(activatedDate.getDate() + 28);
@@ -1333,10 +1289,6 @@ function updateSubscriptionUI(){
 // ===================== PAYMENT =====================
 function showPaymentModal(){
   if(currentUser.plan==='premium' && currentUser.graceStatus !== 'grace'){ showToast(t('t_already_prem'),'success'); return; }
-  if(!navigator.onLine) {
-    showToast(t('t_offline_save') + " (Payment requires internet)", 'error');
-    return;
-  }
   document.getElementById('paymentStep1').style.display='block';
   document.getElementById('paymentStep2').style.display='none';
   document.getElementById('paymentStep3').style.display='none';
@@ -1371,10 +1323,6 @@ function verifyOTP(){
 }
 
 function activatePremium(){
-  if(!navigator.onLine) {
-    showToast(t('t_offline_save') + " (Activation requires internet)", 'error');
-    return;
-  }
   currentUser.plan = 'premium';
   currentUser.premiumActivatedAt = new Date().toISOString();
   currentUser.graceStatus = 'active';
@@ -1436,7 +1384,6 @@ function showNotifications(){
   var oos=products.filter(p=>p.quantity<=0), low=products.filter(p=>p.quantity>0&&p.quantity<=5);
   var html='';
   
-  // Premium expiry notifications
   if (currentUser && currentUser.graceStatus === 'grace') {
     const daysLeft = 35 - (currentUser.premiumDaysUsed || 0);
     html += '<div class="history-item"><div class="history-icon edited"><i class="fas fa-clock"></i></div><div class="history-info"><h4>⏰ Premium Expiring Soon</h4><p>Your premium will expire in ' + daysLeft + ' day(s). Renew now!</p></div></div>';
