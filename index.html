@@ -25,8 +25,19 @@
   --shadow-lg: 0 8px 40px rgba(108, 92, 231, 0.15);
 }
 
-body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; transition: padding-top 0.3s ease; }
 body.hindi { font-family: 'Noto Sans Devanagari', 'Inter', sans-serif; }
+body.is-offline { padding-top: 40px; } /* Push content down when offline banner is shown */
+
+/* OFFLINE BANNER */
+.offline-banner {
+  position: fixed; top: 0; left: 0; right: 0; background: linear-gradient(90deg, #E17055, #D63031);
+  color: white; text-align: center; padding: 10px; font-size: 13px;
+  font-weight: 700; z-index: 10001; display: none; box-shadow: 0 4px 15px rgba(225, 112, 85, 0.4);
+  letter-spacing: 0.5px;
+}
+.offline-banner.show { display: block; animation: slideDown 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+@keyframes slideDown { from { transform: translateY(-100%); } to { transform: translateY(0); } }
 
 /* LANGUAGE SWITCHER */
 .lang-switch-wrap { display:flex; justify-content:center; gap:6px; margin-bottom:18px; }
@@ -207,9 +218,10 @@ body.hindi { font-family: 'Noto Sans Devanagari', 'Inter', sans-serif; }
 .empty-state h3 { font-size:18px; font-weight:700; margin-bottom:8px; }
 .empty-state p { font-size:14px; color:var(--text-light); line-height:1.5; }
 
-.toast { position:fixed; top:20px; left:50%; transform:translateX(-50%) translateY(-100px); background:var(--text); color:white; padding:14px 24px; border-radius:14px; font-size:14px; font-weight:600; z-index:9999; transition:transform .4s cubic-bezier(.68,-.55,.265,1.55); box-shadow:0 8px 30px rgba(0,0,0,.2); display:flex; align-items:center; gap:8px; max-width:90%; font-family:inherit; }
+.toast { position:fixed; top:20px; left:50%; transform:translateX(-50%) translateY(-100px); background:var(--text); color:white; padding:14px 24px; border-radius:14px; font-size:14px; font-weight:600; z-index:9999; transition:transform .4s cubic-bezier(.68,-.55,.265,1.55); box-shadow:0 8px 30px rgba(0,0,0,.2); display:flex; align-items:center; gap:8px; max-width:90%; font-family:inherit; text-align: center; }
 .toast.show { transform:translateX(-50%) translateY(0); }
 .toast.success{background:var(--secondary);} .toast.error{background:var(--danger);} .toast.warning{background:#FDCB6E;color:var(--text);}
+body.is-offline .toast.show { top: 50px; } /* Adjust toast position when offline banner is visible */
 
 .fab { position:fixed; bottom:90px; right:20px; width:56px; height:56px; background:linear-gradient(135deg,#6C5CE7,#A29BFE); border:none; border-radius:18px; color:white; font-size:24px; cursor:pointer; box-shadow:0 6px 25px rgba(108,92,231,.4); z-index:999; display:flex; align-items:center; justify-content:center; transition:all .3s; }
 .fab:active { transform:scale(.9); }
@@ -252,6 +264,7 @@ body.hindi { font-family: 'Noto Sans Devanagari', 'Inter', sans-serif; }
   .bottom-nav { max-width:430px; left:50%; transform:translateX(-50%); }
   .fab { right:calc(50% - 195px); }
   .toast { max-width:380px; }
+  .offline-banner { max-width:430px; left:50%; transform:translateX(-50%); border-radius: 0 0 12px 12px;}
 }
 ::-webkit-scrollbar { width:0; }
 .oos-badge { position:absolute; top:12px; right:12px; background:var(--danger); color:white; font-size:10px; font-weight:700; padding:4px 10px; border-radius:8px; text-transform:uppercase; letter-spacing:.5px; }
@@ -260,6 +273,9 @@ body.hindi { font-family: 'Noto Sans Devanagari', 'Inter', sans-serif; }
 </style>
 </head>
 <body>
+
+<!-- OFFLINE BANNER -->
+<div class="offline-banner" id="offlineBanner">📵 You are offline. Changes saved locally & will sync automatically.</div>
 
 <!-- Splash Screen -->
 <div class="splash-screen" id="splashScreen">
@@ -560,6 +576,18 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
+
+// ===================== ENABLE OFFLINE PERSISTENCE =====================
+// This is the magic that allows the app to work without internet.
+// It caches reads and queues writes locally in IndexedDB.
+db.enableIndexedDbPersistence({synchronizeTabs: true})
+  .catch((err) => {
+    if (err.code == 'failed-precondition') {
+      console.warn('Offline persistence is only supported by one tab at a time.');
+    } else if (err.code == 'unimplemented') {
+      console.warn('Browser does not support offline persistence.');
+    }
+  });
 // ================================================================
 
 // ===================== TRANSLATIONS (i18n) =====================
@@ -604,7 +632,8 @@ const translations = {
     just_now:"Just now", mins_ago:"{n}m ago", hours_ago:"{n}h ago", days_ago:"{n}d ago",
     lang_switched:"Language changed: English",
     mr_title:"Monthly Sales Summary", mr_total_sales:"Total Sales", mr_total_profit:"Total Profit", mr_items_sold:"Items Sold", mr_daily_breakdown:"Daily Breakdown", download_pdf:"Download PDF", no_sales:"No sales this month",
-    date:"Date", items:"Items", revenue:"Revenue", profit:"Profit"
+    date:"Date", items:"Items", revenue:"Revenue", profit:"Profit",
+    t_offline_save:"📵 Offline: Saved locally. Will sync when online.", t_back_online:"🌐 Back online! Syncing data..."
   },
   hi: {
     app_tagline:"स्मार्ट दुकानदारों के लिए स्मार्ट इन्वेंटरी",
@@ -646,7 +675,8 @@ const translations = {
     just_now:"अभी", mins_ago:"{n} मिनट पहले", hours_ago:"{n} घंटे पहले", days_ago:"{n} दिन पहले",
     lang_switched:"भाषा बदल दी गई: हिन्दी",
     mr_title:"मासिक बिक्री सारांश", mr_total_sales:"कुल बिक्री", mr_total_profit:"कुल लाभ", mr_items_sold:"बिके आइटम", mr_daily_breakdown:"दैनिक विवरण", download_pdf:"PDF डाउनलोड करें", no_sales:"इस महीने कोई बिक्री नहीं",
-    date:"तारीख", items:"आइटम", revenue:"राशि", profit:"लाभ"
+    date:"तारीख", items:"आइटम", revenue:"राशि", profit:"लाभ",
+    t_offline_save:"📵 ऑफ़लाइन: लोकल में सेव हो गया। नेट आने पर सिंक होगा।", t_back_online:"🌐 ऑनलाइन हो गए! डेटा सिंक हो रहा है..."
   }
 };
 
@@ -717,9 +747,36 @@ auth.onAuthStateChanged((user) => {
 
 window.addEventListener('load', function() {
   applyStaticTranslations();
+  updateNetworkStatus(); // Check initial network status
   setTimeout(function() {
     document.getElementById('splashScreen').classList.add('hidden');
   }, 2000);
+});
+
+// ===================== NETWORK STATUS HANDLERS =====================
+function updateNetworkStatus() {
+  const isOnline = navigator.onLine;
+  const banner = document.getElementById('offlineBanner');
+  if (!isOnline) {
+    banner.classList.add('show');
+    document.body.classList.add('is-offline');
+  } else {
+    banner.classList.remove('show');
+    document.body.classList.remove('is-offline');
+  }
+}
+
+window.addEventListener('online', () => {
+  updateNetworkStatus();
+  showToast(t('t_back_online'), 'success');
+  // Trigger a silent reload of data from server to ensure sync
+  if(currentUser && currentUser.id !== 'demo_user') {
+    loadData(); 
+  }
+});
+
+window.addEventListener('offline', () => {
+  updateNetworkStatus();
 });
 
 function showLogin(){ document.getElementById('loginPage').classList.add('active'); document.getElementById('signupPage').classList.remove('active'); document.getElementById('appContainer').classList.remove('active'); }
@@ -777,11 +834,14 @@ async function checkPremiumValidity() {
     currentUser.plan = 'expired';
     currentUser.graceStatus = 'expired';
     
-    try {
-      await db.collection('users').doc(currentUser.id).update({ 
-        plan: 'expired' 
-      });
-    } catch(e) {}
+    // Only update server if online
+    if(navigator.onLine) {
+      try {
+        await db.collection('users').doc(currentUser.id).update({ 
+          plan: 'expired' 
+        });
+      } catch(e) {}
+    }
     
     setTimeout(() => {
       showToast('⚠️ Premium expired! Only first 5 products accessible. Renew to unlock all.', 'warning');
@@ -800,6 +860,10 @@ function addNotification(type, message, level) {
 
 // ===================== AUTH (FIREBASE) =====================
 function handleLogin(){
+  if(!navigator.onLine) {
+    showToast(t('t_offline_save') + " (Login requires internet)", 'error');
+    return;
+  }
   var email=document.getElementById('loginEmail').value.trim();
   var password=document.getElementById('loginPassword').value;
   if(!email||!password){ showToast(t('t_fill_fields'),'error'); return; }
@@ -821,6 +885,10 @@ function handleLogin(){
 }
 
 function handleSignup(){
+  if(!navigator.onLine) {
+    showToast(t('t_offline_save') + " (Signup requires internet)", 'error');
+    return;
+  }
   var name=document.getElementById('signupName').value.trim();
   var shopName=document.getElementById('signupShop').value.trim();
   var phone=document.getElementById('signupPhone').value.trim();
@@ -884,6 +952,7 @@ async function loadData(){
     }
 
     const docRef = db.collection('users').doc(currentUser.id).collection('inventory').doc('data');
+    // get() will automatically fetch from cache if offline due to enableIndexedDbPersistence
     const docSnap = await docRef.get();
     if (docSnap.exists) {
       const data = docSnap.data();
@@ -907,8 +976,14 @@ async function saveData(){
     try{ localStorage.setItem('SI_products_demo',JSON.stringify(products)); localStorage.setItem('SI_history_demo',JSON.stringify(historyLog)); }catch(e){console.error(e);}
     return; 
   }
+  
+  if(!navigator.onLine) {
+    showToast(t('t_offline_save'), 'warning');
+  }
+
   try{ 
     const docRef = db.collection('users').doc(currentUser.id).collection('inventory').doc('data');
+    // set() will automatically queue this write locally and sync when internet returns
     await docRef.set({
       products: products,
       historyLog: historyLog,
@@ -1258,6 +1333,10 @@ function updateSubscriptionUI(){
 // ===================== PAYMENT =====================
 function showPaymentModal(){
   if(currentUser.plan==='premium' && currentUser.graceStatus !== 'grace'){ showToast(t('t_already_prem'),'success'); return; }
+  if(!navigator.onLine) {
+    showToast(t('t_offline_save') + " (Payment requires internet)", 'error');
+    return;
+  }
   document.getElementById('paymentStep1').style.display='block';
   document.getElementById('paymentStep2').style.display='none';
   document.getElementById('paymentStep3').style.display='none';
@@ -1292,6 +1371,10 @@ function verifyOTP(){
 }
 
 function activatePremium(){
+  if(!navigator.onLine) {
+    showToast(t('t_offline_save') + " (Activation requires internet)", 'error');
+    return;
+  }
   currentUser.plan = 'premium';
   currentUser.premiumActivatedAt = new Date().toISOString();
   currentUser.graceStatus = 'active';
