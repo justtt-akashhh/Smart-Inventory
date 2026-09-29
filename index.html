@@ -744,26 +744,28 @@ function navigateTo(pageId){
   if(pageId==='profilePage'){ updateProfileUI(); }
 }
 
-// ===================== PREMIUM VALIDITY CHECKER (28 DAYS + 7 DAYS GRACE) =====================
+// ===================== PREMIUM VALIDITY CHECKER (28 DAYS EXACT) =====================
 async function checkPremiumValidity() {
   if (!currentUser || currentUser.id === 'demo_user') return;
   if (!currentUser.premiumActivatedAt) return;
 
   const activatedDate = new Date(currentUser.premiumActivatedAt);
   const today = new Date();
-  const diffTime = Math.abs(today - activatedDate);
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  
+  // Calculate exact difference in days (floor to ensure same day = 0 days used)
+  const diffTime = today.getTime() - activatedDate.getTime();
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
-  currentUser.premiumDaysUsed = diffDays;
+  currentUser.premiumDaysUsed = Math.max(0, diffDays);
 
-  if (diffDays <= 28) {
+  if (currentUser.premiumDaysUsed < 28) {
     currentUser.plan = 'premium';
     currentUser.graceStatus = 'active';
   } 
-  else if (diffDays > 28 && diffDays <= 35) {
+  else if (currentUser.premiumDaysUsed >= 28 && currentUser.premiumDaysUsed < 35) {
     currentUser.plan = 'premium';
     currentUser.graceStatus = 'grace';
-    const daysLeft = 35 - diffDays;
+    const daysLeft = 35 - currentUser.premiumDaysUsed;
     
     setTimeout(() => {
       showToast(`⚠️ Premium expires in ${daysLeft} day(s)! Renew now.`, 'warning');
@@ -775,9 +777,11 @@ async function checkPremiumValidity() {
     currentUser.plan = 'expired';
     currentUser.graceStatus = 'expired';
     
-    await db.collection('users').doc(currentUser.id).update({ 
-      plan: 'expired' 
-    });
+    try {
+      await db.collection('users').doc(currentUser.id).update({ 
+        plan: 'expired' 
+      });
+    } catch(e) {}
     
     setTimeout(() => {
       showToast('⚠️ Premium expired! Only first 5 products accessible. Renew to unlock all.', 'warning');
@@ -1226,11 +1230,21 @@ function updateSubscriptionUI(){
     const daysLeft = Math.max(0, 28 - daysUsed);
     const isGrace = currentUser.graceStatus === 'grace';
     
+    // Calculate exact dates for transparent display
+    const activatedDate = new Date(currentUser.premiumActivatedAt);
+    const expiryDate = new Date(activatedDate);
+    expiryDate.setDate(activatedDate.getDate() + 28);
+    
+    const dateOptions = { day: 'numeric', month: 'short', year: 'numeric' };
+    const langCode = currentLang === 'hi' ? 'hi-IN' : 'en-US';
+    const actDateStr = activatedDate.toLocaleDateString(langCode, dateOptions);
+    const expDateStr = expiryDate.toLocaleDateString(langCode, dateOptions);
+
     if (isGrace) {
       const graceDaysLeft = 35 - daysUsed;
       info.innerHTML = '<span style="color:#F39C12;font-weight:600">⚠️ Grace Period: ' + graceDaysLeft + ' day(s) left</span><br><span style="font-size:12px">Renew now to keep all features!</span>';
     } else {
-      info.innerHTML = '<span style="color:var(--secondary);font-weight:600">'+t('plan_premium')+'</span><br><span style="font-size:12px">' + daysLeft + ' days remaining</span>';
+      info.innerHTML = '<span style="color:var(--secondary);font-weight:600">'+t('plan_premium')+'</span><br><span style="font-size:14px;font-weight:700;color:var(--primary);margin-top:4px;">' + daysLeft + ' days remaining</span><br><span style="font-size:11px;color:var(--text-light);margin-top:6px;display:block">Activated: ' + actDateStr + '<br>Expires: ' + expDateStr + '</span>';
     }
   } 
   else if (currentUser.plan === 'expired') {
@@ -1286,12 +1300,15 @@ function activatePremium(){
   db.collection('users').doc(currentUser.id).update({ 
     plan: 'premium',
     premiumActivatedAt: firebase.firestore.Timestamp.now()
+  }).then(() => {
+    document.getElementById('paymentStep2').style.display='none';
+    document.getElementById('paymentStep3').style.display='block';
+    showToast(t('t_prem_act'),'success');
+    refreshDynamicUI();
+  }).catch(err => {
+    console.error("Error activating premium", err);
+    showToast("Error activating premium", "error");
   });
-  
-  document.getElementById('paymentStep2').style.display='none';
-  document.getElementById('paymentStep3').style.display='block';
-  showToast(t('t_prem_act'),'success');
-  refreshDynamicUI();
 }
 
 function copyUPI(){
