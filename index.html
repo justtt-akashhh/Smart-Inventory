@@ -24,13 +24,7 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--tex
 body.hindi { font-family: 'Noto Sans Devanagari', 'Inter', sans-serif; }
 body.is-offline { padding-top: 40px; }
 
-.offline-banner {
-  position: fixed; top: 0; left: 0; right: 0;
-  background: linear-gradient(90deg, #E17055, #D63031);
-  color: white; text-align: center; padding: 10px; font-size: 13px;
-  font-weight: 700; z-index: 10001; display: none;
-  box-shadow: 0 4px 15px rgba(225, 112, 85, 0.4);
-}
+.offline-banner { position: fixed; top: 0; left: 0; right: 0; background: linear-gradient(90deg, #E17055, #D63031); color: white; text-align: center; padding: 10px; font-size: 13px; font-weight: 700; z-index: 10001; display: none; box-shadow: 0 4px 15px rgba(225, 112, 85, 0.4); }
 .offline-banner.show { display: block; }
 
 .lang-switch-wrap { display:flex; justify-content:center; gap:6px; margin-bottom:18px; }
@@ -83,17 +77,7 @@ body.is-offline { padding-top: 40px; }
 .top-bar-btn:active { background:rgba(255,255,255,.3); transform:scale(.95); }
 
 /* COMPACT TODAY PROFIT CARD */
-.today-profit-card { 
-  background: linear-gradient(135deg, #00B894, #55EFC4); 
-  margin: 0 15px 12px; 
-  border-radius: 14px; 
-  padding: 12px 16px; 
-  color: white; 
-  display: flex; 
-  align-items: center; 
-  justify-content: space-between; 
-  box-shadow: 0 4px 15px rgba(0, 184, 148, 0.2); 
-}
+.today-profit-card { background: linear-gradient(135deg, #00B894, #55EFC4); margin: 0 15px 12px; border-radius: 14px; padding: 12px 16px; color: white; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 15px rgba(0, 184, 148, 0.2); }
 .today-profit-card .tp-icon { width: 40px; height: 40px; background: rgba(255,255,255,0.2); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
 .today-profit-card .tp-info h4 { font-size: 12px; opacity: 0.9; font-weight: 500; }
 .today-profit-card .tp-info .tp-amount { font-size: 22px; font-weight: 800; margin-top: 2px; }
@@ -262,7 +246,7 @@ body.is-offline .toast.show { top: 50px; }
 
 /* PDF Generation Specific Fixes */
 #monthlyReportContent { background: #ffffff !important; color: #000000 !important; }
-.report-table tr { page-break-inside: avoid !important; }
+.report-table tr { page-break-inside: avoid !important; background: #fff !important; }
 .report-table td, .report-table th { page-break-inside: avoid !important; }
 </style>
 </head>
@@ -416,10 +400,10 @@ body.is-offline .toast.show { top: 50px; }
       <option value="grocery" data-i18n="cat_grocery"></option><option value="electronics" data-i18n="cat_electronics"></option><option value="clothing" data-i18n="cat_clothing"></option><option value="food" data-i18n="cat_food"></option><option value="other" data-i18n="cat_other"></option>
     </select></div>
     
-    <!-- NEW: Image Upload -->
+    <!-- NEW: Camera Access with capture="environment" -->
     <div class="form-group">
       <label data-i18n="pf_image"></label>
-      <input type="file" id="prodImageInput" accept="image/*" style="padding: 10px; font-size: 13px;">
+      <input type="file" id="prodImageInput" accept="image/*" capture="environment" style="padding: 10px; font-size: 13px;">
       <div id="imagePreviewContainer" style="display:none; margin-top:8px; position:relative; width: fit-content;">
         <img id="prodImagePreview" style="width:80px; height:80px; object-fit:cover; border-radius:10px; border:2px solid var(--border);">
         <button type="button" onclick="removeProductImage()" style="position:absolute; top:-6px; right:-6px; background:var(--danger); color:white; border:none; border-radius:50%; width:24px; height:24px; font-size:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 5px rgba(0,0,0,0.2);">&times;</button>
@@ -489,7 +473,7 @@ body.is-offline .toast.show { top: 50px; }
           <thead>
             <tr style="background: var(--bg);">
               <th style="text-align: left; padding: 8px; border-radius: 6px 0 0 6px;">Date</th>
-              <th style="text-align: left; padding: 8px;">Items</th>
+              <th style="text-align: left; padding: 8px;">Items Sold</th>
               <th style="text-align: right; padding: 8px;">Revenue</th>
               <th style="text-align: right; padding: 8px; border-radius: 0 6px 6px 0;">Profit</th>
             </tr>
@@ -592,7 +576,7 @@ const translations = {
     feat_1:"Unlimited product entries", feat_2:"Advanced sales analytics", feat_3:"Low stock alerts & notifications", feat_4:"Cloud backup & sync", feat_5:"Export reports as PDF/Excel", feat_6:"Priority customer support",
     upgrade_btn:"Upgrade to Premium - ₹99/28 days", plan_premium:"✅ You are on Premium Plan", plan_premium_d:"Unlimited products • Active", plan_free:"Current: Free Plan ({used}/5 products used)",
     set_sub:"Subscription", set_sub_d:"Manage your premium plan", set_export:"Export Data", set_export_d:"Download your inventory as JSON", set_about:"About Smart Inventory", set_logout:"Logout", set_logout_d:"Sign out of your account",
-    pf_add:"Add New Product", pf_edit:"Edit Product", pf_name:"Product Name", ph_prod_name:"e.g., Basmati Rice 5kg", pf_category:"Category", pf_image:"Product Image (Optional)", pf_buy:"Buying Price (₹)", pf_sell:"Selling Price (₹)", pf_qty:"Quantity", pf_unit:"Unit", save_product:"Save Product", cancel:"Cancel",
+    pf_add:"Add New Product", pf_edit:"Edit Product", pf_name:"Product Name", ph_prod_name:"e.g., Basmati Rice 5kg", pf_category:"Category", pf_image:"Product Image (Camera)", pf_buy:"Buying Price (₹)", pf_sell:"Selling Price (₹)", pf_qty:"Quantity", pf_unit:"Unit", save_product:"Save Product", cancel:"Cancel",
     u_pcs:"Pieces", u_kg:"Kilograms", u_ltr:"Liters", u_box:"Boxes", u_dozen:"Dozens",
     sell_title:"🛒 Sell Product", sell_available:"Available", sell_total:"Total Amount", sell_confirm:"Confirm Sale",
     pay_title:"💳 Premium Payment", pay_desc:"Pay ₹99 via UPI using the QR code or UPI ID", copy:"Copy", paid_btn:"I Have Paid",
@@ -627,7 +611,7 @@ const translations = {
     feat_1:"असीमित उत्पाद प्रविष्टियाँ", feat_2:"उन्नत बिक्री विश्लेषण", feat_3:"कम स्टॉक अलर्ट और सूचनाएँ", feat_4:"क्लाउड बैकअप और सिंक", feat_5:"PDF/Excel में रिपोर्ट निर्यात", feat_6:"प्राथमिकता ग्राहक सहायता",
     upgrade_btn:"प्रीमियम में अपग्रेड करें - ₹99/28 दिन", plan_premium:"✅ आप प्रीमियम प्लान पर हैं", plan_premium_d:"असीमित उत्पाद • सक्रिय", plan_free:"वर्तमान: फ़्री प्लान ({used}/5 उत्पाद उपयोग हुए)",
     set_sub:"सदस्यता", set_sub_d:"अपना प्रीमियम प्लान प्रबंधित करें", set_export:"डेटा निर्यात करें", set_export_d:"JSON के रूप में अपनी इन्वेंटरी डाउनलोड करें", set_about:"स्मार्ट इन्वेंटरी के बारे में", set_logout:"लॉगआउट", set_logout_d:"अपने खाते से साइन आउट करें",
-    pf_add:"नया उत्पाद जोड़ें", pf_edit:"उत्पाद संपादित करें", pf_name:"उत्पाद का नाम", ph_prod_name:"जैसे, बासमती चावल 5 किग्रा", pf_category:"श्रेणी", pf_image:"उत्पाद की फोटो (वैकल्पिक)", pf_buy:"खरीद मूल्य (₹)", pf_sell:"बिक्री मूल्य (₹)", pf_qty:"मात्रा", pf_unit:"इकाई", save_product:"उत्पाद सहेजें", cancel:"रद्द करें",
+    pf_add:"नया उत्पाद जोड़ें", pf_edit:"उत्पाद संपादित करें", pf_name:"उत्पाद का नाम", ph_prod_name:"जैसे, बासमती चावल 5 किग्रा", pf_category:"श्रेणी", pf_image:"उत्पाद की फोटो (कैमरा)", pf_buy:"खरीद मूल्य (₹)", pf_sell:"बिक्री मूल्य (₹)", pf_qty:"मात्रा", pf_unit:"इकाई", save_product:"उत्पाद सहेजें", cancel:"रद्द करें",
     u_pcs:"पीस", u_kg:"किलोग्राम", u_ltr:"लीटर", u_box:"डिब्बे", u_dozen:"दर्जन",
     sell_title:"🛒 उत्पाद बेचें", sell_available:"उपलब्ध", sell_total:"कुल राशि", sell_confirm:"बिक्री पुष्टि करें",
     pay_title:"💳 प्रीमियम भुगतान", pay_desc:"QR कोड या UPI आईडी से ₹99 का भुगतान करें", copy:"कॉपी", paid_btn:"मैंने भुगतान कर दिया है",
@@ -648,7 +632,7 @@ const translations = {
 };
 
 let currentLang = localStorage.getItem('SI_lang') || 'en';
-let currentEditingImage = null; // Holds compressed base64 image
+let currentEditingImage = null;
 
 function t(key, vars){
   let str = (translations[currentLang] && translations[currentLang][key]) || translations.en[key] || key;
@@ -832,7 +816,7 @@ async function saveData(){
   }catch(e){ console.error(e); } 
 }
 
-// ============ IMAGE COMPRESSION (Target ~30-50KB) ============
+// ============ EXTREME IMAGE COMPRESSION (< 50KB) ============
 function compressImage(file) {
   return new Promise((resolve) => {
     const reader = new FileReader();
@@ -842,15 +826,23 @@ function compressImage(file) {
       img.src = event.target.result;
       img.onload = () => {
         const canvas = document.createElement('canvas');
-        const MAX_WIDTH = 300; // Small dimension keeps file size very low
+        const MAX_WIDTH = 250; // Smaller width drastically reduces file size
         const scaleSize = MAX_WIDTH / img.width;
         canvas.width = MAX_WIDTH;
         canvas.height = img.height * scaleSize;
         const ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        // 0.6 quality JPEG reliably produces 20KB - 50KB for simple product photos
-        const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.6);
-        resolve(compressedDataUrl);
+        
+        // Start with 0.5 quality
+        let quality = 0.5;
+        let dataUrl = canvas.toDataURL('image/jpeg', quality);
+        
+        // Loop to ensure Base64 string length is under ~50,000 chars (approx 35-40KB)
+        while (dataUrl.length > 50000 && quality > 0.1) {
+          quality -= 0.1;
+          dataUrl = canvas.toDataURL('image/jpeg', quality);
+        }
+        resolve(dataUrl);
       };
     };
   });
@@ -889,7 +881,7 @@ function editProduct(id){
   if (currentEditingImage) {
     document.getElementById('prodImagePreview').src = currentEditingImage;
     document.getElementById('imagePreviewContainer').style.display = 'block';
-    document.getElementById('prodImageInput').value = ''; // Reset file input
+    document.getElementById('prodImageInput').value = '';
   } else {
     document.getElementById('imagePreviewContainer').style.display = 'none';
     document.getElementById('prodImageInput').value = '';
@@ -903,7 +895,6 @@ function removeProductImage() {
   document.getElementById('imagePreviewContainer').style.display = 'none';
 }
 
-// Preview image when file is selected
 document.getElementById('prodImageInput').addEventListener('change', function(e) {
   if (e.target.files && e.target.files[0]) {
     const reader = new FileReader();
@@ -931,7 +922,6 @@ async function saveProduct(){
   if(isNaN(sellPrice)||sellPrice<0){ showToast(t('t_need_sell'),'error'); return; }
   if(isNaN(quantity)||quantity<0){ showToast(t('t_need_qty'),'error'); return; }
 
-  // Compress image if a new one was selected
   let finalImage = currentEditingImage;
   const fileInput = document.getElementById('prodImageInput');
   if (fileInput.files && fileInput.files[0]) {
@@ -1062,7 +1052,6 @@ function renderProducts(){
     const isLocked = isExpired && accessibleCount >= 5;
     if (!isLocked) accessibleCount++;
 
-    // Image or Emoji Logic
     let mediaHtml = '';
     if (p.image) {
       mediaHtml = `<img src="${p.image}" style="width:48px; height:48px; border-radius:12px; object-fit:cover; flex-shrink:0;" alt="${p.name}">`;
@@ -1178,12 +1167,13 @@ function updateReportView() {
     const sortedDates = Object.keys(dailyData).sort((a,b) => new Date(b) - new Date(a));
     sortedDates.forEach(date => {
       const d = dailyData[date];
-      const detailsHtml = d.details.map(item => `<div style="margin-bottom:3px; line-height:1.3;">• ${item}</div>`).join('');
-      tbody.innerHTML += `<tr style="page-break-inside: avoid !important;">
-        <td style="white-space:nowrap; padding: 8px; vertical-align: top;"><strong>${date}</strong></td>
-        <td style="font-size:11px; color:var(--text); padding: 8px; vertical-align: top;">${detailsHtml}</td>
-        <td style="font-weight:600; white-space:nowrap; text-align: right; padding: 8px; vertical-align: top;">₹${d.rev.toFixed(0)}</td>
-        <td style="font-weight:700; color:var(--secondary); white-space:nowrap; text-align: right; padding: 8px; vertical-align: top;">₹${d.prof.toFixed(0)}</td>
+      // Clean formatting for PDF
+      const detailsHtml = d.details.map(item => `<div style="margin-bottom:4px; line-height:1.4; font-size:12px;">• ${item}</div>`).join('');
+      tbody.innerHTML += `<tr style="page-break-inside: avoid !important; background: #fff !important;">
+        <td style="white-space:nowrap; padding: 10px; vertical-align: top; font-weight:700; color:var(--primary);">${date}</td>
+        <td style="font-size:12px; color:var(--text); padding: 10px; vertical-align: top;">${detailsHtml}</td>
+        <td style="font-weight:600; white-space:nowrap; text-align: right; padding: 10px; vertical-align: top;">₹${d.rev.toFixed(0)}</td>
+        <td style="font-weight:700; color:var(--secondary); white-space:nowrap; text-align: right; padding: 10px; vertical-align: top;">₹${d.prof.toFixed(0)}</td>
       </tr>`;
     });
   }
@@ -1210,16 +1200,19 @@ function downloadReportPDF() {
   };
 
   showToast('Generating PDF...', 'success');
-  html2pdf().set(opt).from(element).save().then(() => {
-    if(filterDiv) filterDiv.style.display = 'grid';
-    if(updateBtn) updateBtn.style.display = 'block';
-    showToast('PDF Downloaded Successfully!', 'success');
-  }).catch(err => {
-    console.error("PDF Error:", err);
-    showToast("Error generating PDF", "error");
-    if(filterDiv) filterDiv.style.display = 'grid';
-    if(updateBtn) updateBtn.style.display = 'block';
-  });
+  // Small delay ensures DOM is fully painted before PDF capture
+  setTimeout(() => {
+    html2pdf().set(opt).from(element).save().then(() => {
+      if(filterDiv) filterDiv.style.display = 'grid';
+      if(updateBtn) updateBtn.style.display = 'block';
+      showToast('PDF Downloaded Successfully!', 'success');
+    }).catch(err => {
+      console.error("PDF Error:", err);
+      showToast("Error generating PDF", "error");
+      if(filterDiv) filterDiv.style.display = 'grid';
+      if(updateBtn) updateBtn.style.display = 'block';
+    });
+  }, 300);
 }
 
 function updateSubscriptionUI(){
