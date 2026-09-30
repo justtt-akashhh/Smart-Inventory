@@ -82,47 +82,58 @@ body.is-offline { padding-top: 40px; }
 .top-bar-btn { min-width:40px; height:40px; padding:0 10px; background:rgba(255,255,255,.2); border:none; border-radius:12px; color:white; font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px; transition:all .3s; backdrop-filter:blur(10px); }
 .top-bar-btn:active { background:rgba(255,255,255,.3); transform:scale(.95); }
 
-.today-profit-card { background: linear-gradient(135deg, #00B894, #55EFC4); margin: -10px 20px 16px; border-radius: 18px; padding: 20px; color: white; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 8px 25px rgba(0, 184, 148, 0.3); }
-.today-profit-card .tp-icon { width: 50px; height: 50px; background: rgba(255,255,255,0.2); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
-.today-profit-card .tp-info h4 { font-size: 13px; opacity: 0.9; font-weight: 500; }
-.today-profit-card .tp-info .tp-amount { font-size: 28px; font-weight: 800; margin-top: 4px; }
+/* COMPACT TODAY PROFIT CARD */
+.today-profit-card { 
+  background: linear-gradient(135deg, #00B894, #55EFC4); 
+  margin: 0 15px 12px; 
+  border-radius: 14px; 
+  padding: 12px 16px; 
+  color: white; 
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
+  box-shadow: 0 4px 15px rgba(0, 184, 148, 0.2); 
+}
+.today-profit-card .tp-icon { width: 40px; height: 40px; background: rgba(255,255,255,0.2); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+.today-profit-card .tp-info h4 { font-size: 12px; opacity: 0.9; font-weight: 500; }
+.today-profit-card .tp-info .tp-amount { font-size: 22px; font-weight: 800; margin-top: 2px; }
 
-.stats-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:0 20px 20px; }
-.stat-card { background:white; border-radius:18px; padding:18px; box-shadow:var(--shadow); position:relative; overflow:hidden; }
+.stats-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:0 15px 15px; }
+.stat-card { background:white; border-radius:16px; padding:16px; box-shadow:var(--shadow); position:relative; overflow:hidden; }
 .stat-card::after { content:''; position:absolute; top:-10px; right:-10px; width:60px; height:60px; border-radius:50%; opacity:.1; }
 .stat-card.purple::after{background:var(--primary);} .stat-card.green::after{background:var(--secondary);} .stat-card.orange::after{background:var(--accent);} .stat-card.red::after{background:var(--danger);}
-.stat-icon { width:38px; height:38px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:18px; margin-bottom:12px; }
+.stat-icon { width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:16px; margin-bottom:10px; }
 .stat-icon.purple{background:rgba(108,92,231,.1);color:var(--primary);} .stat-icon.green{background:rgba(0,184,148,.1);color:var(--secondary);} .stat-icon.orange{background:rgba(253,203,110,.2);color:#E17055;} .stat-icon.red{background:rgba(225,112,85,.1);color:var(--danger);}
-.stat-value { font-size:24px; font-weight:800; color:var(--text); }
-.stat-label { font-size:12px; color:var(--text-light); margin-top:2px; font-weight:500; }
+.stat-value { font-size:22px; font-weight:800; color:var(--text); }
+.stat-label { font-size:11px; color:var(--text-light); margin-top:2px; font-weight:500; }
 
-.search-container { padding:0 20px; margin-bottom:16px; }
-.search-box { display:flex; align-items:center; background:white; border-radius:16px; padding:12px 16px; box-shadow:var(--shadow); gap:10px; }
-.search-box i { color:var(--text-light); font-size:18px; }
-.search-box input { flex:1; border:none; outline:none; font-size:15px; font-family:inherit; background:transparent; color:var(--text); }
+.search-container { padding:0 15px; margin-bottom:16px; }
+.search-box { display:flex; align-items:center; background:white; border-radius:14px; padding:10px 14px; box-shadow:var(--shadow); gap:10px; }
+.search-box i { color:var(--text-light); font-size:16px; }
+.search-box input { flex:1; border:none; outline:none; font-size:14px; font-family:inherit; background:transparent; color:var(--text); }
 
-.section-header { display:flex; align-items:center; justify-content:space-between; padding:0 20px; margin-bottom:14px; }
-.section-header h3 { font-size:18px; font-weight:700; }
+.section-header { display:flex; align-items:center; justify-content:space-between; padding:0 15px; margin-bottom:12px; }
+.section-header h3 { font-size:17px; font-weight:700; }
 .section-header .see-all { font-size:13px; color:var(--primary); font-weight:600; cursor:pointer; border:none; background:none; font-family:inherit; }
 
-.product-list { padding:0 20px; display:flex; flex-direction:column; gap:12px; }
-.product-card { background:white; border-radius:18px; padding:16px; box-shadow:var(--shadow); display:flex; align-items:center; gap:14px; transition:all .3s; position:relative; overflow:hidden; }
+.product-list { padding:0 15px; display:flex; flex-direction:column; gap:12px; }
+.product-card { background:white; border-radius:16px; padding:14px; box-shadow:var(--shadow); display:flex; align-items:center; gap:12px; transition:all .3s; position:relative; overflow:hidden; }
 .product-card:active { transform:scale(.98); }
 .product-card.out-of-stock { border-left:4px solid var(--danger); }
 .product-card.low-stock { border-left:4px solid var(--accent); }
-.product-emoji { width:50px; height:50px; border-radius:14px; display:flex; align-items:center; justify-content:center; font-size:24px; flex-shrink:0; }
+.product-emoji { width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:22px; flex-shrink:0; }
 .product-emoji.cat-grocery{background:#E8F5E9;} .product-emoji.cat-electronics{background:#E3F2FD;} .product-emoji.cat-clothing{background:#F3E5F5;} .product-emoji.cat-food{background:#FFF3E0;} .product-emoji.cat-other{background:#F5F5F5;}
 .product-info { flex:1; min-width:0; }
-.product-name { font-size:15px; font-weight:700; margin-bottom:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.product-meta { display:flex; gap:12px; font-size:12px; color:var(--text-light); flex-wrap:wrap; }
+.product-name { font-size:14px; font-weight:700; margin-bottom:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.product-meta { display:flex; gap:10px; font-size:11px; color:var(--text-light); flex-wrap:wrap; }
 .product-meta span { display:flex; align-items:center; gap:4px; }
 .product-meta .profit { color:var(--secondary); font-weight:600; }
 .product-meta .loss { color:var(--danger); font-weight:600; }
 .product-qty { text-align:center; flex-shrink:0; }
-.product-qty .qty-num { font-size:20px; font-weight:800; color:var(--primary); }
+.product-qty .qty-num { font-size:18px; font-weight:800; color:var(--primary); }
 .product-qty .qty-label { font-size:10px; color:var(--text-light); font-weight:500; }
-.product-actions { display:flex; gap:6px; margin-top:10px; }
-.product-actions button { flex:1; padding:8px; border:none; border-radius:10px; font-size:12px; font-weight:600; font-family:inherit; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:4px; transition:all .2s; }
+.product-actions { display:flex; gap:6px; margin-top:8px; }
+.product-actions button { flex:1; padding:8px; border:none; border-radius:8px; font-size:11px; font-weight:600; font-family:inherit; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:4px; transition:all .2s; }
 .product-actions button:active { transform:scale(.95); }
 .btn-sell { background:linear-gradient(135deg,#00B894,#55EFC4); color:white; }
 .btn-edit { background:rgba(108,92,231,.1); color:var(--primary); }
@@ -204,12 +215,12 @@ body.is-offline .toast.show { top: 50px; }
 .fab { position:fixed; bottom:90px; right:20px; width:56px; height:56px; background:linear-gradient(135deg,#6C5CE7,#A29BFE); border:none; border-radius:18px; color:white; font-size:24px; cursor:pointer; box-shadow:0 6px 25px rgba(108,92,231,.4); z-index:999; display:flex; align-items:center; justify-content:center; transition:all .3s; }
 .fab:active { transform:scale(.9); }
 
-.filter-chips { display:flex; gap:8px; padding:0 20px; margin-bottom:16px; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+.filter-chips { display:flex; gap:8px; padding:0 15px; margin-bottom:16px; overflow-x:auto; -webkit-overflow-scrolling:touch; }
 .filter-chips::-webkit-scrollbar { display:none; }
 .chip { padding:8px 16px; border-radius:20px; font-size:13px; font-weight:600; border:2px solid var(--border); background:white; color:var(--text-light); cursor:pointer; white-space:nowrap; font-family:inherit; transition:all .3s; }
 .chip.active { background:var(--primary); color:white; border-color:var(--primary); }
 
-.limit-warning { background:linear-gradient(135deg,#FDCB6E,#F39C12); border-radius:16px; padding:16px 20px; margin:0 20px 16px; display:flex; align-items:center; gap:12px; color:white; }
+.limit-warning { background:linear-gradient(135deg,#FDCB6E,#F39C12); border-radius:16px; padding:16px 20px; margin:0 15px 16px; display:flex; align-items:center; gap:12px; color:white; }
 .limit-warning i { font-size:24px; }
 .limit-warning .limit-text h4 { font-size:14px; font-weight:700; }
 .limit-warning .limit-text p { font-size:12px; opacity:.9; margin-top:2px; }
@@ -246,8 +257,13 @@ body.is-offline .toast.show { top: 50px; }
 }
 ::-webkit-scrollbar { width:0; }
 .oos-badge { position:absolute; top:12px; right:12px; background:var(--danger); color:white; font-size:10px; font-weight:700; padding:4px 10px; border-radius:8px; text-transform:uppercase; letter-spacing:.5px; }
-.date-filter { display:flex; gap:8px; padding:0 20px; margin-bottom:16px; }
+.date-filter { display:flex; gap:8px; padding:0 15px; margin-bottom:16px; }
 .date-filter select { flex:1; padding:10px 14px; border:2px solid var(--border); border-radius:12px; font-size:13px; font-family:inherit; font-weight:600; color:var(--text); background:white; cursor:pointer; }
+
+/* PDF Generation Specific Fixes */
+#monthlyReportContent { background: #ffffff !important; color: #000000 !important; }
+.report-table tr { page-break-inside: avoid !important; }
+.report-table td, .report-table th { page-break-inside: avoid !important; }
 </style>
 </head>
 <body>
@@ -354,7 +370,7 @@ body.is-offline .toast.show { top: 50px; }
     <div class="section-header"><h3 data-i18n="oos_alerts"></h3></div>
     <div class="product-list" id="outOfStockList" style="margin-bottom:20px"></div>
     <div class="section-header"><h3 data-i18n="recent_activity"></h3></div>
-    <div id="historyList" style="padding:0 20px"></div>
+    <div id="historyList" style="padding:0 15px"></div>
   </div>
 
   <div class="page" id="subscriptionPage">
@@ -399,6 +415,17 @@ body.is-offline .toast.show { top: 50px; }
     <div class="form-group"><label data-i18n="pf_category"></label><select id="prodCategory">
       <option value="grocery" data-i18n="cat_grocery"></option><option value="electronics" data-i18n="cat_electronics"></option><option value="clothing" data-i18n="cat_clothing"></option><option value="food" data-i18n="cat_food"></option><option value="other" data-i18n="cat_other"></option>
     </select></div>
+    
+    <!-- NEW: Image Upload -->
+    <div class="form-group">
+      <label data-i18n="pf_image"></label>
+      <input type="file" id="prodImageInput" accept="image/*" style="padding: 10px; font-size: 13px;">
+      <div id="imagePreviewContainer" style="display:none; margin-top:8px; position:relative; width: fit-content;">
+        <img id="prodImagePreview" style="width:80px; height:80px; object-fit:cover; border-radius:10px; border:2px solid var(--border);">
+        <button type="button" onclick="removeProductImage()" style="position:absolute; top:-6px; right:-6px; background:var(--danger); color:white; border:none; border-radius:50%; width:24px; height:24px; font-size:14px; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 5px rgba(0,0,0,0.2);">&times;</button>
+      </div>
+    </div>
+
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
       <div class="form-group"><label data-i18n="pf_buy"></label><input type="number" id="prodBuyPrice" placeholder="0.00" min="0" step="0.01"></div>
       <div class="form-group"><label data-i18n="pf_sell"></label><input type="number" id="prodSellPrice" placeholder="0.00" min="0" step="0.01"></div>
@@ -430,39 +457,55 @@ body.is-offline .toast.show { top: 50px; }
 <div class="modal-overlay" id="reportModal">
   <div class="modal" style="max-height: 95vh;">
     <div class="modal-handle"></div>
-    <div id="monthlyReportContent" style="background: white; padding: 10px; border-radius: 12px;">
+    <div id="monthlyReportContent" style="background: white; padding: 15px; border-radius: 12px;">
+      <div id="pdfFilterSection" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; background: var(--bg); padding: 12px; border-radius: 10px;">
+        <div>
+          <label style="font-size: 11px; font-weight: 600; color: var(--text-light);">From Date</label>
+          <input type="date" id="reportFromDate" style="width: 100%; padding: 8px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; margin-top: 4px; font-family: inherit;">
+        </div>
+        <div>
+          <label style="font-size: 11px; font-weight: 600; color: var(--text-light);">To Date</label>
+          <input type="date" id="reportToDate" style="width: 100%; padding: 8px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; margin-top: 4px; font-family: inherit;">
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="updateReportView()" style="margin-bottom: 15px; padding: 10px; font-size: 14px;"><i class="fas fa-sync"></i> Update Report</button>
+
       <div class="report-header">
-        <h2 id="reportShopName">Shop Name</h2>
-        <p id="reportVendorName">Vendor Name</p>
-        <p id="reportPhone" style="font-size:12px; margin-top:4px;">Phone</p>
-        <p id="reportDateRange" style="font-weight:600; color:var(--primary); margin-top:8px;"></p>
+        <h2 id="reportShopName" style="font-size: 20px; color: var(--primary); margin-bottom: 5px;">Shop Name</h2>
+        <p id="reportVendorName" style="font-size: 14px; color: var(--text); font-weight: 600;">Vendor Name</p>
+        <p id="reportPhone" style="font-size:12px; color: var(--text-light); margin-top:4px;">Phone</p>
+        <p id="reportDateRange" style="font-weight:700; color:var(--primary); margin-top:8px; font-size: 14px;"></p>
       </div>
+      
       <div class="report-summary">
-        <div class="report-box"><div class="rb-val" id="repTotalSales">₹0</div><div class="rb-label" data-i18n="mr_total_sales"></div></div>
-        <div class="report-box profit"><div class="rb-val" id="repTotalProfit">₹0</div><div class="rb-label" data-i18n="mr_total_profit"></div></div>
-        <div class="report-box"><div class="rb-val" id="repTotalItems">0</div><div class="rb-label" data-i18n="mr_items_sold"></div></div>
+        <div class="report-box"><div class="rb-val" id="repTotalSales" style="font-size: 16px;">₹0</div><div class="rb-label" data-i18n="mr_total_sales">Total Sales</div></div>
+        <div class="report-box profit"><div class="rb-val" id="repTotalProfit" style="font-size: 16px;">₹0</div><div class="rb-label" data-i18n="mr_total_profit">Total Profit</div></div>
+        <div class="report-box"><div class="rb-val" id="repTotalItems" style="font-size: 16px;">0</div><div class="rb-label" data-i18n="mr_items_sold">Items Sold</div></div>
       </div>
-      <h4 style="font-size:14px; font-weight:700; margin-bottom:10px;" data-i18n="mr_daily_breakdown"></h4>
+      
+      <h4 style="font-size:14px; font-weight:700; margin-bottom:10px; border-bottom: 1px solid var(--border); padding-bottom: 5px;" data-i18n="mr_daily_breakdown">Daily Breakdown</h4>
       <div style="overflow-x: auto;">
-        <table class="report-table">
+        <table class="report-table" style="width: 100%; border-collapse: collapse; font-size: 12px;">
           <thead>
-            <tr>
-              <th data-i18n="date"></th>
-              <th data-i18n="items"></th>
-              <th data-i18n="revenue"></th>
-              <th data-i18n="profit"></th>
+            <tr style="background: var(--bg);">
+              <th style="text-align: left; padding: 8px; border-radius: 6px 0 0 6px;">Date</th>
+              <th style="text-align: left; padding: 8px;">Items</th>
+              <th style="text-align: right; padding: 8px;">Revenue</th>
+              <th style="text-align: right; padding: 8px; border-radius: 0 6px 6px 0;">Profit</th>
             </tr>
           </thead>
           <tbody id="reportTableBody"></tbody>
         </table>
       </div>
-      <div class="report-footer">
+      
+      <div class="report-footer" style="text-align: center; margin-top: 20px; padding-top: 15px; border-top: 1px dashed var(--border); font-size: 11px; color: var(--text-light);">
         <p>Generated by Smart Inventory</p>
         <p id="reportGenDate"></p>
       </div>
     </div>
-    <button class="btn btn-primary" onclick="downloadReportPDF()" style="margin-top:16px"><i class="fas fa-file-pdf"></i> <span data-i18n="download_pdf"></span></button>
-    <button class="btn btn-secondary" onclick="closeModal('reportModal')" style="margin-top:10px" data-i18n="close"></button>
+    
+    <button class="btn btn-success" onclick="downloadReportPDF()" style="margin-top:16px"><i class="fas fa-file-pdf"></i> Download PDF</button>
+    <button class="btn btn-secondary" onclick="closeModal('reportModal')" style="margin-top:10px">Close</button>
   </div>
 </div>
 
@@ -526,42 +569,30 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-// ============ OFFLINE PERSISTENCE (SAFELY) ============
 try {
-  db.enableIndexedDbPersistence().catch((err) => {
-    console.log('Offline persistence:', err.code);
-  });
-} catch(e) {
-  console.log('Persistence setup error:', e);
-}
-// ==========================================
+  db.enableIndexedDbPersistence().catch((err) => { console.log('Offline persistence:', err.code); });
+} catch(e) { console.log('Persistence setup error:', e); }
 
 // ============ TRANSLATIONS ============
 const translations = {
   en: {
-    app_tagline:"Smart Inventory for Smart Vendors",
-    welcome_back:"Welcome Back!", signin_sub:"Sign in to manage your inventory",
+    app_tagline:"Smart Inventory for Smart Vendors", welcome_back:"Welcome Back!", signin_sub:"Sign in to manage your inventory",
     email_label:"Email Address", password_label:"Password", ph_email:"Enter your email", ph_password:"Enter your password",
-    signin_btn:"Sign In", create_account:"Create New Account", or_text:"OR",
-    create_title:"Create Account", create_sub:"Start managing your inventory today",
+    signin_btn:"Sign In", create_account:"Create New Account", or_text:"OR", create_title:"Create Account", create_sub:"Start managing your inventory today",
     name_label:"Full Name", shop_label:"Shop Name", phone_label:"Phone Number", ph_name:"Enter your name", ph_shop:"Enter your shop name", ph_phone:"Enter phone number", ph_password2:"Create a password (min 6 chars)",
-    have_account:"Already have an account?", signin_link:"Sign In",
-    nav_home:"Home", nav_history:"History", nav_premium:"Premium", nav_profile:"Profile",
+    have_account:"Already have an account?", signin_link:"Sign In", nav_home:"Home", nav_history:"History", nav_premium:"Premium", nav_profile:"Profile",
     today_profit:"Today's Profit", st_total_products:"Total Products", st_revenue:"Total Revenue", st_low_stock:"Low Stock", st_out_stock:"Out of Stock",
-    lw_title:"Free Limit Reached!", lw_desc:"Upgrade to add more products", lw_btn:"Upgrade",
-    my_inventory:"My Inventory", view_all:"View All →", ph_search:"Search products...",
+    lw_title:"Free Limit Reached!", lw_desc:"Upgrade to add more products", lw_btn:"Upgrade", my_inventory:"My Inventory", view_all:"View All →", ph_search:"Search products...",
     cat_all:"All", cat_grocery:"🛒 Grocery", cat_electronics:"📱 Electronics", cat_clothing:"👕 Clothing", cat_food:"🍔 Food", cat_other:"📦 Other",
     oos_badge:"Out of Stock", sell:"Sell", qty_label:"qty", per_unit:"/unit", buy:"Buy", sell_lbl:"Sell",
-    empty_no_products_h:"No products yet", empty_no_products_p:"Tap the + button to add your first product to inventory",
-    empty_no_results_h:"No results found", empty_no_results_p:"Try a different search term",
-    hf_all:"All Activities", hf_sold:"Sales", hf_added:"Added", hf_oos:"Out of Stock", hf_edited:"Edited",
-    oos_alerts:"Out of Stock Alerts", recent_activity:"Recent Activity",
+    empty_no_products_h:"No products yet", empty_no_products_p:"Tap the + button to add your first product", empty_no_results_h:"No results found", empty_no_results_p:"Try a different search term",
+    hf_all:"All Activities", hf_sold:"Sales", hf_added:"Added", hf_oos:"Out of Stock", hf_edited:"Edited", oos_alerts:"Out of Stock Alerts", recent_activity:"Recent Activity",
     hist_empty_h:"No history yet", hist_empty_p:"Your activity will appear here", all_in_stock:"✅ All products in stock!",
-    sub_title:"Smart Inventory Premium", sub_desc:"Unlock unlimited products, advanced analytics, and priority support for your growing business.", sub_period:"/ 28 days",
+    sub_title:"Smart Inventory Premium", sub_desc:"Unlock unlimited products, advanced analytics, and priority support.", sub_period:"/ 28 days",
     feat_1:"Unlimited product entries", feat_2:"Advanced sales analytics", feat_3:"Low stock alerts & notifications", feat_4:"Cloud backup & sync", feat_5:"Export reports as PDF/Excel", feat_6:"Priority customer support",
     upgrade_btn:"Upgrade to Premium - ₹99/28 days", plan_premium:"✅ You are on Premium Plan", plan_premium_d:"Unlimited products • Active", plan_free:"Current: Free Plan ({used}/5 products used)",
     set_sub:"Subscription", set_sub_d:"Manage your premium plan", set_export:"Export Data", set_export_d:"Download your inventory as JSON", set_about:"About Smart Inventory", set_logout:"Logout", set_logout_d:"Sign out of your account",
-    pf_add:"Add New Product", pf_edit:"Edit Product", pf_name:"Product Name", ph_prod_name:"e.g., Basmati Rice 5kg", pf_category:"Category", pf_buy:"Buying Price (₹)", pf_sell:"Selling Price (₹)", pf_qty:"Quantity", pf_unit:"Unit", save_product:"Save Product", cancel:"Cancel",
+    pf_add:"Add New Product", pf_edit:"Edit Product", pf_name:"Product Name", ph_prod_name:"e.g., Basmati Rice 5kg", pf_category:"Category", pf_image:"Product Image (Optional)", pf_buy:"Buying Price (₹)", pf_sell:"Selling Price (₹)", pf_qty:"Quantity", pf_unit:"Unit", save_product:"Save Product", cancel:"Cancel",
     u_pcs:"Pieces", u_kg:"Kilograms", u_ltr:"Liters", u_box:"Boxes", u_dozen:"Dozens",
     sell_title:"🛒 Sell Product", sell_available:"Available", sell_total:"Total Amount", sell_confirm:"Confirm Sale",
     pay_title:"💳 Premium Payment", pay_desc:"Pay ₹99 via UPI using the QR code or UPI ID", copy:"Copy", paid_btn:"I Have Paid",
@@ -575,36 +606,28 @@ const translations = {
     confirm_logout:"Are you sure you want to logout?", confirm_delete:'Delete "{name}"? This cannot be undone.', confirm_clear:"Clear all history?",
     about_text:"Smart Inventory v1.0.0\nSmart Inventory Manager for Indian Vendors\n\nMade with ❤️ for small businesses",
     hd_added:"Added {name} - {q} {u} @ ₹{price}", hd_edited:"Updated {name} - Qty: {q} {u}", hd_deleted:"Deleted {name}", hd_sold:"Sold {q} {u} - ₹{total} (Profit: ₹{profit})", hd_oos:"{name} is now OUT OF STOCK!",
-    just_now:"Just now", mins_ago:"{n}m ago", hours_ago:"{n}h ago", days_ago:"{n}d ago",
-    lang_switched:"Language changed: English",
-    mr_title:"Monthly Sales Summary", mr_total_sales:"Total Sales", mr_total_profit:"Total Profit", mr_items_sold:"Items Sold", mr_daily_breakdown:"Daily Breakdown", download_pdf:"Download PDF", no_sales:"No sales this month",
-    date:"Date", items:"Items", revenue:"Revenue", profit:"Profit",
-    t_offline:"📵 Saved locally. Will sync when online.", t_online:"🌐 Back online! Syncing data..."
+    just_now:"Just now", mins_ago:"{n}m ago", hours_ago:"{n}h ago", days_ago:"{n}d ago", lang_switched:"Language changed: English",
+    mr_title:"Monthly Sales Summary", mr_total_sales:"Total Sales", mr_total_profit:"Total Profit", mr_items_sold:"Items Sold", mr_daily_breakdown:"Daily Breakdown", download_pdf:"Download PDF", no_sales:"No sales in this period",
+    date:"Date", items:"Items", revenue:"Revenue", profit:"Profit", t_offline:"📵 Saved locally. Will sync when online.", t_online:"🌐 Back online! Syncing data..."
   },
   hi: {
-    app_tagline:"स्मार्ट दुकानदारों के लिए स्मार्ट इन्वेंटरी",
-    welcome_back:"वापसी पर स्वागत है!", signin_sub:"अपनी इन्वेंटरी प्रबंधित करने के लिए साइन इन करें",
+    app_tagline:"स्मार्ट दुकानदारों के लिए स्मार्ट इन्वेंटरी", welcome_back:"वापसी पर स्वागत है!", signin_sub:"अपनी इन्वेंटरी प्रबंधित करने के लिए साइन इन करें",
     email_label:"ईमेल पता", password_label:"पासवर्ड", ph_email:"अपना ईमेल दर्ज करें", ph_password:"अपना पासवर्ड दर्ज करें",
-    signin_btn:"साइन इन करें", create_account:"नया खाता बनाएँ", or_text:"या",
-    create_title:"खाता बनाएँ", create_sub:"आज ही अपनी इन्वेंटरी प्रबंधित करना शुरू करें",
+    signin_btn:"साइन इन करें", create_account:"नया खाता बनाएँ", or_text:"या", create_title:"खाता बनाएँ", create_sub:"आज ही अपनी इन्वेंटरी प्रबंधित करना शुरू करें",
     name_label:"पूरा नाम", shop_label:"दुकान का नाम", phone_label:"फ़ोन नंबर", ph_name:"अपना नाम दर्ज करें", ph_shop:"अपने दुकान का नाम दर्ज करें", ph_phone:"फ़ोन नंबर दर्ज करें", ph_password2:"पासवर्ड बनाएँ (कम से कम 6 अक्षर)",
-    have_account:"पहले से खाता है?", signin_link:"साइन इन करें",
-    nav_home:"होम", nav_history:"इतिहास", nav_premium:"प्रीमियम", nav_profile:"प्रोफ़ाइल",
+    have_account:"पहले से खाता है?", signin_link:"साइन इन करें", nav_home:"होम", nav_history:"इतिहास", nav_premium:"प्रीमियम", nav_profile:"प्रोफ़ाइल",
     today_profit:"आज का लाभ", st_total_products:"कुल उत्पाद", st_revenue:"कुल आय", st_low_stock:"कम स्टॉक", st_out_stock:"स्टॉक ख़त्म",
-    lw_title:"फ़्री सीमा पूरी!", lw_desc:"और उत्पाद जोड़ने के लिए अपग्रेड करें", lw_btn:"अपग्रेड",
-    my_inventory:"मेरी इन्वेंटरी", view_all:"सभी देखें →", ph_search:"उत्पाद खोजें...",
+    lw_title:"फ़्री सीमा पूरी!", lw_desc:"और उत्पाद जोड़ने के लिए अपग्रेड करें", lw_btn:"अपग्रेड", my_inventory:"मेरी इन्वेंटरी", view_all:"सभी देखें →", ph_search:"उत्पाद खोजें...",
     cat_all:"सभी", cat_grocery:"🛒 किराना", cat_electronics:"📱 इलेक्ट्रॉनिक्स", cat_clothing:"👕 कपड़े", cat_food:"🍔 भोजन", cat_other:"📦 अन्य",
     oos_badge:"स्टॉक ख़त्म", sell:"बेचें", qty_label:"मात्रा", per_unit:"/इकाई", buy:"खरीद", sell_lbl:"बिक्री",
-    empty_no_products_h:"अभी कोई उत्पाद नहीं", empty_no_products_p:"इन्वेंटरी में अपना पहला उत्पाद जोड़ने के लिए + बटन दबाएँ",
-    empty_no_results_h:"कोई परिणाम नहीं मिला", empty_no_results_p:"दूसरा खोज शब्द आज़माएँ",
-    hf_all:"सभी गतिविधियाँ", hf_sold:"बिक्री", hf_added:"जोड़े गए", hf_oos:"स्टॉक ख़त्म", hf_edited:"संपादित",
-    oos_alerts:"स्टॉक ख़त्म चेतावनी", recent_activity:"हाल की गतिविधि",
+    empty_no_products_h:"अभी कोई उत्पाद नहीं", empty_no_products_p:"+ बटन दबाकर पहला उत्पाद जोड़ें", empty_no_results_h:"कोई परिणाम नहीं मिला", empty_no_results_p:"दूसरा खोज शब्द आज़माएँ",
+    hf_all:"सभी गतिविधियाँ", hf_sold:"बिक्री", hf_added:"जोड़े गए", hf_oos:"स्टॉक ख़त्म", hf_edited:"संपादित", oos_alerts:"स्टॉक ख़त्म चेतावनी", recent_activity:"हाल की गतिविधि",
     hist_empty_h:"अभी कोई इतिहास नहीं", hist_empty_p:"आपकी गतिविधि यहाँ दिखेगी", all_in_stock:"✅ सभी उत्पाद स्टॉक में हैं!",
-    sub_title:"स्मार्ट इन्वेंटरी प्रीमियम", sub_desc:"अपने बढ़ते व्यापार के लिए असीमित उत्पाद, उन्नत एनालिटिक्स और प्राथमिकता सहायता अनलॉक करें।", sub_period:"/ 28 दिन",
+    sub_title:"स्मार्ट इन्वेंटरी प्रीमियम", sub_desc:"असीमित उत्पाद, उन्नत एनालिटिक्स और प्राथमिकता सहायता अनलॉक करें।", sub_period:"/ 28 दिन",
     feat_1:"असीमित उत्पाद प्रविष्टियाँ", feat_2:"उन्नत बिक्री विश्लेषण", feat_3:"कम स्टॉक अलर्ट और सूचनाएँ", feat_4:"क्लाउड बैकअप और सिंक", feat_5:"PDF/Excel में रिपोर्ट निर्यात", feat_6:"प्राथमिकता ग्राहक सहायता",
     upgrade_btn:"प्रीमियम में अपग्रेड करें - ₹99/28 दिन", plan_premium:"✅ आप प्रीमियम प्लान पर हैं", plan_premium_d:"असीमित उत्पाद • सक्रिय", plan_free:"वर्तमान: फ़्री प्लान ({used}/5 उत्पाद उपयोग हुए)",
     set_sub:"सदस्यता", set_sub_d:"अपना प्रीमियम प्लान प्रबंधित करें", set_export:"डेटा निर्यात करें", set_export_d:"JSON के रूप में अपनी इन्वेंटरी डाउनलोड करें", set_about:"स्मार्ट इन्वेंटरी के बारे में", set_logout:"लॉगआउट", set_logout_d:"अपने खाते से साइन आउट करें",
-    pf_add:"नया उत्पाद जोड़ें", pf_edit:"उत्पाद संपादित करें", pf_name:"उत्पाद का नाम", ph_prod_name:"जैसे, बासमती चावल 5 किग्रा", pf_category:"श्रेणी", pf_buy:"खरीद मूल्य (₹)", pf_sell:"बिक्री मूल्य (₹)", pf_qty:"मात्रा", pf_unit:"इकाई", save_product:"उत्पाद सहेजें", cancel:"रद्द करें",
+    pf_add:"नया उत्पाद जोड़ें", pf_edit:"उत्पाद संपादित करें", pf_name:"उत्पाद का नाम", ph_prod_name:"जैसे, बासमती चावल 5 किग्रा", pf_category:"श्रेणी", pf_image:"उत्पाद की फोटो (वैकल्पिक)", pf_buy:"खरीद मूल्य (₹)", pf_sell:"बिक्री मूल्य (₹)", pf_qty:"मात्रा", pf_unit:"इकाई", save_product:"उत्पाद सहेजें", cancel:"रद्द करें",
     u_pcs:"पीस", u_kg:"किलोग्राम", u_ltr:"लीटर", u_box:"डिब्बे", u_dozen:"दर्जन",
     sell_title:"🛒 उत्पाद बेचें", sell_available:"उपलब्ध", sell_total:"कुल राशि", sell_confirm:"बिक्री पुष्टि करें",
     pay_title:"💳 प्रीमियम भुगतान", pay_desc:"QR कोड या UPI आईडी से ₹99 का भुगतान करें", copy:"कॉपी", paid_btn:"मैंने भुगतान कर दिया है",
@@ -613,20 +636,19 @@ const translations = {
     notif_title:"🔔 सूचनाएँ", notif_oos:"🚨 स्टॉक ख़त्म", notif_low:"⚠️ कम स्टॉक", notif_clear_h:"सब ठीक है!", notif_clear_p:"कोई सूचना नहीं", only_left:"केवल {q} {u} बचे हैं", quantity_is:"मात्रा: 0 {u}",
     good_morning:"सुप्रभात", good_afternoon:"नमस्कार", good_evening:"शुभ संध्या",
     t_fill_fields:"कृपया सभी फ़ील्ड भरें", t_invalid:"गलत क्रेडेंशियल। demo@smartinventory.com / demo123 आज़माएँ", t_welcome:"वापसी पर स्वागत है, {name}! 🎉", t_welcome_demo:"स्वागत है, डेमो विक्रेता! 🎉", t_pw_short:"पासवर्ड कम से कम 6 अक्षर का होना चाहिए", t_email_exists:"ईमेल पहले से पंजीकृत है!", t_signup_ok:"खाता सफलतापूर्वक बन गया! 🎉", t_logged_out:"सफलतापूर्वक लॉग आउट हो गए",
-    t_limit:"फ़्री प्लान की सीमा पूरी! और उत्पाद जोड़ने के लिए अपग्रेड करें।", t_limit2:"फ़्री प्लान की सीमा पूरी!", t_need_name:"कृपया उत्पाद का नाम दर्ज करें", t_need_buy:"कृपया मान्य खरीद मूल्य दर्ज करें", t_need_sell:"कृपया मान्य बिक्री मूल्य दर्ज करें", t_need_qty:"कृपया मान्य मात्रा दर्ज करें", t_updated:"उत्पाद सफलतापूर्वक अपडेट हुआ! ✅", t_added:"उत्पाद सफलतापूर्वक जोड़ा गया! 🎉", t_deleted:"उत्पाद हटा दिया गया", t_oos_now:"उत्पाद स्टॉक में नहीं है!", t_not_enough:"पर्याप्त स्टॉक नहीं है!", t_sold:"{name} के {q} {u} बिके! 💰", t_low:"⚠️ कम स्टॉक: {name} ({q} बचे)", t_out_warn:"⚠️ {name} अब स्टॉक ख़त्म!",
-    t_hist_cleared:"इतिहास मिटा दिया गया", t_already_prem:"आप पहले से प्रीमियम पर हैं! 🎉", t_req_gen:"अनुरोध कोड जनरेट हुआ! 📋", t_wa_open:"WhatsApp खुल गया! स्क्रीनशॉट संलग्न करें 📸", t_enter_otp:"कृपया 4 अंकों का OTP दर्ज करें", t_no_req:"अनुरोध कोड नहीं मिला। कृपया भुगतान फिर से शुरू करें।", t_wrong_otp:"❌ गलत OTP! कृपया एडमिन से जाँचें।", t_prem_act:"🎉 28 दिनों के लिए प्रीमियम चालू हुआ!", t_upi_copied:"UPI आईडी कॉपी हुई! 📋", t_data_exp:"डेटा सफलतापूर्वक निर्यात हुआ! 📥",
+    t_limit:"फ़्री प्लान की सीमा पूरी! अपग्रेड करें।", t_limit2:"फ़्री प्लान की सीमा पूरी!", t_need_name:"कृपया उत्पाद का नाम दर्ज करें", t_need_buy:"कृपया मान्य खरीद मूल्य दर्ज करें", t_need_sell:"कृपया मान्य बिक्री मूल्य दर्ज करें", t_need_qty:"कृपया मान्य मात्रा दर्ज करें", t_updated:"उत्पाद सफलतापूर्वक अपडेट हुआ! ✅", t_added:"उत्पाद सफलतापूर्वक जोड़ा गया! 🎉", t_deleted:"उत्पाद हटा दिया गया", t_oos_now:"उत्पाद स्टॉक में नहीं है!", t_not_enough:"पर्याप्त स्टॉक नहीं है!", t_sold:"{name} के {q} {u} बिके! 💰", t_low:"⚠️ कम स्टॉक: {name} ({q} बचे)", t_out_warn:"⚠️ {name} अब स्टॉक ख़त्म!",
+    t_hist_cleared:"इतिहास मिटा दिया गया", t_already_prem:"आप पहले से प्रीमियम पर हैं! 🎉", t_req_gen:"अनुरोध कोड जनरेट हुआ! 📋", t_wa_open:"WhatsApp खुल गया! स्क्रीनशॉट संलग्न करें 📸", t_enter_otp:"कृपया 4 अंकों का OTP दर्ज करें", t_no_req:"अनुरोध कोड नहीं मिला।", t_wrong_otp:"❌ गलत OTP!", t_prem_act:"🎉 28 दिनों के लिए प्रीमियम चालू हुआ!", t_upi_copied:"UPI आईडी कॉपी हुई! 📋", t_data_exp:"डेटा सफलतापूर्वक निर्यात हुआ! 📥",
     confirm_logout:"क्या आप वाकई लॉग आउट करना चाहते हैं?", confirm_delete:'"{name}" को हटाएँ? यह वापस नहीं आएगा।', confirm_clear:"सारा इतिहास मिटाएँ?",
     about_text:"स्मार्ट इन्वेंटरी v1.0.0\nभारतीय दुकानदारों के लिए स्मार्ट इन्वेंटरी मैनेजर\n\nछोटे व्यवसायों के लिए ❤️ से बनाया गया",
     hd_added:"{name} जोड़ा - {q} {u} @ ₹{price}", hd_edited:"{name} अपडेट किया - मात्रा: {q} {u}", hd_deleted:"{name} हटाया गया", hd_sold:"{q} {u} बेचे - ₹{total} (लाभ: ₹{profit})", hd_oos:"{name} अब स्टॉक ख़त्म है!",
-    just_now:"अभी", mins_ago:"{n} मिनट पहले", hours_ago:"{n} घंटे पहले", days_ago:"{n} दिन पहले",
-    lang_switched:"भाषा बदल दी गई: हिन्दी",
-    mr_title:"मासिक बिक्री सारांश", mr_total_sales:"कुल बिक्री", mr_total_profit:"कुल लाभ", mr_items_sold:"बिके आइटम", mr_daily_breakdown:"दैनिक विवरण", download_pdf:"PDF डाउनलोड करें", no_sales:"इस महीने कोई बिक्री नहीं",
-    date:"तारीख", items:"आइटम", revenue:"राशि", profit:"लाभ",
-    t_offline:"📵 लोकल में सेव। नेट आने पर सिंक होगा।", t_online:"🌐 ऑनलाइन! डेटा सिंक हो रहा है..."
+    just_now:"अभी", mins_ago:"{n} मिनट पहले", hours_ago:"{n} घंटे पहले", days_ago:"{n} दिन पहले", lang_switched:"भाषा बदल दी गई: हिन्दी",
+    mr_title:"मासिक बिक्री सारांश", mr_total_sales:"कुल बिक्री", mr_total_profit:"कुल लाभ", mr_items_sold:"बिके आइटम", mr_daily_breakdown:"दैनिक विवरण", download_pdf:"PDF डाउनलोड करें", no_sales:"इस अवधि में कोई बिक्री नहीं",
+    date:"तारीख", items:"आइटम", revenue:"राशि", profit:"लाभ", t_offline:"📵 लोकल में सेव। नेट आने पर सिंक होगा।", t_online:"🌐 ऑनलाइन! डेटा सिंक हो रहा है..."
   }
 };
 
 let currentLang = localStorage.getItem('SI_lang') || 'en';
+let currentEditingImage = null; // Holds compressed base64 image
 
 function t(key, vars){
   let str = (translations[currentLang] && translations[currentLang][key]) || translations.en[key] || key;
@@ -655,13 +677,7 @@ function setLang(lang){
 function toggleLang(){ setLang(currentLang==='en'?'hi':'en'); }
 
 function refreshDynamicUI(){
-  updateGreeting();
-  renderProducts();
-  updateStats();
-  renderHistory();
-  updateSubscriptionUI();
-  updateProfileUI();
-  updateTodayProfit();
+  updateGreeting(); renderProducts(); updateStats(); renderHistory(); updateSubscriptionUI(); updateProfileUI(); updateTodayProfit();
 }
 
 let currentUser = null;
@@ -674,14 +690,7 @@ let requestCodeNumber = null;
 
 auth.onAuthStateChanged((user) => {
   if (user) {
-    currentUser = { 
-      id: user.uid, 
-      email: user.email,
-      name: user.displayName || user.email.split('@')[0],
-      shopName: 'My Shop',
-      phone: '',
-      plan: 'free' 
-    };
+    currentUser = { id: user.uid, email: user.email, name: user.displayName || user.email.split('@')[0], shopName: 'My Shop', phone: '', plan: 'free' };
     showApp();
   } else {
     currentUser = null;
@@ -689,36 +698,18 @@ auth.onAuthStateChanged((user) => {
   }
 });
 
-// ============ NETWORK STATUS (NEW) ============
 function updateNetworkStatus() {
   const banner = document.getElementById('offlineBanner');
-  if (navigator.onLine) {
-    banner.classList.remove('show');
-    document.body.classList.remove('is-offline');
-  } else {
-    banner.classList.add('show');
-    document.body.classList.add('is-offline');
-  }
+  if (navigator.onLine) { banner.classList.remove('show'); document.body.classList.remove('is-offline'); } 
+  else { banner.classList.add('show'); document.body.classList.add('is-offline'); }
 }
-
-window.addEventListener('online', () => {
-  updateNetworkStatus();
-  showToast(t('t_online'), 'success');
-  if (currentUser && currentUser.id !== 'demo_user') loadData();
-});
-
-window.addEventListener('offline', () => {
-  updateNetworkStatus();
-});
-// =======================================
+window.addEventListener('online', () => { updateNetworkStatus(); showToast(t('t_online'), 'success'); if (currentUser && currentUser.id !== 'demo_user') loadData(); });
+window.addEventListener('offline', () => { updateNetworkStatus(); });
 
 window.addEventListener('load', function() {
   applyStaticTranslations();
   updateNetworkStatus();
-  // Force hide splash after 2.5s even if something fails
-  setTimeout(function() {
-    document.getElementById('splashScreen').classList.add('hidden');
-  }, 2500);
+  setTimeout(() => { document.getElementById('splashScreen').classList.add('hidden'); }, 2500);
 });
 
 function showLogin(){ document.getElementById('loginPage').classList.add('active'); document.getElementById('signupPage').classList.remove('active'); document.getElementById('appContainer').classList.remove('active'); }
@@ -727,11 +718,7 @@ function showApp(){
   document.getElementById('loginPage').classList.remove('active'); 
   document.getElementById('signupPage').classList.remove('active'); 
   document.getElementById('appContainer').classList.add('active'); 
-  loadData().then(() => {
-      checkPremiumValidity();
-  }).catch(err => {
-    console.error('loadData error:', err);
-  });
+  loadData().then(() => { checkPremiumValidity(); }).catch(err => { console.error('loadData error:', err); });
 }
 
 function navigateTo(pageId){
@@ -746,37 +733,21 @@ function navigateTo(pageId){
 }
 
 async function checkPremiumValidity() {
-  if (!currentUser || currentUser.id === 'demo_user') return;
-  if (!currentUser.premiumActivatedAt) return;
-
+  if (!currentUser || currentUser.id === 'demo_user' || !currentUser.premiumActivatedAt) return;
   const activatedDate = new Date(currentUser.premiumActivatedAt);
   const today = new Date();
-  const diffTime = today.getTime() - activatedDate.getTime();
-  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-
+  const diffDays = Math.floor((today.getTime() - activatedDate.getTime()) / (1000 * 60 * 60 * 24));
   currentUser.premiumDaysUsed = Math.max(0, diffDays);
 
-  if (currentUser.premiumDaysUsed < 28) {
-    currentUser.plan = 'premium';
-    currentUser.graceStatus = 'active';
-  } 
+  if (currentUser.premiumDaysUsed < 28) { currentUser.plan = 'premium'; currentUser.graceStatus = 'active'; } 
   else if (currentUser.premiumDaysUsed >= 28 && currentUser.premiumDaysUsed < 35) {
-    currentUser.plan = 'premium';
-    currentUser.graceStatus = 'grace';
-    const daysLeft = 35 - currentUser.premiumDaysUsed;
-    setTimeout(() => {
-      showToast(`⚠️ Premium expires in ${daysLeft} day(s)! Renew now.`, 'warning');
-    }, 1500);
+    currentUser.plan = 'premium'; currentUser.graceStatus = 'grace';
+    setTimeout(() => { showToast(`⚠️ Premium expires in ${35 - currentUser.premiumDaysUsed} day(s)! Renew now.`, 'warning'); }, 1500);
   } 
   else {
-    currentUser.plan = 'expired';
-    currentUser.graceStatus = 'expired';
-    if (navigator.onLine) {
-      try { await db.collection('users').doc(currentUser.id).update({ plan: 'expired' }); } catch(e) {}
-    }
-    setTimeout(() => {
-      showToast('⚠️ Premium expired! Only first 5 products accessible. Renew to unlock all.', 'warning');
-    }, 1500);
+    currentUser.plan = 'expired'; currentUser.graceStatus = 'expired';
+    if (navigator.onLine) { try { await db.collection('users').doc(currentUser.id).update({ plan: 'expired' }); } catch(e) {} }
+    setTimeout(() => { showToast('⚠️ Premium expired! Only first 5 products accessible.', 'warning'); }, 1500);
   }
 }
 
@@ -784,21 +755,14 @@ function handleLogin(){
   var email=document.getElementById('loginEmail').value.trim();
   var password=document.getElementById('loginPassword').value;
   if(!email||!password){ showToast(t('t_fill_fields'),'error'); return; }
-  
   if(email==='demo@smartinventory.com'&&password==='demo123'){
     currentUser={id:'demo_user',name:'Demo Vendor',shopName:'Demo Shop',phone:'9876543210',email:email,plan:'free'};
-    showToast(t('t_welcome_demo'),'success'); showApp();
-    return;
+    showToast(t('t_welcome_demo'),'success'); showApp(); return;
   }
-
   showToast('Logging in...', 'success');
-  auth.signInWithEmailAndPassword(email, password)
-    .then((userCredential) => {
-      showToast(t('t_welcome',{name:userCredential.user.displayName || 'User'}),'success');
-    })
-    .catch((error) => {
-      showToast(t('t_invalid'),'error');
-    });
+  auth.signInWithEmailAndPassword(email, password).then((userCredential) => {
+    showToast(t('t_welcome',{name:userCredential.user.displayName || 'User'}),'success');
+  }).catch((error) => { showToast(t('t_invalid'),'error'); });
 }
 
 function handleSignup(){
@@ -809,24 +773,18 @@ function handleSignup(){
   var password=document.getElementById('signupPassword').value;
   if(!name||!shopName||!phone||!email||!password){ showToast(t('t_fill_fields'),'error'); return; }
   if(password.length<6){ showToast(t('t_pw_short'),'error'); return; }
-
   showToast('Creating account...', 'success');
-
-  auth.createUserWithEmailAndPassword(email, password)
-    .then((userCredential) => {
-      var user = userCredential.user;
-      return user.updateProfile({ displayName: name }).then(() => {
-        return db.collection('users').doc(user.uid).set({
-          name: name, shopName: shopName, phone: phone, email: email,
-          plan: 'free', createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
+  auth.createUserWithEmailAndPassword(email, password).then((userCredential) => {
+    var user = userCredential.user;
+    return user.updateProfile({ displayName: name }).then(() => {
+      return db.collection('users').doc(user.uid).set({
+        name: name, shopName: shopName, phone: phone, email: email, plan: 'free', createdAt: firebase.firestore.FieldValue.serverTimestamp()
       });
-    })
-    .then(() => { showToast(t('t_signup_ok'),'success'); })
-    .catch((error) => {
-      if(error.code === 'auth/email-already-in-use') showToast(t('t_email_exists'),'error');
-      else showToast('Error: ' + error.message, 'error');
     });
+  }).then(() => { showToast(t('t_signup_ok'),'success'); }).catch((error) => {
+    if(error.code === 'auth/email-already-in-use') showToast(t('t_email_exists'),'error');
+    else showToast('Error: ' + error.message, 'error');
+  });
 }
 
 function handleLogout(){
@@ -834,8 +792,7 @@ function handleLogout(){
     auth.signOut().then(() => {
       currentUser=null; products=[]; historyLog=[]; 
       document.getElementById('appContainer').classList.remove('active'); 
-      showLogin(); 
-      showToast(t('t_logged_out'),'success'); 
+      showLogin(); showToast(t('t_logged_out'),'success'); 
     });
   }
 }
@@ -843,8 +800,7 @@ function handleLogout(){
 async function loadData(){ 
   if(!currentUser || currentUser.id === 'demo_user') {
     try{ products=JSON.parse(localStorage.getItem('SI_products_demo')||'[]'); historyLog=JSON.parse(localStorage.getItem('SI_history_demo')||'[]'); }catch(e){products=[];historyLog=[];}
-    refreshDynamicUI();
-    return; 
+    refreshDynamicUI(); return; 
   } 
   try{ 
     const userDoc = await db.collection('users').doc(currentUser.id).get();
@@ -856,24 +812,11 @@ async function loadData(){
       currentUser.plan = userData.plan || 'free';
       currentUser.premiumActivatedAt = userData.premiumActivatedAt ? userData.premiumActivatedAt.toDate().toISOString() : null;
     }
-
-    const docRef = db.collection('users').doc(currentUser.id).collection('inventory').doc('data');
-    const docSnap = await docRef.get();
-    if (docSnap.exists) {
-      const data = docSnap.data();
-      products = data.products || [];
-      historyLog = data.historyLog || [];
-    } else {
-      products = [];
-      historyLog = [];
-    }
+    const docSnap = await db.collection('users').doc(currentUser.id).collection('inventory').doc('data').get();
+    if (docSnap.exists) { products = docSnap.data().products || []; historyLog = docSnap.data().historyLog || []; } 
+    else { products = []; historyLog = []; }
     refreshDynamicUI();
-  }catch(e){
-    console.error(e);
-    products=[];
-    historyLog=[];
-    refreshDynamicUI();
-  } 
+  }catch(e){ console.error(e); products=[]; historyLog=[]; refreshDynamicUI(); } 
 }
 
 async function saveData(){ 
@@ -881,34 +824,42 @@ async function saveData(){
     try{ localStorage.setItem('SI_products_demo',JSON.stringify(products)); localStorage.setItem('SI_history_demo',JSON.stringify(historyLog)); }catch(e){console.error(e);}
     return; 
   }
-  
-  if (!navigator.onLine) {
-    showToast(t('t_offline'), 'warning');
-  }
-  
+  if (!navigator.onLine) showToast(t('t_offline'), 'warning');
   try{ 
-    const docRef = db.collection('users').doc(currentUser.id).collection('inventory').doc('data');
-    await docRef.set({
-      products: products,
-      historyLog: historyLog,
-      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    await db.collection('users').doc(currentUser.id).collection('inventory').doc('data').set({
+      products: products, historyLog: historyLog, updatedAt: firebase.firestore.FieldValue.serverTimestamp()
     }, { merge: true });
-  }catch(e){
-    console.error(e);
-  } 
+  }catch(e){ console.error(e); } 
+}
+
+// ============ IMAGE COMPRESSION (Target ~30-50KB) ============
+function compressImage(file) {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (event) => {
+      const img = new Image();
+      img.src = event.target.result;
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const MAX_WIDTH = 300; // Small dimension keeps file size very low
+        const scaleSize = MAX_WIDTH / img.width;
+        canvas.width = MAX_WIDTH;
+        canvas.height = img.height * scaleSize;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        // 0.6 quality JPEG reliably produces 20KB - 50KB for simple product photos
+        const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.6);
+        resolve(compressedDataUrl);
+      };
+    };
+  });
 }
 
 function showAddProductModal(){
-  if (currentUser.plan === 'expired' && products.length >= 5) {
-    showToast('🔒 Premium expired! Renew to add more products.', 'warning');
-    navigateTo('subscriptionPage');
-    return;
-  }
-  if(currentUser.plan==='free'&&products.length>=5){ 
-    showToast(t('t_limit'),'warning'); 
-    navigateTo('subscriptionPage'); 
-    return; 
-  }
+  if (currentUser.plan === 'expired' && products.length >= 5) { showToast('🔒 Premium expired! Renew to add more products.', 'warning'); navigateTo('subscriptionPage'); return; }
+  if(currentUser.plan==='free'&&products.length>=5){ showToast(t('t_limit'),'warning'); navigateTo('subscriptionPage'); return; }
+  
   document.getElementById('modalTitle').textContent=t('pf_add');
   document.getElementById('editProductId').value='';
   document.getElementById('prodName').value='';
@@ -917,6 +868,9 @@ function showAddProductModal(){
   document.getElementById('prodSellPrice').value='';
   document.getElementById('prodQty').value='';
   document.getElementById('prodUnit').value='pcs';
+  document.getElementById('prodImageInput').value = '';
+  currentEditingImage = null;
+  document.getElementById('imagePreviewContainer').style.display = 'none';
   document.getElementById('productModal').classList.add('active');
 }
 
@@ -930,12 +884,40 @@ function editProduct(id){
   document.getElementById('prodSellPrice').value=product.sellPrice;
   document.getElementById('prodQty').value=product.quantity;
   document.getElementById('prodUnit').value=product.unit;
+  
+  currentEditingImage = product.image || null;
+  if (currentEditingImage) {
+    document.getElementById('prodImagePreview').src = currentEditingImage;
+    document.getElementById('imagePreviewContainer').style.display = 'block';
+    document.getElementById('prodImageInput').value = ''; // Reset file input
+  } else {
+    document.getElementById('imagePreviewContainer').style.display = 'none';
+    document.getElementById('prodImageInput').value = '';
+  }
   document.getElementById('productModal').classList.add('active');
 }
 
+function removeProductImage() {
+  currentEditingImage = null;
+  document.getElementById('prodImageInput').value = '';
+  document.getElementById('imagePreviewContainer').style.display = 'none';
+}
+
+// Preview image when file is selected
+document.getElementById('prodImageInput').addEventListener('change', function(e) {
+  if (e.target.files && e.target.files[0]) {
+    const reader = new FileReader();
+    reader.onload = function(event) {
+      document.getElementById('prodImagePreview').src = event.target.result;
+      document.getElementById('imagePreviewContainer').style.display = 'block';
+    }
+    reader.readAsDataURL(e.target.files[0]);
+  }
+});
+
 function findProd(id){ for(var i=0;i<products.length;i++){ if(products[i].id===id) return products[i]; } return null; }
 
-function saveProduct(){
+async function saveProduct(){
   var name=document.getElementById('prodName').value.trim();
   var category=document.getElementById('prodCategory').value;
   var buyPrice=parseFloat(document.getElementById('prodBuyPrice').value);
@@ -943,29 +925,44 @@ function saveProduct(){
   var quantity=parseInt(document.getElementById('prodQty').value);
   var unit=document.getElementById('prodUnit').value;
   var editId=document.getElementById('editProductId').value;
+  
   if(!name){ showToast(t('t_need_name'),'error'); return; }
   if(isNaN(buyPrice)||buyPrice<0){ showToast(t('t_need_buy'),'error'); return; }
   if(isNaN(sellPrice)||sellPrice<0){ showToast(t('t_need_sell'),'error'); return; }
   if(isNaN(quantity)||quantity<0){ showToast(t('t_need_qty'),'error'); return; }
+
+  // Compress image if a new one was selected
+  let finalImage = currentEditingImage;
+  const fileInput = document.getElementById('prodImageInput');
+  if (fileInput.files && fileInput.files[0]) {
+    showToast('Compressing image...', 'success');
+    finalImage = await compressImage(fileInput.files[0]);
+  }
+
   if(editId){
     var idx=-1; for(var i=0;i<products.length;i++){ if(products[i].id===editId){idx=i;break;} }
-    if(idx!==-1){ Object.assign(products[idx],{name,category,buyPrice,sellPrice,quantity,unit,updatedAt:new Date().toISOString()}); addHistory('edited',name,t('hd_edited',{name,q:quantity,u:unitLabel(unit)})); showToast(t('t_updated'),'success'); }
-  } else {
-    if (currentUser.plan === 'expired' && products.length >= 5) {
-      showToast('🔒 Premium expired! Renew to add more products.', 'warning');
-      closeModal('productModal');
-      return;
+    if(idx!==-1){ 
+      Object.assign(products[idx],{name,category,buyPrice,sellPrice,quantity,unit,image:finalImage,updatedAt:new Date().toISOString()}); 
+      addHistory('edited',name,t('hd_edited',{name,q:quantity,u:unitLabel(unit)})); 
+      showToast(t('t_updated'),'success'); 
     }
+  } else {
+    if (currentUser.plan === 'expired' && products.length >= 5) { showToast('🔒 Premium expired! Renew to add more products.', 'warning'); closeModal('productModal'); return; }
     if(currentUser.plan==='free'&&products.length>=5){ showToast(t('t_limit2'),'warning'); closeModal('productModal'); return; }
-    products.push({id:'prod_'+Date.now(),name,category,buyPrice,sellPrice,quantity,unit,createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()});
-    addHistory('added',name,t('hd_added',{name,q:quantity,u:unitLabel(unit),price:sellPrice})); showToast(t('t_added'),'success');
+    products.push({id:'prod_'+Date.now(),name,category,buyPrice,sellPrice,quantity,unit,image:finalImage,createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()});
+    addHistory('added',name,t('hd_added',{name,q:quantity,u:unitLabel(unit),price:sellPrice})); 
+    showToast(t('t_added'),'success');
   }
   saveData(); renderProducts(); updateStats(); updateHistoryBadge(); closeModal('productModal');
 }
 
 function deleteProduct(id){
   var product=findProd(id); if(!product)return;
-  if(confirm(t('confirm_delete',{name:product.name}))){ products=products.filter(p=>p.id!==id); addHistory('deleted',product.name,t('hd_deleted',{name:product.name})); saveData(); renderProducts(); updateStats(); showToast(t('t_deleted'),'success'); }
+  if(confirm(t('confirm_delete',{name:product.name}))){ 
+    products=products.filter(p=>p.id!==id); 
+    addHistory('deleted',product.name,t('hd_deleted',{name:product.name})); 
+    saveData(); renderProducts(); updateStats(); showToast(t('t_deleted'),'success'); 
+  }
 }
 
 function openSellModal(id){
@@ -1029,7 +1026,10 @@ function renderHistory(){
   else {
     var oosHtml='';
     for(var j=0;j<oosProducts.length;j++){ var p=oosProducts[j];
-      oosHtml+='<div class="product-card out-of-stock"><div class="product-emoji cat-'+p.category+'">'+getCategoryEmoji(p.category)+'</div><div class="product-info"><div class="product-name">'+p.name+'</div><div class="product-meta"><span>₹'+p.buyPrice+' → ₹'+p.sellPrice+'</span></div></div><div class="product-qty"><div class="qty-num" style="color:var(--danger)">0</div><div class="qty-label">'+unitLabel(p.unit)+'</div></div><span class="oos-badge">'+t('oos_badge')+'</span></div>';
+      oosHtml+='<div class="product-card out-of-stock">';
+      if(p.image) { oosHtml += `<img src="${p.image}" style="width:48px;height:48px;border-radius:12px;object-fit:cover;flex-shrink:0;">`; }
+      else { oosHtml += `<div class="product-emoji cat-${p.category}">${getCategoryEmoji(p.category)}</div>`; }
+      oosHtml+='<div class="product-info"><div class="product-name">'+p.name+'</div><div class="product-meta"><span>₹'+p.buyPrice+' → ₹'+p.sellPrice+'</span></div></div><div class="product-qty"><div class="qty-num" style="color:var(--danger)">0</div><div class="qty-label">'+unitLabel(p.unit)+'</div></div><span class="oos-badge">'+t('oos_badge')+'</span></div>';
     }
     oosContainer.innerHTML=oosHtml;
   }
@@ -1044,15 +1044,12 @@ function renderProducts(){
   var container=document.getElementById('productList');
   
   if(filtered.length===0){
-    container.innerHTML = search
-      ? '<div class="empty-state"><div class="emoji">🔍</div><h3>'+t('empty_no_results_h')+'</h3><p>'+t('empty_no_results_p')+'</p></div>'
-      : '<div class="empty-state"><div class="emoji">📦</div><h3>'+t('empty_no_products_h')+'</h3><p>'+t('empty_no_products_p')+'</p></div>';
+    container.innerHTML = search ? '<div class="empty-state"><div class="emoji">🔍</div><h3>'+t('empty_no_results_h')+'</h3><p>'+t('empty_no_results_p')+'</p></div>' : '<div class="empty-state"><div class="emoji">📦</div><h3>'+t('empty_no_products_h')+'</h3><p>'+t('empty_no_products_p')+'</p></div>';
     return;
   }
 
   const isExpired = currentUser && currentUser.plan === 'expired';
   let accessibleCount = 0;
-
   var html='';
   for(var i=0;i<filtered.length;i++){ 
     var p=filtered[i];
@@ -1065,17 +1062,22 @@ function renderProducts(){
     const isLocked = isExpired && accessibleCount >= 5;
     if (!isLocked) accessibleCount++;
 
+    // Image or Emoji Logic
+    let mediaHtml = '';
+    if (p.image) {
+      mediaHtml = `<img src="${p.image}" style="width:48px; height:48px; border-radius:12px; object-fit:cover; flex-shrink:0;" alt="${p.name}">`;
+    } else {
+      mediaHtml = `<div class="product-emoji cat-${p.category}">${getCategoryEmoji(p.category)}</div>`;
+    }
+
     if (isLocked) {
       html+='<div class="product-card" style="opacity:0.6;filter:grayscale(0.5);border-left:4px solid var(--text-light);">';
-      html+='<div class="product-emoji cat-'+p.category+'">'+getCategoryEmoji(p.category)+'</div>';
-      html+='<div class="product-info"><div class="product-name">'+p.name+'</div>';
-      html+='<div class="product-meta"><span style="color:var(--danger);font-weight:700">🔒 Locked</span></div>';
-      html+='<div style="margin-top:8px;font-size:11px;color:var(--text-light);line-height:1.4">Premium expired. Renew to unlock this product.</div>';
-      html+='</div></div>';
+      html+=mediaHtml;
+      html+='<div class="product-info"><div class="product-name">'+p.name+'</div><div class="product-meta"><span style="color:var(--danger);font-weight:700">🔒 Locked</span></div><div style="margin-top:8px;font-size:11px;color:var(--text-light);line-height:1.4">Premium expired. Renew to unlock.</div></div></div>';
     } else {
       var sellDisabled = p.quantity<=0?'disabled style="opacity:0.5"':'';
       html+='<div class="product-card '+stockClass+'">'+oosBadge;
-      html+='<div class="product-emoji cat-'+p.category+'">'+getCategoryEmoji(p.category)+'</div>';
+      html+=mediaHtml;
       html+='<div class="product-info"><div class="product-name">'+p.name+'</div>';
       html+='<div class="product-meta"><span>'+t('buy')+': ₹'+p.buyPrice+'</span><span>'+t('sell_lbl')+': ₹'+p.sellPrice+'</span><span class="'+profitClass+'">'+(profit>=0?'+':'')+'₹'+profit.toFixed(0)+t('per_unit')+'</span></div>';
       html+='<div class="product-actions"><button class="btn-sell" onclick="openSellModal(\''+p.id+'\')" '+sellDisabled+'><i class="fas fa-cart-shopping"></i> '+t('sell')+'</button><button class="btn-edit" onclick="editProduct(\''+p.id+'\')"><i class="fas fa-pen"></i></button><button class="btn-delete" onclick="deleteProduct(\''+p.id+'\')"><i class="fas fa-trash"></i></button></div></div>';
@@ -1085,13 +1087,10 @@ function renderProducts(){
 
   if (isExpired && products.length > 5) {
     html += '<div style="margin-top:20px;background:linear-gradient(135deg,#FDCB6E,#F39C12);border-radius:16px;padding:20px;text-align:center;color:white;">';
-    html += '<div style="font-size:32px;margin-bottom:8px">🔒</div>';
-    html += '<h3 style="font-size:16px;font-weight:700;margin-bottom:6px">Unlock All ' + products.length + ' Products</h3>';
-    html += '<p style="font-size:13px;opacity:0.95;margin-bottom:14px">Your premium has expired. Renew now to access all products and continue selling.</p>';
-    html += '<button onclick="navigateTo(\'subscriptionPage\')" style="background:white;color:#F39C12;border:none;padding:10px 24px;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit">Renew Premium - ₹99</button>';
-    html += '</div>';
+    html += '<div style="font-size:32px;margin-bottom:8px">🔒</div><h3 style="font-size:16px;font-weight:700;margin-bottom:6px">Unlock All ' + products.length + ' Products</h3>';
+    html += '<p style="font-size:13px;opacity:0.95;margin-bottom:14px">Your premium has expired. Renew now to access all products.</p>';
+    html += '<button onclick="navigateTo(\'subscriptionPage\')" style="background:white;color:#F39C12;border:none;padding:10px 24px;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit">Renew Premium - ₹99</button></div>';
   }
-
   container.innerHTML=html;
 }
 
@@ -1113,47 +1112,58 @@ function updateStats(){
 function updateTodayProfit(){
   const today = new Date().toDateString();
   let todayProfit = 0;
-  historyLog.forEach(h => {
-    if (h.type === 'sold' && new Date(h.timestamp).toDateString() === today) {
-      todayProfit += (h.profit || 0);
-    }
-  });
+  historyLog.forEach(h => { if (h.type === 'sold' && new Date(h.timestamp).toDateString() === today) { todayProfit += (h.profit || 0); } });
   document.getElementById('todayProfitAmount').textContent = '₹' + todayProfit.toFixed(2);
 }
 
-function openMonthlyReport(){
+function openMonthlyReport() {
   const now = new Date();
-  const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
-  const monthName = now.toLocaleString(currentLang === 'hi' ? 'hi-IN' : 'en-US', { month: 'long', year: 'numeric' });
-  
+  const firstDay = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0];
+  const today = now.toISOString().split('T')[0];
+  document.getElementById('reportFromDate').value = firstDay;
+  document.getElementById('reportToDate').value = today;
+  updateReportView();
+  document.getElementById('reportModal').classList.add('active');
+}
+
+function updateReportView() {
+  const fromDateStr = document.getElementById('reportFromDate').value;
+  const toDateStr = document.getElementById('reportToDate').value;
+  if (!fromDateStr || !toDateStr) { showToast('Please select both dates', 'error'); return; }
+
+  const startDate = new Date(fromDateStr);
+  const endDate = new Date(toDateStr);
+  endDate.setHours(23, 59, 59, 999);
+
   document.getElementById('reportShopName').textContent = currentUser.shopName || 'My Shop';
   document.getElementById('reportVendorName').textContent = currentUser.name || 'Vendor';
   document.getElementById('reportPhone').textContent = currentUser.phone ? '📞 ' + currentUser.phone : '';
-  document.getElementById('reportDateRange').textContent = monthName + " (1st - " + now.getDate() + ")";
-  document.getElementById('reportGenDate').textContent = "Generated on: " + now.toLocaleDateString();
 
-  const monthSales = historyLog.filter(h => {
+  const langCode = currentLang === 'hi' ? 'hi-IN' : 'en-US';
+  const dateRangeStr = startDate.toLocaleDateString(langCode, {day:'numeric', month:'short'}) + ' - ' + endDate.toLocaleDateString(langCode, {day:'numeric', month:'short', year:'numeric'});
+  document.getElementById('reportDateRange').textContent = dateRangeStr;
+  document.getElementById('reportGenDate').textContent = "Generated on: " + new Date().toLocaleString(langCode);
+
+  const filteredSales = historyLog.filter(h => {
     if (h.type !== 'sold') return false;
     const d = new Date(h.timestamp);
-    return d >= firstDay && d <= now;
+    return d >= startDate && d <= endDate;
   });
 
   let totalRev = 0, totalProf = 0, totalItems = 0;
   const dailyData = {};
 
-  monthSales.forEach(h => {
-    const dateStr = new Date(h.timestamp).toLocaleDateString();
+  filteredSales.forEach(h => {
+    const dateObj = new Date(h.timestamp);
+    const dateStr = dateObj.toLocaleDateString(langCode, {day:'numeric', month:'short', year:'numeric'});
     if (!dailyData[dateStr]) dailyData[dateStr] = { rev: 0, prof: 0, items: 0, details: [] };
-    const rev = h.revenue || 0;
-    const prof = h.profit || 0;
-    const qty = h.qty || 1;
-    dailyData[dateStr].rev += rev;
-    dailyData[dateStr].prof += prof;
-    dailyData[dateStr].items += qty;
-    dailyData[dateStr].details.push(h.productName + " (x" + qty + ")");
-    totalRev += rev;
-    totalProf += prof;
-    totalItems += qty;
+    dailyData[dateStr].rev += (h.revenue || 0);
+    dailyData[dateStr].prof += (h.profit || 0);
+    dailyData[dateStr].items += (h.qty || 1);
+    dailyData[dateStr].details.push(h.productName + " (x" + (h.qty || 1) + ")");
+    totalRev += (h.revenue || 0);
+    totalProf += (h.profit || 0);
+    totalItems += (h.qty || 1);
   });
 
   document.getElementById('repTotalSales').textContent = '₹' + totalRev.toFixed(0);
@@ -1168,30 +1178,47 @@ function openMonthlyReport(){
     const sortedDates = Object.keys(dailyData).sort((a,b) => new Date(b) - new Date(a));
     sortedDates.forEach(date => {
       const d = dailyData[date];
-      const row = `<tr>
-        <td><strong>${date}</strong></td>
-        <td style="font-size:12px;color:var(--text-light)">${d.details.join(', ')}</td>
-        <td style="font-weight:600">₹${d.rev.toFixed(0)}</td>
-        <td style="font-weight:700;color:var(--secondary)">₹${d.prof.toFixed(0)}</td>
+      const detailsHtml = d.details.map(item => `<div style="margin-bottom:3px; line-height:1.3;">• ${item}</div>`).join('');
+      tbody.innerHTML += `<tr style="page-break-inside: avoid !important;">
+        <td style="white-space:nowrap; padding: 8px; vertical-align: top;"><strong>${date}</strong></td>
+        <td style="font-size:11px; color:var(--text); padding: 8px; vertical-align: top;">${detailsHtml}</td>
+        <td style="font-weight:600; white-space:nowrap; text-align: right; padding: 8px; vertical-align: top;">₹${d.rev.toFixed(0)}</td>
+        <td style="font-weight:700; color:var(--secondary); white-space:nowrap; text-align: right; padding: 8px; vertical-align: top;">₹${d.prof.toFixed(0)}</td>
       </tr>`;
-      tbody.innerHTML += row;
     });
   }
-  document.getElementById('reportModal').classList.add('active');
 }
 
-function downloadReportPDF(){
+function downloadReportPDF() {
   const element = document.getElementById('monthlyReportContent');
+  const fromDate = document.getElementById('reportFromDate').value || 'Report';
+  const toDate = document.getElementById('reportToDate').value || 'Report';
+  const shopName = (currentUser.shopName || 'Shop').replace(/[^a-zA-Z0-9]/g, '_');
+
+  const filterDiv = document.getElementById('pdfFilterSection');
+  const updateBtn = element.querySelector('button[onclick="updateReportView()"]');
+  if(filterDiv) filterDiv.style.display = 'none';
+  if(updateBtn) updateBtn.style.display = 'none';
+
   const opt = {
-    margin: 10,
-    filename: `Smart_Inventory_Report_${currentUser.shopName || 'Shop'}_${new Date().toISOString().split('T')[0]}.pdf`,
+    margin: [10, 10, 10, 10],
+    filename: `Report_${shopName}_${fromDate}_to_${toDate}.pdf`,
     image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2, useCORS: true },
-    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    html2canvas: { scale: 2, useCORS: true, scrollY: 0, windowWidth: 800 },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
   };
+
   showToast('Generating PDF...', 'success');
   html2pdf().set(opt).from(element).save().then(() => {
-    showToast(t('t_data_exp'), 'success');
+    if(filterDiv) filterDiv.style.display = 'grid';
+    if(updateBtn) updateBtn.style.display = 'block';
+    showToast('PDF Downloaded Successfully!', 'success');
+  }).catch(err => {
+    console.error("PDF Error:", err);
+    showToast("Error generating PDF", "error");
+    if(filterDiv) filterDiv.style.display = 'grid';
+    if(updateBtn) updateBtn.style.display = 'block';
   });
 }
 
@@ -1201,29 +1228,16 @@ function updateSubscriptionUI(){
     const daysUsed = currentUser.premiumDaysUsed || 0;
     const daysLeft = Math.max(0, 28 - daysUsed);
     const isGrace = currentUser.graceStatus === 'grace';
-    
     const activatedDate = new Date(currentUser.premiumActivatedAt);
     const expiryDate = new Date(activatedDate);
     expiryDate.setDate(activatedDate.getDate() + 28);
-    
     const dateOptions = { day: 'numeric', month: 'short', year: 'numeric' };
     const langCode = currentLang === 'hi' ? 'hi-IN' : 'en-US';
-    const actDateStr = activatedDate.toLocaleDateString(langCode, dateOptions);
-    const expDateStr = expiryDate.toLocaleDateString(langCode, dateOptions);
-
-    if (isGrace) {
-      const graceDaysLeft = 35 - daysUsed;
-      info.innerHTML = '<span style="color:#F39C12;font-weight:600">⚠️ Grace Period: ' + graceDaysLeft + ' day(s) left</span><br><span style="font-size:12px">Renew now to keep all features!</span>';
-    } else {
-      info.innerHTML = '<span style="color:var(--secondary);font-weight:600">'+t('plan_premium')+'</span><br><span style="font-size:14px;font-weight:700;color:var(--primary);margin-top:4px;">' + daysLeft + ' days remaining</span><br><span style="font-size:11px;color:var(--text-light);margin-top:6px;display:block">Activated: ' + actDateStr + '<br>Expires: ' + expDateStr + '</span>';
-    }
-  } 
-  else if (currentUser.plan === 'expired') {
+    if (isGrace) { info.innerHTML = '<span style="color:#F39C12;font-weight:600">⚠️ Grace Period: ' + (35 - daysUsed) + ' day(s) left</span><br><span style="font-size:12px">Renew now to keep all features!</span>'; } 
+    else { info.innerHTML = '<span style="color:var(--secondary);font-weight:600">'+t('plan_premium')+'</span><br><span style="font-size:14px;font-weight:700;color:var(--primary);margin-top:4px;">' + daysLeft + ' days remaining</span><br><span style="font-size:11px;color:var(--text-light);margin-top:6px;display:block">Activated: ' + activatedDate.toLocaleDateString(langCode, dateOptions) + '<br>Expires: ' + expiryDate.toLocaleDateString(langCode, dateOptions) + '</span>'; }
+  } else if (currentUser.plan === 'expired') {
     info.innerHTML = '<span style="color:var(--danger);font-weight:600">🔒 Premium Expired</span><br><span style="font-size:12px">Only first 5 products accessible. Renew to unlock all.</span>';
-  }
-  else { 
-    info.innerHTML = t('plan_free',{used:products.length}); 
-  }
+  } else { info.innerHTML = t('plan_free',{used:products.length}); }
 }
 
 function showPaymentModal(){
@@ -1266,26 +1280,18 @@ function activatePremium(){
   currentUser.premiumActivatedAt = new Date().toISOString();
   currentUser.graceStatus = 'active';
   currentUser.premiumDaysUsed = 0;
-  
-  db.collection('users').doc(currentUser.id).update({ 
-    plan: 'premium',
-    premiumActivatedAt: firebase.firestore.Timestamp.now()
-  }).then(() => {
+  db.collection('users').doc(currentUser.id).update({ plan: 'premium', premiumActivatedAt: firebase.firestore.Timestamp.now() }).then(() => {
     document.getElementById('paymentStep2').style.display='none';
     document.getElementById('paymentStep3').style.display='block';
     showToast(t('t_prem_act'),'success');
     refreshDynamicUI();
-  }).catch(err => {
-    console.error("Error activating premium", err);
-    showToast("Error activating premium", "error");
-  });
+  }).catch(err => { console.error("Error activating premium", err); showToast("Error activating premium", "error"); });
 }
 
 function copyUPI(){
   var upiId='akashji124421@ptyes';
   if(navigator.clipboard){ navigator.clipboard.writeText(upiId).then(()=>showToast(t('t_upi_copied'),'success')).catch(()=>fallbackCopy(upiId)); } else fallbackCopy(upiId);
 }
-
 function fallbackCopy(text){ var ta=document.createElement('textarea'); ta.value=text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); showToast(t('t_upi_copied'),'success'); }
 
 function updateProfileUI(){
@@ -1295,19 +1301,13 @@ function updateProfileUI(){
   document.getElementById('profileEmail').textContent=currentUser.email;
   var planEl=document.getElementById('profilePlan');
   if(currentUser.plan==='premium'){
-    const daysUsed = currentUser.premiumDaysUsed || 0;
-    const daysLeft = Math.max(0, 28 - daysUsed);
+    const daysLeft = Math.max(0, 28 - (currentUser.premiumDaysUsed || 0));
     planEl.textContent='👑 '+(currentLang==='hi'?'प्रीमियम ('+daysLeft+' दिन शेष)':'PREMIUM ('+daysLeft+' days left)');
     planEl.className='profile-plan premium';
-  }
-  else if(currentUser.plan==='expired'){
+  } else if(currentUser.plan==='expired'){
     planEl.textContent='🔒 '+(currentLang==='hi'?'प्रीमियम समाप्त':'PREMIUM EXPIRED');
     planEl.className='profile-plan expired';
-  }
-  else { 
-    planEl.textContent=currentLang==='hi'?'फ़्री प्लान':'FREE PLAN'; 
-    planEl.className='profile-plan free'; 
-  }
+  } else { planEl.textContent=currentLang==='hi'?'फ़्री प्लान':'FREE PLAN'; planEl.className='profile-plan free'; }
 }
 
 function closeModal(id){ document.getElementById(id).classList.remove('active'); }
@@ -1320,14 +1320,11 @@ function getTimeAgo(ts){ var s=Math.floor((new Date()-new Date(ts))/1000); if(s<
 function showNotifications(){
   var oos=products.filter(p=>p.quantity<=0), low=products.filter(p=>p.quantity>0&&p.quantity<=5);
   var html='';
-  
   if (currentUser && currentUser.graceStatus === 'grace') {
-    const daysLeft = 35 - (currentUser.premiumDaysUsed || 0);
-    html += '<div class="history-item"><div class="history-icon edited"><i class="fas fa-clock"></i></div><div class="history-info"><h4>⏰ Premium Expiring Soon</h4><p>Your premium will expire in ' + daysLeft + ' day(s). Renew now!</p></div></div>';
+    html += '<div class="history-item"><div class="history-icon edited"><i class="fas fa-clock"></i></div><div class="history-info"><h4>⏰ Premium Expiring Soon</h4><p>Your premium will expire in ' + (35 - (currentUser.premiumDaysUsed || 0)) + ' day(s). Renew now!</p></div></div>';
   } else if (currentUser && currentUser.plan === 'expired') {
     html += '<div class="history-item"><div class="history-icon outofstock"><i class="fas fa-lock"></i></div><div class="history-info"><h4>🔒 Premium Expired</h4><p>Only first 5 products accessible. Renew to unlock all.</p></div></div>';
   }
-  
   if(oos.length===0&&low.length===0&&html===''){ html='<div class="empty-state" style="padding:30px"><div class="emoji">✅</div><h3>'+t('notif_clear_h')+'</h3><p>'+t('notif_clear_p')+'</p></div>'; }
   else {
     if(oos.length>0){ html+='<h4 style="margin-bottom:10px;color:var(--danger)">'+t('notif_oos')+'</h4>'; for(var i=0;i<oos.length;i++){ var p=oos[i]; html+='<div class="history-item"><div class="history-icon outofstock"><i class="fas fa-triangle-exclamation"></i></div><div class="history-info"><h4>'+p.name+'</h4><p>'+t('quantity_is',{u:unitLabel(p.unit)})+'</p></div></div>'; } }
@@ -1345,7 +1342,6 @@ function exportData(){
 }
 
 function showAbout(){ alert(t('about_text')); }
-
 document.querySelectorAll('.modal-overlay').forEach(function(ov){ ov.addEventListener('click',function(e){ if(e.target===this) this.classList.remove('active'); }); });
 </script>
 </body>
